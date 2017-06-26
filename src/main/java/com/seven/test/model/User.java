@@ -39,9 +39,6 @@ public class User extends BaseEntity {
     @SafeHtml
     private String password;
 
-//    @Column(name = "registered", columnDefinition = "timestamp default now()")
-//    private Date registered = new Date();
-
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
@@ -54,10 +51,13 @@ public class User extends BaseEntity {
     @EnsureNumber(message = "Phone number is not valid")
     private String phone;
 
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    @OrderBy("dateTime DESC")
-////    @JsonIgnore
-//    protected List<Meal> meals;
+    public User(User u) {
+        this(u.getId(), u.getFirstname(), u.getLastname(), u.getEmail(), u.getPhone(), u.getPassword(), u.getRoles());
+    }
+
+    public User(Integer id, String firstname, String lastname, String email, String password, String phone, Role role, Role... roles) {
+        this(id, firstname, lastname, email, password, phone, EnumSet.of(role, roles));
+    }
 
     public User() {
     }
