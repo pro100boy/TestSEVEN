@@ -2,6 +2,8 @@ package com.seven.test.model;
 
 import com.seven.test.util.EnsureNumber;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.*;
 import org.springframework.util.CollectionUtils;
 
@@ -50,6 +52,11 @@ public class User extends BaseEntity {
     @Length(min = 6, max = 30)
     @EnsureNumber(message = "Phone number is not valid")
     private String phone;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "companyid", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Company company;
 
     public User(User u) {
         this(u.getId(), u.getFirstname(), u.getLastname(), u.getEmail(), u.getPhone(), u.getPassword(), u.getRoles());

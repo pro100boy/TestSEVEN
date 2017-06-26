@@ -1,12 +1,12 @@
 package com.seven.test.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -20,6 +20,13 @@ public class Report extends NamedEntity {
     @SafeHtml
     @Length(min = 1)
     private String data;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "companyid", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Company company;
+
+    // TODO продумать конструкторы
 
     public Report() {
     }

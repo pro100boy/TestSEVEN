@@ -1,14 +1,13 @@
 package com.seven.test.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "company", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "email"}, name = "idx_company_name_email")})
@@ -25,8 +24,16 @@ public class Company extends NamedEntity {
     @SafeHtml
     private String address;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    private Set<User> users;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    private Set<Report> reports;
+
     public Company() {
     }
+
+    // TODO продумать конструкторы
 
     public Company(Integer id, String name, String email, String address) {
         super(id, name);
