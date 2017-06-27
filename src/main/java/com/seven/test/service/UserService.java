@@ -1,6 +1,7 @@
 package com.seven.test.service;
 
 import com.seven.test.model.User;
+import com.seven.test.to.UserTo;
 import javassist.NotFoundException;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface UserService {
     List<User> getAll();
 
     void update(User user);
+
+    void update(UserTo user);
 }

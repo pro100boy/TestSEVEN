@@ -1,7 +1,6 @@
 package com.seven.test.repository;
 
 import com.seven.test.model.User;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,8 +23,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
     User findOne(Integer id);
 
-    @Override
-    List<User> findAll(Sort sort);
+    List<User> findAllByOrderByNameAscEmailAsc();
 
+    // null if not found
     User getByEmail(String email);
 }
