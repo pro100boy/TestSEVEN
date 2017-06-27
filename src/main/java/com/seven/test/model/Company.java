@@ -32,7 +32,13 @@ public class Company extends NamedEntity {
     public Company() {
     }
 
-    // TODO продумать конструкторы
+    public Company(String name, String email, String address) {
+        this(null, name, email, address);
+    }
+
+    public Company(Company company) {
+        this(company.getId(), company.getName(), company.getEmail(), company.getAddress());
+    }
 
     public Company(Integer id, String name, String email, String address) {
         super(id, name);

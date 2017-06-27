@@ -26,9 +26,15 @@ public class Report extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Company company;
 
-    // TODO продумать конструкторы
-
     public Report() {
+    }
+
+    public Report(String name, Date date, String data) {
+        this(null, name, date, data);
+    }
+
+    public Report(Report report) {
+        this(report.getId(), report.getName(), report.getDate(), report.getData());
     }
 
     public Report(Integer id, String name, Date date, String data) {
