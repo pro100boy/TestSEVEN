@@ -43,6 +43,14 @@ public class Report extends NamedEntity {
         this.data = data;
     }
 
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
     public Date getDate() {
         return date;
     }

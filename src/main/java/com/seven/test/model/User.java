@@ -40,7 +40,7 @@ public class User extends BaseEntity {
 
     @Column(name = "password", nullable = false)
     @NotBlank
-    @Length(min = 5)
+    @Length(min = 5, max = 64)
     @SafeHtml
     private String password;
 
@@ -80,6 +80,14 @@ public class User extends BaseEntity {
         this.lastname = lastname;
         this.phone = phone;
         setRoles(roles);
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public String getFirstname() {
