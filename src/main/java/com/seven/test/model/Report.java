@@ -1,19 +1,26 @@
 package com.seven.test.model;
 
+import com.seven.test.util.DateTimeUtil;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "report")
 public class Report extends NamedEntity {
     @Column(name = "time", columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
-    private Date date = new Date();
+    @NotNull
+    @DateTimeFormat(pattern = DateTimeUtil.DATE_TIME_PATTERN)
+    private LocalDateTime date = LocalDateTime.now();
 
     @Column(name = "data", nullable = false)
     @NotBlank
@@ -29,7 +36,7 @@ public class Report extends NamedEntity {
     public Report() {
     }
 
-    public Report(String name, Date date, String data) {
+    public Report(String name, LocalDateTime date, String data) {
         this(null, name, date, data);
     }
 
@@ -37,7 +44,7 @@ public class Report extends NamedEntity {
         this(report.getId(), report.getName(), report.getDate(), report.getData());
     }
 
-    public Report(Integer id, String name, Date date, String data) {
+    public Report(Integer id, String name, LocalDateTime date, String data) {
         super(id, name);
         this.date = date;
         this.data = data;
@@ -51,11 +58,11 @@ public class Report extends NamedEntity {
         this.company = company;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

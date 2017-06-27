@@ -9,8 +9,14 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@NamedEntityGraph(name = Company.GRAPH_WITH_USERS_REPORTS, attributeNodes =
+        {
+                @NamedAttributeNode("users"),
+                @NamedAttributeNode("reports")
+        })
 @Table(name = "company", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "email"}, name = "idx_company_name_email")})
 public class Company extends NamedEntity {
+    public static final String GRAPH_WITH_USERS_REPORTS = "Company.withUsersReports";
     @Column(name = "email", nullable = false)
     @Email
     @NotBlank

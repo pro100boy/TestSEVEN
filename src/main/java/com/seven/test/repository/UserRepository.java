@@ -17,7 +17,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     int delete(@Param("id") int id);
 
     @Override
-    @Transactional
     User save(User user);
 
     @Override
@@ -27,4 +26,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // null if not found
     User getByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.company.id = ?1 ORDER BY u.lastname, u.firstname")
+    List<User> getAllByCompany(int companyId);
 }

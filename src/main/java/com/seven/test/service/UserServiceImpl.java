@@ -67,6 +67,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User user = updateFromTo(get(userTo.getId()), userTo);
         repository.save(prepareToSave(user));
     }
+
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User u = repository.getByEmail(email.toLowerCase());
@@ -74,5 +75,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
         return new AuthorizedUser(u);
+    }
+
+    @Override
+    public List<User> getAllByCompany(int companyId) {
+        return repository.getAllByCompany(companyId);
     }
 }
