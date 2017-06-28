@@ -18,13 +18,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
-public class User extends BaseEntity {
-
-    @NotBlank // (check for symbols, except spaces)
-    @Column(name = "firstname", nullable = false)
-    @Length(min = 1, max = 255, message = "First name is not valid")
-    @SafeHtml
-    private String firstname;
+public class User extends NamedEntity {
 
     @NotBlank // (check for symbols, except spaces)
     @Column(name = "lastname", nullable = false)
@@ -62,21 +56,20 @@ public class User extends BaseEntity {
     private Company company;
 
     public User(User u) {
-        this(u.getId(), u.getFirstname(), u.getLastname(), u.getEmail(), u.getPhone(), u.getPassword(), u.getRoles());
+        this(u.getId(), u.getName(), u.getLastname(), u.getEmail(), u.getPhone(), u.getPassword(), u.getRoles());
     }
 
-    public User(Integer id, String firstname, String lastname, String email, String password, String phone, Role role, Role... roles) {
-        this(id, firstname, lastname, email, password, phone, EnumSet.of(role, roles));
+    public User(Integer id, String name, String lastname, String email, String password, String phone, Role role, Role... roles) {
+        this(id, name, lastname, email, password, phone, EnumSet.of(role, roles));
     }
 
     public User() {
     }
 
-    public User(Integer id, String firstname, String lastname, String email, String password, String phone, Set<Role> roles) {
-        super(id);
+    public User(Integer id, String name, String lastname, String email, String password, String phone, Set<Role> roles) {
+        super(id, name);
         this.email = email;
         this.password = password;
-        this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
         setRoles(roles);
@@ -88,14 +81,6 @@ public class User extends BaseEntity {
 
     public void setCompany(Company company) {
         this.company = company;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
     }
 
     public String getLastname() {
@@ -141,7 +126,7 @@ public class User extends BaseEntity {
     public String toString() {
         return "User (" +
                 "id=" + getId() +
-                ", firstname='" + firstname + '\'' +
+                ", firstname='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

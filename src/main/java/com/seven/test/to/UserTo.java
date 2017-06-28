@@ -14,7 +14,7 @@ public class UserTo extends BaseTo implements Serializable {
 
     @NotBlank
     @SafeHtml
-    private String firstname;
+    private String name;
 
     @NotBlank
     @SafeHtml
@@ -36,21 +36,21 @@ public class UserTo extends BaseTo implements Serializable {
     public UserTo() {
     }
 
-    public UserTo(Integer id, String firstname, String lastname, String email, String password, String phone) {
+    public UserTo(Integer id, String name, String lastname, String email, String password, String phone) {
         super(id);
-        this.firstname = firstname;
+        this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.phone = phone;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLastname() {
@@ -89,7 +89,7 @@ public class UserTo extends BaseTo implements Serializable {
     public String toString() {
         return "UserTo{" +
                 "id=" + id +
-                ", firstname='" + firstname + '\'' +
+                ", firstname='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +

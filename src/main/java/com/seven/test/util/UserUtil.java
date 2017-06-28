@@ -7,15 +7,15 @@ import com.seven.test.to.UserTo;
 public class UserUtil {
 
     public static User createNewFromTo(UserTo newUser) {
-        return new User(null, newUser.getFirstname(), newUser.getLastname(), newUser.getEmail().toLowerCase(), newUser.getPassword(), newUser.getPhone(), Role.COMPANY_EMPLOYER);
+        return new User(null, newUser.getName(), newUser.getLastname(), newUser.getEmail().toLowerCase(), newUser.getPassword(), newUser.getPhone(), Role.COMPANY_EMPLOYER);
     }
 
     public static UserTo asTo(User user) {
-        return new UserTo(user.getId(), user.getFirstname(), user.getLastname(), user.getEmail(), user.getPassword(), user.getPhone());
+        return new UserTo(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getPhone());
     }
 
     public static User updateFromTo(User user, UserTo userTo) {
-        user.setFirstname(userTo.getFirstname());
+        user.setName(userTo.getName());
         user.setLastname(userTo.getLastname());
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setPhone(userTo.getPhone());
