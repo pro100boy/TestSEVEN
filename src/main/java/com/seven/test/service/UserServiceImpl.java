@@ -4,6 +4,7 @@ import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.repository.RoleRepository;
 import com.seven.test.repository.UserRepository;
+import com.seven.test.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import com.seven.test.util.exception.NotFoundException;
 
 import java.util.*;
 
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Assert.notNull(user, "user must not be null");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail().toLowerCase());
-        Role userRole = roleRepository.findByRole("ADMIN");
+        Role userRole = roleRepository.findByRole("COMPANY_EMPLOYER");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return repository.save(user);
     }

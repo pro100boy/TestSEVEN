@@ -1,19 +1,17 @@
 package com.seven.test.model;
 
 import com.seven.test.util.EnsureNumber;
-import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.*;
-import org.springframework.data.annotation.*;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -35,7 +33,7 @@ public class User extends NamedEntity {
     @Column(name = "password", nullable = false)
     @Length(min = 5, max = 64, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Your password must contains latin symbols and digits")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     @Transient
     //@SafeHtml
     private String password;

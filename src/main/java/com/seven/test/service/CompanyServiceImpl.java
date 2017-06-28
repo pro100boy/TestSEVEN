@@ -4,6 +4,7 @@ import com.seven.test.model.Company;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -43,7 +44,8 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public List<Company> getAll() {
-        return repository.findAll();
+        Sort sort = new Sort(Sort.DEFAULT_DIRECTION, "name");
+        return repository.findAll(sort);
     }
 
     @Override

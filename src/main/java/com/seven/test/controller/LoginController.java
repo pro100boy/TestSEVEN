@@ -1,6 +1,7 @@
 package com.seven.test.controller;
 
 import com.seven.test.model.User;
+import com.seven.test.service.CompanyService;
 import com.seven.test.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Controller
 public class LoginController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CompanyService companyService;
 
     @GetMapping(value = {"/", "/login"})
     public ModelAndView login() {
@@ -27,12 +32,14 @@ public class LoginController {
         return modelAndView;
     }
 
-
     @GetMapping(value = "/registration")
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
         modelAndView.addObject("user", user);
+
+        modelAndView.addObject("companies", companyService.getAll());
+
         modelAndView.setViewName("registration");
         return modelAndView;
     }
@@ -40,13 +47,14 @@ public class LoginController {
     @PostMapping(value = "/registration")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("companies", companyService.getAll());
         User userExists = userService.findByEmail(user.getEmail());
         if (userExists != null) {
             bindingResult
                     .rejectValue("email", "error.user",
                             "There is already a user registered with the email provided");
         }
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || Objects.isNull(user.getCompany())) {
             modelAndView.setViewName("registration");
         } else {
             userService.save(user);
