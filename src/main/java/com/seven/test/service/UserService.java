@@ -1,8 +1,7 @@
 package com.seven.test.service;
 
 import com.seven.test.model.User;
-import com.seven.test.to.UserTo;
-import javassist.NotFoundException;
+import com.seven.test.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -13,13 +12,13 @@ public interface UserService {
 
     User get(int id) throws NotFoundException;
 
-    User getByEmail(String email) throws NotFoundException;
+    User findByEmail(String email);
 
     List<User> getAll();
 
     void update(User user);
 
-    void update(UserTo user);
+    //void update(UserTo user);
 
     List<User> getAllByCompany(int companyId);
 }

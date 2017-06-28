@@ -3,10 +3,10 @@ package com.seven.test.service;
 import com.seven.test.model.Report;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.repository.ReportRepository;
-import com.seven.test.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import com.seven.test.util.exception.NotFoundException;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;

@@ -1,37 +1,45 @@
 package com.seven.test.service;
 
-import com.seven.test.AuthorizedUser;
+import com.seven.test.model.Role;
 import com.seven.test.model.User;
+import com.seven.test.repository.RoleRepository;
 import com.seven.test.repository.UserRepository;
-import com.seven.test.to.UserTo;
-import com.seven.test.util.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import com.seven.test.util.exception.NotFoundException;
 
-import java.util.List;
+import java.util.*;
 
-import static com.seven.test.util.UserUtil.prepareToSave;
-import static com.seven.test.util.UserUtil.updateFromTo;
-import static com.seven.test.util.ValidationUtil.checkNotFound;
 import static com.seven.test.util.ValidationUtil.checkNotFoundWithId;
 
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private static final Sort SORT_NAME_EMAIL = new Sort("name", "email");
-
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
+    @Transactional
     public User save(User user) {
         Assert.notNull(user, "user must not be null");
-        return repository.save(prepareToSave(user));
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail().toLowerCase());
+        Role userRole = roleRepository.findByRole("ADMIN");
+        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+        return repository.save(user);
     }
 
     @Override
@@ -45,9 +53,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getByEmail(String email) throws NotFoundException {
-        Assert.notNull(email, "email must not be null");
-        return checkNotFound(repository.getByEmail(email), "email=" + email);
+    public User findByEmail(String email)  {
+        return repository.findByEmail(email);
     }
 
     @Override
@@ -56,29 +63,37 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-        repository.save(prepareToSave(user));
-    }
-
-    @Transactional
-    @Override
-    public void update(UserTo userTo) {
-        User user = updateFromTo(get(userTo.getId()), userTo);
-        repository.save(prepareToSave(user));
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User u = repository.getByEmail(email.toLowerCase());
-        if (u == null) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
-        }
-        return new AuthorizedUser(u);
+        user.setEmail(user.getEmail().toLowerCase());
+        repository.save(user);
     }
 
     @Override
     public List<User> getAllByCompany(int companyId) {
         return repository.getAllByCompany(companyId);
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = repository.findByEmail(email.toLowerCase());
+        List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
+        return buildUserForAuthentication(user, authorities);
+    }
+
+    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
+        Set<GrantedAuthority> roles = new HashSet<GrantedAuthority>();
+        for (Role role : userRoles) {
+            roles.add(new SimpleGrantedAuthority(role.getRole()));
+        }
+
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>(roles);
+        return grantedAuthorities;
+    }
+
+    private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), true, true, true, true, authorities);
     }
 }

@@ -1,7 +1,7 @@
 package com.seven.test.service;
 
 import com.seven.test.model.Company;
-import javassist.NotFoundException;
+import com.seven.test.util.exception.NotFoundException;
 
 import java.util.List;
 

@@ -4,13 +4,13 @@ import com.seven.test.util.EnsureNumber;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.SafeHtml;
+import org.hibernate.validator.constraints.*;
+import org.springframework.data.annotation.*;
+import org.springframework.data.annotation.Transient;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -20,29 +20,28 @@ import java.util.Set;
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
 
-    @NotBlank // (check for symbols, except spaces)
+    @NotEmpty(message = "*Please provide your last name")
     @Column(name = "lastname", nullable = false)
-    @Length(min = 1, max = 255, message = "Last name is not valid")
-    @SafeHtml
+    @Length(min = 3, max = 255)
+    //@SafeHtml
     private String lastname;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Email
-    @NotBlank
-    @SafeHtml
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
+    //@SafeHtml
     private String email;
 
     @Column(name = "password", nullable = false)
-    @NotBlank
-    @Length(min = 5, max = 64)
-    @SafeHtml
+    @Length(min = 5, max = 64, message = "*Your password must have at least 5 characters")
+    @NotEmpty(message = "*Please provide your password")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Your password must contains latin symbols and digits")
+    @Transient
+    //@SafeHtml
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @BatchSize(size = 10)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     @Column(name = "phone")
@@ -57,10 +56,6 @@ public class User extends NamedEntity {
 
     public User(User u) {
         this(u.getId(), u.getName(), u.getLastname(), u.getEmail(), u.getPhone(), u.getPassword(), u.getRoles());
-    }
-
-    public User(Integer id, String name, String lastname, String email, String password, String phone, Role role, Role... roles) {
-        this(id, name, lastname, email, password, phone, EnumSet.of(role, roles));
     }
 
     public User() {
@@ -81,14 +76,6 @@ public class User extends NamedEntity {
 
     public void setCompany(Company company) {
         this.company = company;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     public String getPhone() {
@@ -119,9 +106,18 @@ public class User extends NamedEntity {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
+    public void setRoles(Set<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : roles;
     }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     @Override
     public String toString() {
         return "User (" +

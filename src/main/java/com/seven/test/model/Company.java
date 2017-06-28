@@ -20,13 +20,13 @@ public class Company extends NamedEntity {
     @Column(name = "email", nullable = false)
     @Email
     @NotBlank
-    @SafeHtml
+    //@SafeHtml
     private String email;
 
     @Column(name = "address", nullable = false)
     @NotBlank
     @Length(min = 5, max = 255)
-    @SafeHtml
+    //@SafeHtml
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")

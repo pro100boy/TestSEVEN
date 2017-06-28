@@ -24,7 +24,7 @@ public class Report extends NamedEntity {
 
     @Column(name = "data", nullable = false)
     @NotBlank
-    @SafeHtml
+    //@SafeHtml
     @Length(min = 1)
     private String data;
 

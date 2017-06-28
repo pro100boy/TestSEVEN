@@ -1,14 +1,19 @@
 package com.seven.test.model;
 
-import org.springframework.security.core.GrantedAuthority;
+import javax.persistence.*;
 
-public enum Role implements GrantedAuthority {
-    ROLE_ADMIN,
-    COMPANY_OWNER,
-    COMPANY_EMPLOYER;
+@Entity
+@Table(name = "role")
+public class Role extends BaseEntity{
 
-    @Override
-    public String getAuthority() {
-        return name();
+    @Column(name = "role")
+    private String role;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

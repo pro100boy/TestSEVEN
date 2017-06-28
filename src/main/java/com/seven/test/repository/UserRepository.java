@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findAllByOrderByNameAscEmailAsc();
 
     // null if not found
-    User getByEmail(String email);
+    User findByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE u.company.id = ?1 ORDER BY u.lastname, u.name")
     List<User> getAllByCompany(int companyId);
