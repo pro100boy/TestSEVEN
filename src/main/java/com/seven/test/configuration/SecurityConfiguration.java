@@ -41,14 +41,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
-                //.antMatchers("/user/**").hasAuthority("COMPANY_OWNER")
+                .antMatchers("/user/**").hasAnyAuthority("COMPANY_OWNER", "COMPANY_EMPLOYER", "ADMIN")
                 .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login?error=true")
                 // TODO раскидать разные роли по разным страницам
-                //.defaultSuccessUrl("/user/home_user").successHandler(successHandler)
-                .defaultSuccessUrl("/admin/home")
-
+                //.defaultSuccessUrl("/user/home_user")//.successHandler(successHandler)
+                //.defaultSuccessUrl("/admin/home")
+                .successHandler(successHandler)
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()

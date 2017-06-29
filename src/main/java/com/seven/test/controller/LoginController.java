@@ -76,6 +76,16 @@ public class LoginController {
         return modelAndView;
     }
 
+    @GetMapping(value = "/user/home_user")
+    public ModelAndView user_home() throws NotFoundException {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
+        modelAndView.addObject("userMessage", "Content Available Only for Users with USER Role");
+        modelAndView.setViewName("user/home_user");
+        return modelAndView;
+    }
 /*    @GetMapping(value = "/user/home_user")
     public ModelAndView displayHomePage(ModelAndView modelAndView, Principal principal, HttpServletRequest request) {
 
