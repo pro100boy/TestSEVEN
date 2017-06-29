@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Assert.notNull(user, "user must not be null");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEmail(user.getEmail().toLowerCase());
+
+        // setup default lowest role
         Role userRole = roleRepository.findByRole("COMPANY_EMPLOYER");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         return repository.save(user);
