@@ -76,27 +76,14 @@ public class LoginController {
         return modelAndView;
     }
 
-/*    @GetMapping(value = "/user/home_user")
-    public ModelAndView displayHomePage(ModelAndView modelAndView, Principal principal, HttpServletRequest request) {
-
-        // Throws exception here
-        //UserService userDetails = principal;
-
-        //System.out.println(userDetails.get());
-
-        // Tried this and it also throws exception
-        // User cannot be cast to CustomUserDetails
+    @GetMapping(value = "/user/home_user")
+    public ModelAndView user_home() throws NotFoundException {
+        ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
-            return null;
-        }
-        Object principal1 = auth.getPrincipal();
-        UserService user = (principal instanceof UserService) ? (UserService) principal : null;
-
-        // Render template located at
-        // src/main/resources/templates/dashboard.html
+        User user = userService.findByEmail(auth.getName());
+        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
+        modelAndView.addObject("userMessage", "Content Available Only for Users with USER Role");
         modelAndView.setViewName("user/home_user");
-
         return modelAndView;
-    }*/
+    }
 }
