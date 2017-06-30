@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -41,7 +40,7 @@ public class LoginController {
     // http://codetutr.com/2013/05/28/spring-mvc-form-validation/
     // the BindingResult has to be immediately after the object with @Valid
     @PostMapping(value = "/registration")
-    public String createNewUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model){
+    public String createNewUser(@Valid User user, BindingResult bindingResult, Model model){
         model.addAttribute("companies", companyService.getAll());
         User userExists = userService.findByEmail(user.getEmail());
         if (userExists != null) {
