@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -26,64 +27,53 @@ public class LoginController {
     private CompanyService companyService;
 
     @GetMapping(value = {"/", "/login"})
-    public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        return modelAndView;
+    public String login() {
+        return "login";
     }
 
     @GetMapping(value = "/registration")
-    public ModelAndView registration() {
-        ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
-        modelAndView.addObject("user", user);
-
-        modelAndView.addObject("companies", companyService.getAll());
-
-        modelAndView.setViewName("registration");
-        return modelAndView;
+    public String registration(Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("companies", companyService.getAll());
+        return "registration";
     }
 
+    // http://codetutr.com/2013/05/28/spring-mvc-form-validation/
+    // the BindingResult has to be immediately after the object with @Valid
     @PostMapping(value = "/registration")
-    public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("companies", companyService.getAll());
+    public String createNewUser(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model){
+        model.addAttribute("companies", companyService.getAll());
         User userExists = userService.findByEmail(user.getEmail());
         if (userExists != null) {
             bindingResult
                     .rejectValue("email", "error.user",
                             "There is already a user registered with the email provided");
         }
-        if (bindingResult.hasErrors() || Objects.isNull(user.getCompany())) {
-            modelAndView.setViewName("registration");
-        } else {
+
+        if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
             userService.save(user);
-            modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
+            model.addAttribute("successMessage", "User has been registered successfully");
+            model.addAttribute("user", new User());
         }
-        return modelAndView;
+
+        return "registration";
     }
 
-   @GetMapping(value = "/admin/home")
-    public ModelAndView home() throws NotFoundException {
-        ModelAndView modelAndView = new ModelAndView();
+    @GetMapping(value = "/admin/home")
+    public String home(Model model) throws NotFoundException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin/home");
-        return modelAndView;
+        model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
+        model.addAttribute("adminMessage", "Content Available Only for Users with Admin Role");
+        return "admin/home";
     }
 
     @GetMapping(value = "/user/home_user")
-    public ModelAndView user_home() throws NotFoundException {
-        ModelAndView modelAndView = new ModelAndView();
+    public String user_home(Model model) throws NotFoundException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("userMessage", "Content Available Only for Users with USER Role");
-        modelAndView.setViewName("user/home_user");
-        return modelAndView;
+        model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
+        model.addAttribute("userMessage", "Content Available Only for Users with USER Role");
+        return "user/home_user";
     }
 }

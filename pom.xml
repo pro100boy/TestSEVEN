@@ -25,6 +25,7 @@
         <!--webjars-->
         <webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
         <webjars-jquery.version>3.1.1-1</webjars-jquery.version>
+        <nekohtml.version>1.9.22</nekohtml.version>
     </properties>
 
     <dependencies>
@@ -73,7 +74,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <!--For use in the plain vanilla Spring framework-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -90,11 +99,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/net.sourceforge.nekohtml/nekohtml -->
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
             <artifactId>nekohtml</artifactId>
-            <version>1.9.22</version><!--$NO-MVN-MAN-VER$-->
+            <version>${nekohtml.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
     </dependencies>
 

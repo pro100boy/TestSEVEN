@@ -65,9 +65,9 @@ public class SimpleAuthenticationSuccessHandler implements AuthenticationSuccess
         }
 
         if (isUser) {
-            return "/user/home_user.html";
+            return "/user/home_user";
         } else if (isAdmin) {
-            return "/admin/home.html";
+            return "/admin/home";
         } else {
             throw new IllegalStateException();
         }
