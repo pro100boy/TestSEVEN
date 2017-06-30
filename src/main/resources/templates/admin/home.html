@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <title>Admin Page</title>
@@ -29,6 +30,13 @@
                      alt="Beer"/>
             </div>
             <p class="admin-message-text text-center" th:utext="${adminMessage}"></p>
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <sec:authorize access="hasRole('ADMIN')">
+                <!--<div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">-->
+                    The value of the "name" property of the authentication object should appear here.
+                <!--</div>-->
+                </sec:authorize>
+            </div>
         </div>
     </div>
 

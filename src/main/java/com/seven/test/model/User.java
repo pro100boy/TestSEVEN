@@ -10,7 +10,6 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
 import java.util.Collections;
 import java.util.Set;
 
@@ -33,7 +32,7 @@ public class User extends NamedEntity {
     @Column(name = "password", nullable = false)
     @Length(min = 5, max = 64, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
+    //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     @Transient
     //@SafeHtml
     private String password;
