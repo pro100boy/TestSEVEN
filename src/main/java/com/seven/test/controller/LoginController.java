@@ -31,6 +31,11 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping(value = "/main")
+    public String mn() {
+        return "main";
+    }
+
     @GetMapping(value = "/registration")
     public String registration(Model model) {
         model.addAttribute("user", new User());
