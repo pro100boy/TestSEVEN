@@ -2,6 +2,7 @@ package com.seven.test.controller;
 
 import com.seven.test.model.User;
 import com.seven.test.service.CompanyService;
+import com.seven.test.service.ReportService;
 import com.seven.test.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class LoginController {
     @Autowired
     private CompanyService companyService;
 
+    @Autowired
+    private ReportService reportService;
+
     @GetMapping(value = {"/", "/login"})
     public String login() {
         return "login";
@@ -36,7 +40,10 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        model.addAttribute("message", "Content Available Only for Users with Admin Role");
+        model.addAttribute("users", userService.getAll());
+        // TODO create method getAll for all companies
+        //model.addAttribute("reports", reportService.getAll());
+        model.addAttribute("companies", companyService.getAll());
         return "main";
     }
 
