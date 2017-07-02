@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.data.annotation.Transient;
 import org.springframework.util.CollectionUtils;
 
@@ -20,13 +21,13 @@ public class User extends NamedEntity {
     @NotEmpty(message = "*Please provide your last name")
     @Column(name = "lastname", nullable = false)
     @Length(min = 3, max = 255)
-    //@SafeHtml
+    @SafeHtml
     private String lastname;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email(message = "*Please provide a valid Email")
     @NotEmpty(message = "*Please provide an email")
-    //@SafeHtml
+    @SafeHtml
     private String email;
 
     @Column(name = "password", nullable = false)
@@ -34,7 +35,7 @@ public class User extends NamedEntity {
     @NotEmpty(message = "*Please provide your password")
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     @Transient
-    //@SafeHtml
+    @SafeHtml
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -3,10 +3,7 @@ package com.seven.test.controller;
 import com.seven.test.model.User;
 import com.seven.test.service.CompanyService;
 import com.seven.test.service.UserService;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,7 +61,7 @@ public class LoginController {
         return "registration";
     }
 
-    @GetMapping(value = "/admin/home")
+/*    @GetMapping(value = "/admin/home")
     public String home(Model model) throws NotFoundException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
@@ -80,5 +77,5 @@ public class LoginController {
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
         model.addAttribute("userMessage", "Content Available Only for Users with USER Role");
         return "user/home_user";
-    }
+    }*/
 }
