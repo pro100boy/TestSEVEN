@@ -8,9 +8,11 @@
     <script type="text/javascript" src="/webjars/jquery/3.1.1-1/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js" defer></script>
 </head>
-<div class="container">
-    <div th:replace="~{fragments/header :: header}"></div>
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</div>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <div th:replace="~{fragments/content :: content}"></div>
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
 </body>
 </html>

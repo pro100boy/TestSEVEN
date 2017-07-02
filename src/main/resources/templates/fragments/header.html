@@ -14,70 +14,18 @@
                                                                        aria-hidden="true"></span></button>
     </form>
 </div>-->
-<div class="panel panel-info" th:fragment="header">
-    <div class="panel-heading clearfix">
-        <h4 class="panel-title pull-left" style="padding-top: 7.5px">
-            <span th:utext="${userName}"></span>
-        </h4>
+    <div class="panel panel-info" th:fragment="header">
+        <div class="panel-heading clearfix">
+            <h4 class="panel-title pull-left" style="padding-top: 7.5px">
+                <span th:utext="${userName}"></span>
+            </h4>
 
-        <form th:action="@{/logout}" method="get">
-            <button class="btn btn-default pull-right" type="Submit"><span class="glyphicon glyphicon-log-out"
-                                                                           aria-hidden="true"></span></button>
-        </form>
-    </div>
-
-    <!--<div class="col-md-6">-->
-    <div class="panel with-nav-tabs panel-default">
-        <div class="panel-heading">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#tab1default" data-toggle="tab">Default 1</a></li>
-                <li><a href="#tab2default" data-toggle="tab">Default 2</a></li>
-                <li><a href="#tab3default" data-toggle="tab">Default 3</a></li>
-            </ul>
-        </div>
-        <div class="panel-body">
-            <div class="tab-content">
-                <div class="tab-pane fade in active" id="tab1default">Default 1</div>
-                <div class="tab-pane fade" id="tab2default">
-                    <table class="table table-condensed">
-                        <thead>
-                        <tr>
-                            <th class="col-md-1">Column 1</th>
-                            <th>Message</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Data</td>
-                            <td>Content</td>
-                        </tr>
-                        <tr>
-                            <td>Data</td>
-                            <td>Content</td>
-                        </tr>
-                        <tr>
-                            <td>Data</td>
-                            <td>Content</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="tab3default">Default 3</div>
-            </div>
+            <form th:action="@{/logout}" method="get">
+                <button class="btn btn-default pull-right" type="Submit"><span class="glyphicon glyphicon-log-out"
+                                                                               aria-hidden="true"></span></button>
+            </form>
         </div>
     </div>
-
-    <div th:if="${#authorization.expression('isAuthenticated()')}">
-        <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
-            <p class="text-center" th:utext="${message}"></p>
-        </th:block>
-
-        <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
-            <p class="text-center">Non admin message</p>
-        </th:block>
-    </div>
-
-</div>
 </body>
 
 </html>
