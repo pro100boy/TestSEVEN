@@ -9,10 +9,12 @@
     <script type="text/javascript" src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js" defer></script>
 </head>
 <body>
+<th:block th:if="${#authorization.expression('isAuthenticated()')}">
     <div class="container">
-        <div th:replace="~{fragments/header :: header}"></div>
-        <div th:replace="~{fragments/content :: content}"></div>
-        <div th:replace="~{fragments/footer :: footer}"></div>
+        <th:block th:replace="~{fragments/header :: header}"></th:block>
+        <th:block th:replace="~{fragments/content :: content}"></th:block>
+        <th:block th:replace="~{fragments/footer :: footer}"></th:block>
     </div>
+</th:block>
 </body>
 </html>

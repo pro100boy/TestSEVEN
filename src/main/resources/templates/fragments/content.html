@@ -4,15 +4,15 @@
 <div class="panel with-nav-tabs panel-default" th:fragment="content">
     <div class="panel-heading">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1default" data-toggle="tab">Default 1</a></li>
-            <li><a href="#tab2default" data-toggle="tab">Default 2</a></li>
-            <li><a href="#tab3default" data-toggle="tab">Default 3</a></li>
+            <li class="active"><a href="#tabcompanies" data-toggle="tab">Companies</a></li>
+            <li><a href="#tabusers" data-toggle="tab">Users</a></li>
+            <li><a href="#tabreports" data-toggle="tab">Reports</a></li>
         </ul>
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            <div class="tab-pane fade in active" id="tab1default">Default 1</div>
-            <div class="tab-pane fade" id="tab2default">
+            <div class="tab-pane fade in active" id="tabcompanies">Companies list</div>
+            <div class="tab-pane fade" id="tabusers">
                 <table class="table table-condensed">
                     <thead>
                     <tr>
@@ -36,12 +36,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="tab3default">Default 3</div>
+            <div class="tab-pane fade" id="tabreports">Reports list</div>
         </div>
     </div>
-</div>
 
-<div th:if="${#authorization.expression('isAuthenticated()')}">
     <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
         <p class="text-center" th:utext="${message}"></p>
     </th:block>
@@ -50,5 +48,6 @@
         <p class="text-center">Non admin message</p>
     </th:block>
 </div>
+
 </body>
 </html>
