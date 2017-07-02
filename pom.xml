@@ -146,6 +146,14 @@
             <artifactId>nekohtml</artifactId>
             <version>${nekohtml.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.16</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
-
 <body>
 
-<div class="panel panel-default" th:align="center" th:fragment="footer">
-    <div class="panel-body">
-        Здесь должна быть пагинация
-    </div>
-
+<footer class="footer" th:fragment="footer">
     <div class="panel-footer" th:align="center">&copy; <span
             th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2017</span>
         <span>The test task for SEVEN</span>
@@ -17,7 +12,10 @@
             <p th:text="${@environment.getProperty('app.version')}"></p>
         </th:block>
     </div>
-</div>
+<!--    <div class="container">
+        <span class="text-muted">Place sticky footer content here.</span>
+    </div>-->
+</footer>
 
 </body>
 
