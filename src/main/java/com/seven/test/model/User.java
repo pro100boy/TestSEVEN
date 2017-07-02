@@ -1,6 +1,9 @@
 package com.seven.test.model;
 
 import com.seven.test.util.EnsureNumber;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Email;
@@ -14,6 +17,9 @@ import javax.persistence.*;
 import java.util.Collections;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
@@ -52,68 +58,8 @@ public class User extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Company company;
 
-    public User(User u) {
-        this(u.getId(), u.getName(), u.getLastname(), u.getEmail(), u.getPhone(), u.getPassword(), u.getRoles());
-    }
-
-    public User() {
-    }
-
-    public User(Integer id, String name, String lastname, String email, String password, String phone, Set<Role> roles) {
-        super(id, name);
-        this.email = email;
-        this.password = password;
-        this.lastname = lastname;
-        this.phone = phone;
-        setRoles(roles);
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
     public void setRoles(Set<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : roles;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
     }
 
     @Override

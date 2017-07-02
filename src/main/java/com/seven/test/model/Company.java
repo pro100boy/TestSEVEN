@@ -1,5 +1,8 @@
 package com.seven.test.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
@@ -8,6 +11,9 @@ import org.hibernate.validator.constraints.SafeHtml;
 import javax.persistence.*;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @NamedEntityGraph(name = Company.GRAPH_WITH_USERS_REPORTS, attributeNodes =
         {
@@ -20,13 +26,13 @@ public class Company extends NamedEntity {
     @Column(name = "email", nullable = false)
     @Email
     @NotBlank
-    //@SafeHtml
+    @SafeHtml
     private String email;
 
     @Column(name = "address", nullable = false)
     @NotBlank
     @Length(min = 5, max = 255)
-    //@SafeHtml
+    @SafeHtml
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
@@ -34,39 +40,6 @@ public class Company extends NamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
     private Set<Report> reports;
-
-    public Company() {
-    }
-
-    public Company(String name, String email, String address) {
-        this(null, name, email, address);
-    }
-
-    public Company(Company company) {
-        this(company.getId(), company.getName(), company.getEmail(), company.getAddress());
-    }
-
-    public Company(Integer id, String name, String email, String address) {
-        super(id, name);
-        this.email = email;
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     @Override
     public String toString() {
