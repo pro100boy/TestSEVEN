@@ -16,6 +16,7 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -70,7 +71,7 @@ public class User extends NamedEntity {
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles +
+                ", roles=" + roles.stream().map(r->r.getRole()).collect(Collectors.joining(", ")) +
                 ", phone='" + phone + '\'' +
                 '}';
     }

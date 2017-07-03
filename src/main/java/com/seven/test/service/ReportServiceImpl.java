@@ -58,6 +58,6 @@ public class ReportServiceImpl implements ReportService{
 
     @Override
     public List<Report> getAll() {
-        return reportRepository.findAllByOrderByNameAsc();
+        return reportRepository.findAllByOrderByDateDesc();
     }
 }

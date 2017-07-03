@@ -4,15 +4,14 @@
 <body>
 <div class="navbar-fixed-bottom row-fluid" th:fragment="footer">
     <div class="navbar-inner">
-    <div class="container">
-        <div class="panel-footer" th:align="center">&copy; <span
-                th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2017</span><span>The test task for SEVEN</span>
-            <th:block
-                    th:if="${#authorization.expression('isAuthenticated()') and #authorization.expression('hasAnyAuthority(''ADMIN'')')}">
-                <p th:text="${@environment.getProperty('app.version')}"></p>
-            </th:block>
+        <div class="container">
+            <div class="panel-footer" th:align="center">&copy; <span
+                    th:text="${#temporals.format(#temporals.createNow(), 'yyyy')}">2017</span><span>The test task for SEVEN</span>
+                <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                    <p th:text="${@environment.getProperty('app.version')}"></p>
+                </th:block>
+            </div>
         </div>
-    </div>
     </div>
 </div>
 <!--<footer class="footer" th:fragment="footer">

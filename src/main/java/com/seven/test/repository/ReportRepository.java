@@ -22,7 +22,7 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
     @Override
     Report findOne(Integer id);
 
-    List<Report> findAllByOrderByNameAsc();
+    List<Report> findAllByOrderByDateDesc();
 
     @Query("SELECT r FROM Report r WHERE r.company.id = ?1 ORDER BY r.date DESC")
     List<Report> getAllByCompany(int companyId);

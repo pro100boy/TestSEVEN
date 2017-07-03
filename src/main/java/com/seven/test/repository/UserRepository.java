@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
     User findOne(Integer id);
 
-    List<User> findAllByOrderByNameAscEmailAsc();
+    List<User> findAllByOrderByLastnameAscEmailAsc();
 
     // null if not found
     User findByEmail(String email);
