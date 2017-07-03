@@ -41,9 +41,8 @@ public class LoginController {
         User user = userService.findByEmail(auth.getName());
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
         model.addAttribute("users", userService.getAll());
-        // TODO create method getAll for all companies
-        // TODO может применить *{user} в content.html (см. registration.html)? И добавить id (hidden), посмотреть как в топджава
-        //model.addAttribute("reports", reportService.getAll());
+        // TODO добавить id (hidden), посмотреть как в топджава
+        model.addAttribute("reports", reportService.getAll());
         model.addAttribute("companies", companyService.getAll());
         return "main";
     }

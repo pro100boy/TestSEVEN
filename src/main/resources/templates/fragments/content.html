@@ -12,7 +12,25 @@
     <div class="panel-body">
         <div class="tab-content">
             <div class="tab-pane fade in active" id="tabcompanies">
-                <table class="table table-condensed">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="company : ${companies}">
+                        <td th:text="${company.name}"></td>
+                        <td th:text="${company.email}"></td>
+                        <td th:text="${company.address}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="tabusers">
+                <table class="table table-striped">
                     <thead>
                     <tr>
                         <th class="col-md-1">First name</th>
@@ -35,38 +53,20 @@
                     </tbody>
                 </table>
             </div>
-            <div class="tab-pane fade" id="tabusers">
-                <table class="table table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="col-md-1">Name</th>
-                            <th class="col-md-1">Email</th>
-                            <th class="col-md-1">Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="company : ${companies}">
-                            <td th:text="${company.name}"></td>
-                            <td th:text="${company.email}"></td>
-                            <td th:text="${company.address}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
             <div class="tab-pane fade" id="tabreports">
-                <table class="table table-condensed">
+                <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th class="col-md-1">Data</th>
+                        <th class="col-md-1">Name</th>
+                        <th class="col-md-1">Date</th>
+                        <th class="col-md-4">Data</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="company : ${companies}">
-                        <td th:text="${company.name}"></td>
-                        <td th:text="${company.email}"></td>
-                        <td th:text="${company.address}"></td>
+                    <tr th:each="report : ${reports}">
+                        <td th:text="${report.name}"></td>
+                        <td th:text="${report.date}"></td>
+                        <td th:text="${report.data}"></td>
                     </tr>
                     </tbody>
                 </table>

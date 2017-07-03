@@ -3,7 +3,6 @@ package com.seven.test.model;
 import com.seven.test.util.EnsureNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

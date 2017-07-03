@@ -15,4 +15,6 @@ public interface ReportService {
     Report get(int id, int companyId) throws NotFoundException;
 
     List<Report> getAllByCompany(int companyId);
+
+    List<Report> getAll();
 }

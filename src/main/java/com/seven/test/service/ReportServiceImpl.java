@@ -55,4 +55,9 @@ public class ReportServiceImpl implements ReportService{
     public List<Report> getAllByCompany(int companyId) {
         return reportRepository.getAllByCompany(companyId);
     }
+
+    @Override
+    public List<Report> getAll() {
+        return reportRepository.findAllByOrderByNameAsc();
+    }
 }

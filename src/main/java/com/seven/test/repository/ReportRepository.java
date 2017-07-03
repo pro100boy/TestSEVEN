@@ -1,7 +1,6 @@
 package com.seven.test.repository;
 
 import com.seven.test.model.Report;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,8 +22,7 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
     @Override
     Report findOne(Integer id);
 
-    @Override
-    List<Report> findAll(Sort sort);
+    List<Report> findAllByOrderByNameAsc();
 
     @Query("SELECT r FROM Report r WHERE r.company.id = ?1 ORDER BY r.date DESC")
     List<Report> getAllByCompany(int companyId);
