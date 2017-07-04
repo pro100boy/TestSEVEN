@@ -1,12 +1,12 @@
 package com.seven.test.model;
 
-import com.seven.test.util.EnsureNumber;
+import com.seven.test.util.validation.EnsureEmail;
+import com.seven.test.util.validation.EnsureNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -32,8 +32,8 @@ public class User extends NamedEntity {
     private String lastname;
 
     @Column(name = "email", nullable = false, unique = true)
-    @Email(message = "*Please provide a valid Email")
-    @NotEmpty(message = "*Please provide an email")
+    @EnsureEmail(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide a valid Email")
     @SafeHtml
     private String email;
 

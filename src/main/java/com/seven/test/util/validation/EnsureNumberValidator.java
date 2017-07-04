@@ -1,4 +1,4 @@
-package com.seven.test.util;
+package com.seven.test.util.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,7 +13,6 @@ public class EnsureNumberValidator implements ConstraintValidator<EnsureNumber, 
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // Check the state of the Adminstrator.
         if (value == null) {
             return false;
         }

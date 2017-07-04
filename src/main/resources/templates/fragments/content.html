@@ -134,47 +134,58 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h2 class="modal-title" id="modalTitle">modalTitle</h2>
+                    <h2 class="modal-title" id="modalTitle">Add/edit user</h2>
                 </div>
                 <div class="modal-body">
-                    <th:form class="form-horizontal" id="detailsForm">
+                    <form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post"
+                          class="form-horizontal" role="form" id="detailsForm">
+                        <!--<div class="form-horizontal" id="detailsForm">-->
                         <input type="hidden" id="id" name="id">
 
                         <div class="form-group">
-                            <label for="name" class="control-label col-xs-3">users.name</label>
+                            <label for="fname" class="control-label col-xs-3">First name</label>
 
                             <div class="col-xs-9">
-                                <input type="text" class="form-control" id="name" name="name" placeholder="users.name">
+                                <input type="text" class="form-control" id="fname" name="lname"
+                                       placeholder="first name">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email" class="control-label col-xs-3">users.email</label>
+                            <label for="lname" class="control-label col-xs-3">Last name</label>
+
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="lname" name="lname" placeholder="last name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email" class="control-label col-xs-3">Email</label>
 
                             <div class="col-xs-9">
                                 <input type="email" class="form-control" id="email" name="email"
-                                       placeholder="users.email">
+                                       placeholder="Email">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="control-label col-xs-3">users.password</label>
+                            <label for="password" class="control-label col-xs-3">Password</label>
 
                             <div class="col-xs-9">
                                 <input type="password" class="form-control" id="password" name="password"
-                                       placeholder="users.password">
+                                       placeholder="password">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-xs-offset-3 col-xs-9">
-                                <button type="button" onclick="" class="btn btn-primary" data-placement="top"
+                                <button type="submit" onclick="" class="btn btn-primary" data-placement="top"
                                         data-toggle="tooltip" title="Save">
                                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 </button>
@@ -184,7 +195,9 @@
                                 </button>
                             </div>
                         </div>
-                    </th:form>
+
+                        <span th:utext="${successMessage}"></span>
+                    </form>
                 </div>
             </div>
         </div>

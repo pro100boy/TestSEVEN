@@ -1,4 +1,4 @@
-package com.seven.test.util;
+package com.seven.test.util.validation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
