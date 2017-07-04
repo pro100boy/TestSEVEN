@@ -5,9 +5,9 @@
 
     <div class="panel-heading">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabcompanies" data-toggle="tab">Companies</a></li>
-            <li><a href="#tabusers" data-toggle="tab">Users</a></li>
-            <li><a href="#tabreports" data-toggle="tab">Reports</a></li>
+            <li class="active"><a href="#tabcompanies" data-toggle="tab">Companies <!--<span class="glyphicon glyphicon-home"></span>--></a></li>
+            <li><a href="#tabusers" data-toggle="tab">Users <!--<span class="glyphicon glyphicon-user"></span>--></a></li>
+            <li><a href="#tabreports" data-toggle="tab">Reports <!--<span class="glyphicon glyphicon-list-alt"></span>--></a></li>
         </ul>
     </div>
     <div class="panel-body">
@@ -133,9 +133,17 @@
         </div>
     </div>
 
+    <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+        <p class="text-center" th:utext="${message}"></p>
+    </th:block>
+
+    <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
+        <p class="text-center">Non admin message</p>
+    </th:block>
+
     <!-- Modal -->
     <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true">
+         aria-hidden="true" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -203,13 +211,6 @@
         </div>
     </div>
 
-    <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
-        <p class="text-center" th:utext="${message}"></p>
-    </th:block>
-
-    <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
-        <p class="text-center">Non admin message</p>
-    </th:block>
 </div>
 </body>
 </html>
