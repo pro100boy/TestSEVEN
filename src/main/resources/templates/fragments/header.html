@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <body>
-
+<!--Log out button-->
 <!--<div class="page-header clearfix">
     <h3 class="panel-title pull-left" style="padding-top: 7.5px">
         <span th:utext="${userName}"></span>
@@ -14,18 +14,35 @@
                                                                        aria-hidden="true"></span></button>
     </form>
 </div>-->
-    <div class="panel panel-info" th:fragment="header">
-        <div class="panel-heading clearfix">
-            <h4 class="panel-title pull-left" style="padding-top: 7.5px">
-                <span th:utext="${userName}"></span>
-            </h4>
+<div class="panel panel-info" th:fragment="header">
+    <div class="panel-heading clearfix">
+        <h4 class="panel-title pull-left" style="padding-top: 7.5px">
+            <span th:utext="${userName}"></span>
+        </h4>
 
-            <form th:action="@{/logout}" method="get">
-                <button class="btn btn-default pull-right" type="Submit"><span class="glyphicon glyphicon-log-out"
-                                                                               aria-hidden="true"></span></button>
-            </form>
+        <!--<div class="btn-group pull-right">
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#">New company</a></li>
+                <li><a href="#">New user</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
+        </div>
+        </div>-->
+        <div class="dropdown pull-right" style="padding-top: 7.5px">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></a>
+
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">New company</a></li>
+                <li><a href="#">New user</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout">Log out</a></li>
+            </ul>
         </div>
     </div>
+</div>
 </body>
 
 </html>
