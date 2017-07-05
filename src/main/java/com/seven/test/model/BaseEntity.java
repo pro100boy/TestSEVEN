@@ -1,13 +1,10 @@
 package com.seven.test.model;
 
 import com.seven.test.HasId;
-import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @MappedSuperclass
 @Access(AccessType.FIELD)
 public class BaseEntity implements HasId {
@@ -16,9 +13,24 @@ public class BaseEntity implements HasId {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // PROPERTY access for id due to bug: https://hibernate.atlassian.net/browse/HHH-3718
     @Access(value = AccessType.PROPERTY)
-    @Getter
-    @Setter
     private Integer id;
+
+    public BaseEntity() {
+    }
+
+    protected BaseEntity(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
 
     @Override
     public boolean equals(Object o) {

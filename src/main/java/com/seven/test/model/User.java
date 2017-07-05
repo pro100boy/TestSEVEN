@@ -39,11 +39,12 @@ public class User extends NamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @Length(min = 5, message = "*Your password must have at least 5 characters")
-    /*@Length.List({
-            @Length(min = 5, message = "The field must be at least 5 characters"),
-            @Length(max = 15, message = "The field must be less than 15 characters")
-    })*/
+    // TODO: if max=15, 16... than
+    //@Length(min = 5, message = "*Your password must have at least 5 characters")
+    @Length.List({
+            @Length(min = 5, message = "*Password must be at least 5 characters"),
+            @Length(max = 64, message = "*Password must be less than 64 characters")
+    })
     @NotEmpty(message = "*Please provide your password")
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     //@Transient
@@ -75,7 +76,7 @@ public class User extends NamedEntity {
                 ", firstname='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                //", password='" + password + '\'' +
                 ", roles=" + roles.stream().map(r -> r.getRole()).collect(Collectors.joining(", ")) +
                 ", phone='" + phone + '\'' +
                 '}';
