@@ -40,6 +40,10 @@ public class User extends NamedEntity {
 
     @Column(name = "password", nullable = false)
     @Length(min = 5, message = "*Your password must have at least 5 characters")
+    /*@Length.List({
+            @Length(min = 5, message = "The field must be at least 5 characters"),
+            @Length(max = 15, message = "The field must be less than 15 characters")
+    })*/
     @NotEmpty(message = "*Please provide your password")
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     //@Transient
