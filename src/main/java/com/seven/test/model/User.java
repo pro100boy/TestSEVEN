@@ -4,13 +4,13 @@ import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
-import org.springframework.data.annotation.Transient;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"roles", "company"}, callSuper = true)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
@@ -38,10 +39,10 @@ public class User extends NamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @Length(min = 5, max = 15, message = "*Your password must have at least 5 characters")
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
-    @Transient
+    //@Transient
     @SafeHtml
     private String password;
 
@@ -50,7 +51,7 @@ public class User extends NamedEntity {
     private Set<Role> roles;
 
     @Column(name = "phone")
-    @Length(min = 6, max = 30)
+    @Length(min = 7, max = 30)
     @EnsureNumber(message = "Phone number is not valid")
     private String phone;
 
@@ -71,7 +72,7 @@ public class User extends NamedEntity {
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", roles=" + roles.stream().map(r->r.getRole()).collect(Collectors.joining(", ")) +
+                ", roles=" + roles.stream().map(r -> r.getRole()).collect(Collectors.joining(", ")) +
                 ", phone='" + phone + '\'' +
                 '}';
     }

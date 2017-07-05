@@ -2,6 +2,7 @@ package com.seven.test.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -15,6 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@EqualsAndHashCode(exclude = {"users", "reports"}, callSuper = true)
 @NamedEntityGraph(name = Company.GRAPH_WITH_USERS_REPORTS, attributeNodes =
         {
                 @NamedAttributeNode("users"),
