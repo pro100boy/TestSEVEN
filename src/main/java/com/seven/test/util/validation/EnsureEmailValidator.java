@@ -6,13 +6,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * We’re rolling our own custom annotation instead of Hibernate’s @Email because Hibernate considers the old intranet addresses format: myaddress@myserver as valid (see <a href="http://stackoverflow.com/questions/4459474/hibernate-validator-email-accepts-askstackoverflow-as-valid">Stackoverflow</a> article), which is no good.
+ * We’re rolling our own custom annotation instead of Hibernate’s @Email because Hibernate considers
+ * the old intranet addresses format: myaddress@myserver as valid
+ * (see <a href="http://stackoverflow.com/questions/4459474/hibernate-validator-email-accepts-askstackoverflow-as-valid">Stackoverflow</a> article), which is no good.
  */
 public class EnsureEmailValidator implements ConstraintValidator<EnsureEmail, String> {
 
     private Pattern pattern;
     private Matcher matcher;
-    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
+    private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
 
     @Override
     public void initialize(EnsureEmail constraintAnnotation) {

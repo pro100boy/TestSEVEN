@@ -38,7 +38,7 @@ public class User extends NamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    @Length(min = 5, max = 64, message = "*Your password must have at least 5 characters")
+    @Length(min = 5, max = 15, message = "*Your password must have at least 5 characters")
     @NotEmpty(message = "*Please provide your password")
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     @Transient
