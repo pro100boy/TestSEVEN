@@ -1,14 +1,11 @@
 package com.seven.test.model;
 
 import com.seven.test.HasId;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @MappedSuperclass
@@ -19,6 +16,8 @@ public class BaseEntity implements HasId {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // PROPERTY access for id due to bug: https://hibernate.atlassian.net/browse/HHH-3718
     @Access(value = AccessType.PROPERTY)
+    @Getter
+    @Setter
     private Integer id;
 
     @Override
