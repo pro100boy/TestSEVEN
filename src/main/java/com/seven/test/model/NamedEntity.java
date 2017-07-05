@@ -1,6 +1,5 @@
 package com.seven.test.model;
 
-import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -8,7 +7,6 @@ import org.hibernate.validator.constraints.SafeHtml;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
-@EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 

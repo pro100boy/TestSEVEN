@@ -28,7 +28,7 @@ public class User extends NamedEntity {
 
     @NotEmpty(message = "*Please provide your last name")
     @Column(name = "lastname", nullable = false)
-    @Length(min = 3, max = 255)
+    @Length(min = 3, max = 255, message = "*Last name must have at least 3 characters")
     @SafeHtml
     private String lastname;
 

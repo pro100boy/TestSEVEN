@@ -33,7 +33,7 @@ public class Company extends NamedEntity {
 
     @Column(name = "address", nullable = false)
     @NotBlank
-    @Length(min = 5, max = 255)
+    @Length(min = 5, max = 255, message = "*Address must have at least 3 characters")
     @SafeHtml
     private String address;
 
