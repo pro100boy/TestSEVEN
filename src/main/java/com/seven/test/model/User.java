@@ -39,7 +39,7 @@ public class User extends NamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    // TODO: if max=15, 16... than
+    // TODO: if max<64... than validation exception occurs (( bug?
     //@Length(min = 5, message = "*Your password must have at least 5 characters")
     @Length.List({
             @Length(min = 5, message = "*Password must be at least 5 characters"),
