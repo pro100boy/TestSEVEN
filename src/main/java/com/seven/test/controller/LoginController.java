@@ -4,6 +4,7 @@ import com.seven.test.model.User;
 import com.seven.test.service.CompanyService;
 import com.seven.test.service.ReportService;
 import com.seven.test.service.UserService;
+import com.seven.test.util.Patterns;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,9 +29,6 @@ public class LoginController {
     @Autowired
     private ReportService reportService;
 
-    private final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
-    private final String PHONE_PATTERN = "^\\+(?:[0-9] ?){6,14}[0-9]$";//"-?[0-9]+";
-
     @GetMapping(value = {"/", "/login"})
     public String login() {
         return "login";
@@ -46,8 +44,9 @@ public class LoginController {
         model.addAttribute("companies", companyService.getAll());
 
         // for modal forms
-        model.addAttribute("emailpattern", EMAIL_PATTERN);
-        model.addAttribute("phonepattern", PHONE_PATTERN);
+        model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);
+        model.addAttribute("phonepattern", Patterns.PHONE_PATTERN);
+        model.addAttribute("passwdpattern", Patterns.PASSWORD_PATTERN);
         model.addAttribute("user", new User());
         // TODO потом добавить Company и Report
         return "main";
