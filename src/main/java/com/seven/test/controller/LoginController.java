@@ -11,9 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Objects;
@@ -55,13 +53,6 @@ public class LoginController {
         return "main";
     }
 
-/*    @GetMapping(value = "/registration")
-    public String registration(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("companies", companyService.getAll());
-        return "registration";
-    }*/
-
     // http://codetutr.com/2013/05/28/spring-mvc-form-validation/
     // the BindingResult has to be immediately after the object with @Valid
     @PostMapping(value = "/registration")
@@ -83,21 +74,16 @@ public class LoginController {
         return "redirect:/main";
     }
 
-/*    @GetMapping(value = "/admin/home")
-    public String home(Model model) throws NotFoundException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        model.addAttribute("adminMessage", "Content Available Only for Users with Admin Role");
-        return "admin/home";
+    @DeleteMapping(value = "/users/{id}")
+    public String delete(@PathVariable("id") int id)
+    {
+        userService.delete(id);
+        return "redirect:/main";
     }
 
-    @GetMapping(value = "/user/home_user")
-    public String user_home(Model model) throws NotFoundException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        model.addAttribute("userMessage", "Content Available Only for Users with USER Role");
-        return "user/home_user";
-    }*/
+    @PutMapping(value = "/users/{id}")
+    public String edit(@PathVariable("id") int id)
+    {
+        return "redirect:/main";
+    }
 }

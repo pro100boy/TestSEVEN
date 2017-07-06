@@ -14,7 +14,6 @@ import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -40,14 +39,14 @@ public class User extends NamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-    // TODO: if max<64... than validation exception occurs (( bug?
-    /*
-    Validation failed for classes [com.seven.test.model.User] during persist time for groups [javax.validation.groups.Default, ] List of constraint violations:[ ConstraintViolationImpl{interpolatedMessage='*Your password must have at least 5 characters', propertyPath=password, rootBeanClass=class com.seven.test.model.User, messageTemplate='*Your password must have at least 5 characters'} ]
-     */
-    @Length.List({
-            @Length(min = 5, message = "*Password must be at least 5 characters"),
-            @Length(max = 64, message = "*Password must be less than 64 characters")
-    })
+
+    // https://security.stackexchange.com/a/39851
+    // do not bound max length of the password
+    @Length(min = 5, message = "*Password must be at least 5 characters")
+//    @Length.List({
+//            @Length(min = 5, message = "*Password must be at least 5 characters"),
+//            @Length(max = 64, message = "*Password must be less than 64 characters")
+//    })
     @NotEmpty(message = "*Please provide your password")
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     //@Transient
