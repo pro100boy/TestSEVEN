@@ -74,10 +74,12 @@ public class LoginController {
     }
 
     @DeleteMapping(value = "/users/{id}")
-    public String delete(@PathVariable("id") int id)
+    @ResponseBody
+    public String delete(@PathVariable("id") Integer id)
     {
         userService.delete(id);
-        return "redirect:/main";
+        /*return "redirect:/main";*/
+        return String.valueOf(id);
     }
 
     @PutMapping(value = "/users/{id}")
