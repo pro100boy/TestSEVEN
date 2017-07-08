@@ -82,8 +82,7 @@
                             <!--<form th:action="@{/users/{id}(id=${user.id})}" th:method="delete">-->
                             <p data-placement="top" data-toggle="tooltip" title="Delete">
                                 <button class="btn btn-danger btn-xs delete-user" data-title="Delete"
-                                        data-toggle="modal"
-                                        data-target="#delete"><span class="glyphicon glyphicon-trash"></span>
+                                        data-toggle="modal"><span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </p>
                             <!--</form>-->
@@ -269,7 +268,7 @@
     <script type="application/javascript">
         $(document).ready(function () {
             /* ============================================================ */
-            /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete/ */
+            /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
             /* provide PUT/DELETE ability via jQuery                        */
             /* ============================================================ */
             jQuery.each(["put", "delete"], function (i, method) {
@@ -304,6 +303,7 @@
                 bootbox.dialog({
                     message: "Are you sure you want to delete user" + data + " ?",
                     title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
+                    size: 'small',
                     buttons: {
                         success: {
                             label: "No",
