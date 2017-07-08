@@ -72,8 +72,7 @@
                         <td>
                             <!--<form th:action="@{/users/{id}(id=${user.id})}" th:method="put">-->
                             <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                        data-target="#editUser"><span class="glyphicon glyphicon-pencil"></span>
+                                <button class="btn btn-primary btn-xs" data-title="Edit" th:onclick="'updateRow(\'' + ${user.id} + '\');'"><span class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </p>
                             <!--</form>-->
@@ -161,14 +160,14 @@
                 <div class="modal-body">
                     <form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post"
                           class="form-horizontal" role="form" data-toggle="validator" id="detailsForm">
-                        <input type="hidden" th:field="*{id}" name="id"/>
+
+                        <input type="hidden" id="id" name="id"/>
 
                         <div class="form-group has-feedback">
                             <label for="name" class="control-label col-xs-3">First name</label>
 
                             <div class="col-xs-9">
-                                <input type="text" th:value="${someVariable}" placeholder="First name" id="name"
-                                       name="name"
+                                <input type="text" th:value="${name}" placeholder="First name" id="name" name="name"
                                        class="form-control" data-minlength="3" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <div class="help-block">Minimum of 3 characters</div>
@@ -179,7 +178,7 @@
                             <label for="lname" class="control-label col-xs-3">Last name</label>
 
                             <div class="col-xs-9">
-                                <input type="text" th:field="*{lastname}" placeholder="Last name" id="lname"
+                                <input type="text" th:value="${lastname}" placeholder="Last name" id="lname" name="lastname"
                                        class="form-control" data-minlength="3" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <div class="help-block">Minimum of 3 characters</div>
@@ -190,7 +189,7 @@
                             <label for="email" class="control-label col-xs-3">Email</label>
 
                             <div class="col-xs-9">
-                                <input type="text" th:field="*{email}" placeholder="Email" id="email"
+                                <input type="text" th:value="${email}" placeholder="Email" id="email" name="email"
                                        class="form-control" th:pattern="${emailpattern}"
                                        data-error="***Please provide a valid Email" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -202,7 +201,7 @@
                             <label for="inputPassword" class="control-label col-xs-3">Password</label>
 
                             <div class="col-xs-9">
-                                <input type="password" th:field="*{password}" id="inputPassword"
+                                <input type="password" th:value="${password}" id="inputPassword" name="password"
                                        placeholder="Password" th:pattern="${passwdpattern}"
                                        class="form-control" data-minlength="5" maxlength="15" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -221,7 +220,7 @@
                             <label for="phone" class="control-label col-xs-3">Phone</label>
 
                             <div class="col-xs-9">
-                                <input type="tel" th:field="*{phone}" placeholder="Phone: +1234567" id="phone"
+                                <input type="text" th:value="${phone}" placeholder="Phone: +1234567" id="phone" name="phone"
                                        data-minlength="5"
                                        class="form-control" th:pattern="${phonepattern}" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -252,6 +251,9 @@
                                 <button type="button" onclick="" class="btn btn-warning" data-placement="top"
                                         data-toggle="tooltip" data-dismiss="modal" title="Cancel">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" onclick="$('#detailsForm').find(':input').val('');" class="btn btn-info pull-right">
+                                    <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
                                 </button>
                             </div>
                         </div>
@@ -310,6 +312,7 @@
                             className: "btn-success",
                             callback: function () {
                                 $('.bootbox').modal('hide');
+                                Example.show('asfasgasg');
                             }
                         },
                         danger: {
@@ -320,7 +323,7 @@
                                 $.ajax({
                                     type: 'DELETE',
                                     url: '/users/' + id,
-                                    data: {id: id},
+                                    /*data: {id: id},*/
                                     success: function (data) {
                                         $(".delete-user").closest("td#" + data).parent("tr").fadeOut("slow", function () {
                                             $(".delete-user").closest("td#" + data).parent("tr").remove();
@@ -339,6 +342,17 @@
                 });
             });
         });
+
+        function updateRow(id) {
+            var ajaxUrl = "users/" + id;
+            var form = $('#detailsForm');
+            $.get(ajaxUrl, function (data) {
+                $.each(data, function (key, value) {
+                    form.find("input[name='" + key + "']").val(value);
+                });
+                $('#editUser').modal();
+            });
+        }
     </script>
 </div>
 </body>

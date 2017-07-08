@@ -1,5 +1,6 @@
 package com.seven.test.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
 import lombok.AllArgsConstructor;
@@ -51,10 +52,12 @@ public class User extends NamedEntity {
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     //@Transient
     @SafeHtml
+    @JsonIgnore
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    //@JsonIgnore
     private Set<Role> roles;
 
     @Column(name = "phone")
@@ -65,6 +68,7 @@ public class User extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private Company company;
 
     public void setRoles(Set<Role> roles) {
