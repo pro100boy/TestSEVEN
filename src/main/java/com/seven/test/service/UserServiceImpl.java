@@ -62,14 +62,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
-    public void update(User user) {
-        Assert.notNull(user, "user must not be null");
-        user.setEmail(user.getEmail().toLowerCase());
-        repository.save(user);
-    }
-
-    @Override
     public List<User> getAllByCompany(int companyId) {
         return repository.getAllByCompany(companyId);
     }

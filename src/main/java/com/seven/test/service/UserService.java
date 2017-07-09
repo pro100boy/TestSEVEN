@@ -16,9 +16,5 @@ public interface UserService {
 
     List<User> getAll();
 
-    void update(User user);
-
-    //void update(UserTo user);
-
     List<User> getAllByCompany(int companyId);
 }

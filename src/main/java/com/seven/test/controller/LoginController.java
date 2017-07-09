@@ -54,24 +54,12 @@ public class LoginController {
 
     // http://codetutr.com/2013/05/28/spring-mvc-form-validation/
     // the BindingResult has to be immediately after the object with @Valid
-    @PostMapping(value = "/registration")
-    public String updateOrCreate(@ModelAttribute @Valid User user, BindingResult bindingResult, Model model){
-        model.addAttribute("companies", companyService.getAll());
-        if (user.isNew()) {
-            User userExists = userService.findByEmail(user.getEmail());
-            if (userExists != null) {
-                bindingResult
-                        .rejectValue("email", "error.user",
-                                "There is already a user registered with the email provided");
-            }
-        }
+    @PostMapping(value = "/users")
+    @ResponseBody
+    public void updateOrCreate(@ModelAttribute @Valid User user, BindingResult bindingResult){
         if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
             userService.save(user);
-            //model.addAttribute("successMessage", "User has been registered successfully");
-            //model.addAttribute("user", new User());
         }
-
-        return "redirect:/main";
     }
 
     @DeleteMapping(value = "/users/{id}")
@@ -87,11 +75,5 @@ public class LoginController {
     public User getUser(@PathVariable("id") Integer id)
     {
         return userService.get(id);
-    }
-
-    @PutMapping(value = "/users/{id}")
-    public String edit(@PathVariable("id") int id)
-    {
-        return "redirect:/main";
     }
 }

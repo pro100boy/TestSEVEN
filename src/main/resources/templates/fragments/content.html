@@ -69,10 +69,11 @@
                         <td th:text="${user.phone}"></td>
                         <td th:text="${user.company.name}"></td>
                         <td th:text="${#strings.setJoin(user.roles, ', ')}"></td>
-                        <td>
+                        <td th:id="${user.id}">
                             <!--<form th:action="@{/users/{id}(id=${user.id})}" th:method="put">-->
                             <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                <button class="btn btn-primary btn-xs" data-title="Edit" th:onclick="'updateRow(\'' + ${user.id} + '\');'"><span class="glyphicon glyphicon-pencil"></span>
+                                <button class="btn btn-primary btn-xs update-user" data-title="Edit"><span
+                                        class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </p>
                             <!--</form>-->
@@ -149,16 +150,17 @@
     </th:block>
 
     <!-- Modal -->
-    <div class="modal fade" id="editUser" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"
-         aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="editUser" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h2 class="modal-title" id="modalTitle">Add/edit user</h2>
                 </div>
                 <div class="modal-body">
-                    <form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post"
+                    <!--<form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post"
+                          class="form-horizontal" role="form" data-toggle="validator" id="detailsForm">-->
+                    <form autocomplete="off" action="#" th:object="${user}"
                           class="form-horizontal" role="form" data-toggle="validator" id="detailsForm">
 
                         <input type="hidden" id="id" name="id"/>
@@ -178,7 +180,8 @@
                             <label for="lname" class="control-label col-xs-3">Last name</label>
 
                             <div class="col-xs-9">
-                                <input type="text" th:value="${lastname}" placeholder="Last name" id="lname" name="lastname"
+                                <input type="text" th:value="${lastname}" placeholder="Last name" id="lname"
+                                       name="lastname"
                                        class="form-control" data-minlength="3" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                 <div class="help-block">Minimum of 3 characters</div>
@@ -220,7 +223,8 @@
                             <label for="phone" class="control-label col-xs-3">Phone</label>
 
                             <div class="col-xs-9">
-                                <input type="text" th:value="${phone}" placeholder="Phone: +1234567" id="phone" name="phone"
+                                <input type="text" th:value="${phone}" placeholder="Phone: +1234567" id="phone"
+                                       name="phone"
                                        data-minlength="5"
                                        class="form-control" th:pattern="${phonepattern}" required/>
                                 <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -244,7 +248,7 @@
 
                         <div class="form-group">
                             <div class="col-xs-offset-3 col-xs-9">
-                                <button type="submit" onclick="" class="btn btn-primary" data-placement="top"
+                                <button type="submit" class="btn btn-primary save-user" data-placement="top"
                                         data-toggle="tooltip" title="Save">
                                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                 </button>
@@ -252,7 +256,8 @@
                                         data-toggle="tooltip" data-dismiss="modal" title="Cancel">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
-                                <button type="button" onclick="$('#detailsForm').find(':input').val('');" class="btn btn-info pull-right">
+                                <button type="button" onclick="myvalidate()"
+                                        class="btn btn-info pull-right">
                                     <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
                                 </button>
                             </div>
@@ -265,7 +270,7 @@
     </div>
 
     <!-- --------------------------------------------------------------------------------------- -->
-    <!-- ---------------------------          DELETE WITH CONFIRM        ----------------------- -->
+    <!-- ---------------------------        ACTIONS WITH CONFIRM         ----------------------- -->
     <!-- --------------------------------------------------------------------------------------- -->
     <script type="application/javascript">
         $(document).ready(function () {
@@ -312,7 +317,6 @@
                             className: "btn-success",
                             callback: function () {
                                 $('.bootbox').modal('hide');
-                                Example.show('asfasgasg');
                             }
                         },
                         danger: {
@@ -341,18 +345,78 @@
                     }
                 });
             });
-        });
 
-        function updateRow(id) {
-            var ajaxUrl = "users/" + id;
-            var form = $('#detailsForm');
-            $.get(ajaxUrl, function (data) {
-                $.each(data, function (key, value) {
-                    form.find("input[name='" + key + "']").val(value);
+            $('.update-user').validator().on("click", function (e) {
+                e.preventDefault();
+
+                var form = $('#detailsForm');
+                form[0].reset();
+
+                var validator = form.data('bs.validator');
+                if (form.find('.has-error, .has-danger').length > 0) {
+                    validator.reset();
+                    validator.update();
+                }
+
+                var id = parseInt($(this).closest("td").attr("id"));
+                var ajaxUrl = "users/" + id;
+
+                $.get(ajaxUrl, function (data) {
+                    $.each(data, function (key, value) {
+                        form.find("input[name='" + key + "']").val(value);
+                    });
+                    $('#editUser').modal();
                 });
-                $('#editUser').modal();
             });
-        }
+
+            //$('.save-user').on("click", function (e) {
+            $('#detailsForm').validator().on('submit', function (e) {
+                e.preventDefault();
+
+                var validator = $('#detailsForm').data('bs.validator');
+
+                validator.reset();
+                validator.update();
+                validator.validate();
+
+                // validate passed
+                if ($('#detailsForm').find('.has-error, .has-danger').length == 0) {
+                    $.ajax({
+                        type: "POST",
+                        url: 'users',
+                        data: $('#detailsForm').serialize(),
+                        success: function (data) {
+                            $('#editUser').modal('hide');
+                            bootbox.alert({
+                                message: 'User has been saved successfully',
+                                size: 'small'
+                            });
+
+                        },
+                        error: function (xhr, str) {
+                            bootbox.alert({
+                                message: 'User with this email already present in application!!',
+                                size: 'small'
+                            });
+                        }
+                    });
+                }
+            });
+
+            /* TODO использовать как общий функционал для всех форм*/
+            function updateRow(id) {
+                var ajaxUrl = "users/" + id;
+                var form = $('#detailsForm');
+                $.get(ajaxUrl, function (data) {
+                    $.each(data, function (key, value) {
+                        form.find("input[name='" + key + "']").val(value);
+                    });
+                    $('#editUser').modal();
+                });
+            }
+
+        })
+
     </script>
 </div>
 </body>
