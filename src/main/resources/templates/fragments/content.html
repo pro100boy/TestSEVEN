@@ -48,7 +48,7 @@
                 </table>
             </div>
             <div class="tab-pane fade" id="tabusers">
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" id="userTable">
                     <thead>
                     <tr>
                         <th class="col-md-1">Last name</th>
@@ -215,7 +215,7 @@
                                 <input type="password" id="inputPasswordConfirm" placeholder="Confirm password"
                                        class="form-control" data-match="#inputPassword"
                                        data-match-error="***Whoops, these don't match" required/>
-                                <div class="help-block with-errors"></div>
+                                <div class="help-block"></div>
                             </div>
                         </div>
 
@@ -273,7 +273,12 @@
     <!-- ---------------------------        ACTIONS WITH CONFIRM         ----------------------- -->
     <!-- --------------------------------------------------------------------------------------- -->
     <script type="application/javascript">
+
         $(document).ready(function () {
+            $('#userTable').DataTable();
+            var frmDetails = $('#detailsForm');
+            var frmEditUser = $('#editUser');
+
             /* ============================================================ */
             /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
             /* provide PUT/DELETE ability via jQuery                        */
@@ -349,11 +354,10 @@
             $('.update-user').validator().on("click", function (e) {
                 e.preventDefault();
 
-                var form = $('#detailsForm');
-                form[0].reset();
+                frmDetails[0].reset();
 
-                var validator = form.data('bs.validator');
-                if (form.find('.has-error, .has-danger').length > 0) {
+                var validator = frmDetails.data('bs.validator');
+                if (frmDetails.find('.has-error, .has-danger').length > 0) {
                     validator.reset();
                     validator.update();
                 }
@@ -363,39 +367,42 @@
 
                 $.get(ajaxUrl, function (data) {
                     $.each(data, function (key, value) {
-                        form.find("input[name='" + key + "']").val(value);
+                        frmDetails.find("input[name='" + key + "']").val(value);
                     });
-                    $('#editUser').modal();
+                    frmEditUser.modal();
                 });
             });
 
             //$('.save-user').on("click", function (e) {
-            $('#detailsForm').validator().on('submit', function (e) {
+            frmDetails.validator().on('submit', function (e) {
                 e.preventDefault();
 
-                var validator = $('#detailsForm').data('bs.validator');
+                var validator = frmDetails.data('bs.validator');
 
                 validator.reset();
                 validator.update();
                 validator.validate();
 
                 // validate passed
-                if ($('#detailsForm').find('.has-error, .has-danger').length == 0) {
+                if (!validator.hasErrors()){
+                //if ($('#detailsForm').find('.has-error, .has-danger').length == 0) {
                     $.ajax({
                         type: "POST",
                         url: 'users',
-                        data: $('#detailsForm').serialize(),
+                        data: frmDetails.serialize(),
                         success: function (data) {
-                            $('#editUser').modal('hide');
+                            frmEditUser.modal('hide');
                             bootbox.alert({
-                                message: 'User has been saved successfully',
-                                size: 'small'
+                                message: 'User successfully saved',
+                                size: 'small',
+                                callback: function () {
+                                    window.location.reload();
+                                }
                             });
-
                         },
                         error: function (xhr, str) {
                             bootbox.alert({
-                                message: 'User with this email already present in application!!',
+                                message: 'An user with such email is already registered in the app!!',
                                 size: 'small'
                             });
                         }
@@ -406,15 +413,13 @@
             /* TODO использовать как общий функционал для всех форм*/
             function updateRow(id) {
                 var ajaxUrl = "users/" + id;
-                var form = $('#detailsForm');
                 $.get(ajaxUrl, function (data) {
                     $.each(data, function (key, value) {
-                        form.find("input[name='" + key + "']").val(value);
+                        frmDetails.find("input[name='" + key + "']").val(value);
                     });
-                    $('#editUser').modal();
+                    frmEditUser.modal();
                 });
             }
-
         })
 
     </script>
