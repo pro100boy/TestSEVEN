@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Title</title>
-    <th:block th:replace="~{fragments/bootstrap :: bootstrap}"></th:block>
+    <title>SEVEN's test task</title>
+    <th:block th:replace="~{fragments/includs :: ui}"></th:block>
 </head>
 <body>
 <th:block th:if="${#authorization.expression('isAuthenticated()')}">
