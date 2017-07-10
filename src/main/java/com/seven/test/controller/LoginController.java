@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -75,5 +76,12 @@ public class LoginController {
     public User getUser(@PathVariable("id") Integer id)
     {
         return userService.get(id);
+    }
+
+    @GetMapping(value = "/users")
+    @ResponseBody
+    public List<User> getUsers()
+    {
+        return userService.getAll();
     }
 }
