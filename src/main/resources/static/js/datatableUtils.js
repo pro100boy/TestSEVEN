@@ -57,23 +57,11 @@ function updateRow(id) {
         validator.update();
     }
 
-    //var id = parseInt($(this).closest("td").attr("id"));
     var ajaxUrl = "users/" + id;
-    $.ajax({
-        type: "GET",
-        url: ajaxUrl,
-        success: function (data) {
-            $.each(data, function (key, value) {
-                frmDetails.find("input[name='" + key + "']").val(value);
-            });
-
-            frmEditUser.modal();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            bootbox.alert({
-                message: 'error ',
-                size: 'small'
-            });
-        }
+    $.get(ajaxUrl, function (data) {
+        $.each(data, function (key, value) {
+            frmDetails.find("input[name='" + key + "']").val(value);
+        });
+        frmEditUser.modal();
     });
 }

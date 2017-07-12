@@ -5,12 +5,14 @@ import com.seven.test.util.json.JacksonObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.MimeType;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,8 +40,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         stringHttpMessageConverter.setSupportedMediaTypes(
                 new ArrayList(
                         Arrays.asList(
-                                MimeType.valueOf("text/plain;charset=UTF-8"),
-                                MimeType.valueOf("text/html;charset=UTF-8"))
+                                new MediaType("text", "plain", Charset.forName("UTF-8")),
+                                new MediaType("text", "html", Charset.forName("UTF-8")))
                 )
         );
         return stringHttpMessageConverter;
