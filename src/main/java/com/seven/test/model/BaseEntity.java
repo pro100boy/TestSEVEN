@@ -1,5 +1,6 @@
 package com.seven.test.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.seven.test.HasId;
 import org.hibernate.Hibernate;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 
 @MappedSuperclass
 @Access(AccessType.FIELD)
+// in pair with #spring.jackson.serialization.fail-on-empty-beans=false in application.properties
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class BaseEntity implements HasId {
     @Id
     //@Column(name = "id", unique = true, nullable = false, columnDefinition = "integer default nextval('global_seq')")

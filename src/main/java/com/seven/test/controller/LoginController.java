@@ -74,8 +74,8 @@ public class LoginController {
     @GetMapping(value = "/users/{id}")
     @ResponseBody
     public User getUser(@PathVariable("id") Integer id)
-    {
-        return userService.get(id);
+    {User user = userService.get(id);
+        return user;
     }
 
     @GetMapping(value = "/users")

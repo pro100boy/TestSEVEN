@@ -1,9 +1,6 @@
 package com.seven.test.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
 import lombok.AllArgsConstructor;
@@ -71,7 +68,6 @@ public class User extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    //@JsonIgnore
     @JsonManagedReference(value="company-users")
     private Company company;
 
