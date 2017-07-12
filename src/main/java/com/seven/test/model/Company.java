@@ -1,5 +1,7 @@
 package com.seven.test.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,9 +40,11 @@ public class Company extends NamedEntity {
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    @JsonBackReference(value = "company-users")
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    @JsonBackReference(value = "company-reports")
     private Set<Report> reports;
 
     @Override

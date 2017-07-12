@@ -1,6 +1,9 @@
 package com.seven.test.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
 import lombok.AllArgsConstructor;
@@ -68,7 +71,8 @@ public class User extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    //@JsonIgnore
+    @JsonManagedReference(value="company-users")
     private Company company;
 
     public void setRoles(Set<Role> roles) {
@@ -82,8 +86,9 @@ public class User extends NamedEntity {
                 ", firstname='" + name + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
+                //", company ='" + getCompany().getName() + '\'' +
                 //", password='" + password + '\'' +
-                ", roles=" + roles.stream().map(r -> r.getRole()).collect(Collectors.joining(", ")) +
+                ", roles=" + roles.stream().map(Role::getRole).collect(Collectors.joining(", ")) +
                 ", phone='" + phone + '\'' +
                 '}';
     }

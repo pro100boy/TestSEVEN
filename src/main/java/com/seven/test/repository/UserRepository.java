@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional(readOnly = true)
+@SuppressWarnings("JpaQlInspection")
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying
@@ -23,6 +24,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findOne(Integer id);
 
     List<User> findAllByOrderByLastnameAscEmailAsc();
+
+    //@Query("SELECT u FROM User u JOIN FETCH Company c JOIN FETCH Role r WHERE u.company.id = c.id order by u.name")
+    @Query("SELECT u FROM User u JOIN FETCH u.company c ORDER BY u.name")
+    List<User> findAllWithParams();
+
+    @Override
+    List<User> findAll();
 
     // null if not found
     User findByEmail(String email);

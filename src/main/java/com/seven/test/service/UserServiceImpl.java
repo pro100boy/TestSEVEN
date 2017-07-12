@@ -58,7 +58,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> getAll() {
-        return repository.findAllByOrderByLastnameAscEmailAsc();
+        List<User> u = repository.findAllWithParams();//findAll();
+        return u;//findAllByOrderByLastnameAscEmailAsc();
     }
 
     @Override

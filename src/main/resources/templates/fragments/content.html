@@ -61,7 +61,7 @@
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <!--<tbody>
                     <tr th:each="user : ${users}">
                         <td th:text="${user.lastname}"></td>
                         <td th:text="${user.name}"></td>
@@ -70,25 +70,21 @@
                         <td th:text="${user.company.name}"></td>
                         <td th:text="${#strings.setJoin(user.roles, ', ')}"></td>
                         <td th:id="${user.id}">
-                            <!--<form th:action="@{/users/{id}(id=${user.id})}" th:method="put">-->
                             <p data-placement="top" data-toggle="tooltip" title="Edit">
                                 <button class="btn btn-primary btn-xs update-user" data-title="Edit"><span
                                         class="glyphicon glyphicon-pencil"></span>
                                 </button>
                             </p>
-                            <!--</form>-->
                         </td>
                         <td th:id="${user.id}">
-                            <!--<form th:action="@{/users/{id}(id=${user.id})}" th:method="delete">-->
                             <p data-placement="top" data-toggle="tooltip" title="Delete">
                                 <button class="btn btn-danger btn-xs delete-user" data-title="Delete"
                                         data-toggle="modal"><span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </p>
-                            <!--</form>-->
                         </td>
                     </tr>
-                    </tbody>
+                    </tbody>-->
                 </table>
             </div>
             <div class="tab-pane fade" id="tabreports">
@@ -266,12 +262,51 @@
 
         $(function () {
             $('#userTable').DataTable({
-                //"paging": false,
+                "columns": [
+                    {
+                        "data": "lastname"
+                    },
+                    {
+                        "data": "name"
+                    },
+                    {
+                        "data": "email",
+                        "render": function (data, type, row) {
+                            if (type == 'display') {
+                                return '<a href="mailto:' + data + '">' + data + '</a>';
+                            }
+                            return data;
+                        }
+                    },
+                    {
+                        "data": "phone"
+                    },
+                    {
+                        "data": "company.name"
+                    },
+                    {
+                        "data": "roles[].role"
+                    },
+                    {
+                        "orderable": false,
+                        "defaultContent": "",
+                        "render": renderEditBtn
+                    },
+                    {
+                        "orderable": false,
+                        "defaultContent": "",
+                        "render": renderDeleteBtn
+                    }
+                ],
+                "ajax": {
+                    "url": 'users',
+                    "dataSrc": ""
+                },
                 "autoWidth": false,
                 "columnDefs": [
                     {"orderable": false, "targets": [2, 3, 4, 5, 6, 7]}
-                    ,{"width": "15%", "targets": [0,1,2]}
-                    ,{"width": "5%", "targets": [6,7]}
+                    , {"width": "15%", "targets": [0, 1, 2]}
+                    , {"width": "5%", "targets": [6, 7]}
                 ]
             });
 
@@ -419,6 +454,43 @@
                     frmEditUser.modal();
                 });
             }
+
+            function renderEditBtn(data, type, row) {
+                if (type == 'display') {
+                    return '<a class="btn btn-xs btn-primary" onclick="updateRow(' + row.id + ');">' +
+                        '<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>';
+                }
+            }
+
+            function renderDeleteBtn(data, type, row) {
+                if (type == 'display') {
+                    return '<a class="btn btn-xs btn-danger" onclick="deleteRow(' + row.id + ');">'+
+                        '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>';
+                }
+            }
+
+            /*            function updateRow(id) {
+             $('#modalTitle').html(i18n[editTitleKey]);
+             $.get(ajaxUrl + id, function (data) {
+             $.each(data, function (key, value) {
+             form.find("input[name='" + key + "']").val(
+             key === "dateTime" ? formatDate(value) : value
+             );
+             });
+             $('#editRow').modal();
+             });
+             }
+
+             function deleteRow(id) {
+             $.ajax({
+             url: ajaxUrl + id,
+             type: 'DELETE',
+             success: function () {
+             updateTable();
+             successNoty('common.deleted');
+             }
+             });
+             }*/
         })
 
     </script>

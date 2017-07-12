@@ -1,5 +1,7 @@
 package com.seven.test.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seven.test.util.DateTimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +37,7 @@ public class Report extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonManagedReference(value = "company-reports")
     private Company company;
 
     @Override
