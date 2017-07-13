@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-                    .antMatchers("/", "/login", "/registration").permitAll()
+                    .antMatchers("/login", "/registration").permitAll()
                     .antMatchers("/main", "/fragments/**", "/user/**").hasAnyAuthority("COMPANY_OWNER", "COMPANY_EMPLOYER", "ADMIN")
                     .antMatchers("/admin/**").hasAuthority("ADMIN")
                     .anyRequest().authenticated()
@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/")
+                    .logoutSuccessUrl("/login")
                     .and()
                 .exceptionHandling()
                     .accessDeniedPage("/access-denied");

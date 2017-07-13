@@ -1,7 +1,5 @@
 package com.seven.test.controller;
 
-import com.seven.test.model.Company;
-import com.seven.test.model.Report;
 import com.seven.test.model.User;
 import com.seven.test.service.CompanyService;
 import com.seven.test.service.ReportService;
@@ -17,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,12 +30,12 @@ public class LoginController {
     @Autowired
     private ReportService reportService;
 
-    @GetMapping(value = {"/", "/login"})
+    @GetMapping(value = "/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping(value = "/main")
+    @GetMapping(value = {"/", "/main"})
     public String main(Model model) throws NotFoundException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
@@ -55,37 +51,5 @@ public class LoginController {
         model.addAttribute("user", new User());
         // TODO потом добавить Company и Report
         return "main";
-    }
-
-    // http://codetutr.com/2013/05/28/spring-mvc-form-validation/
-    // the BindingResult has to be immediately after the object with @Valid
-    @PostMapping(value = "/users")
-    @ResponseBody
-    public void updateOrCreate(@ModelAttribute @Valid User user, BindingResult bindingResult){
-        if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
-            userService.save(user);
-        }
-    }
-
-    @DeleteMapping(value = "/users/{id}")
-    @ResponseBody
-    public String delete(@PathVariable("id") Integer id)
-    {
-        userService.delete(id);
-        return String.valueOf(id);
-    }
-
-    @GetMapping(value = "/users/{id}")
-    @ResponseBody
-    public User getUser(@PathVariable("id") Integer id)
-    {User user = userService.get(id);
-        return user;
-    }
-
-    @GetMapping(value = "/users")
-    @ResponseBody
-    public List<User> getUsers()
-    {
-        return userService.getAll();
     }
 }
