@@ -1,5 +1,4 @@
 var frmDetails = $('#detailsForm');
-var dataForQuestion;
 
 /* ============================================================ */
 /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
@@ -125,14 +124,8 @@ function renderDeleteBtn(data, type, row) {
 }
 
 function deleteRow(id) {
-    var currentRow = $("#rowid" + id).closest("tr");
-    var fname = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
-    var lname = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
-    var email = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
-    dataForQuestion = "<br />" + fname + " " + lname + " (" + email + ")";
-
     bootbox.dialog({
-        message: "Are you sure you want to delete" + dataForQuestion + " ?",
+        message: "Are you sure you want to delete" + prepareDelete(id) + " ?",
         title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
         size: 'small',
         buttons: {

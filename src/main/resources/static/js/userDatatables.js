@@ -58,11 +58,12 @@ $(function () {
         save();
     });
 });
+
 function prepareDelete(id)
 {
     var currentRow = $("#rowid" + id).closest("tr");
     var fname = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
     var lname = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
     var email = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
-    var data = "<br />" + fname + " " + lname + " (" + email + ")";
+    return "<br />" + fname + " " + lname + " (" + email + ")";
 }
