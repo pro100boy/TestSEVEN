@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
     @Autowired
     private UserService userService;
@@ -20,28 +20,26 @@ public class UserController {
     // http://codetutr.com/2013/05/28/spring-mvc-form-validation/
     // the BindingResult has to be immediately after the object with @Valid
     @PostMapping
-    public void updateOrCreate(@Valid User user, BindingResult bindingResult){
+    public void updateOrCreate(@Valid User user, BindingResult bindingResult) {
         if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
             userService.save(user);
         }
     }
 
     @DeleteMapping(value = "/{id}")
-    public String delete(@PathVariable("id") Integer id)
-    {
+    public String delete(@PathVariable("id") Integer id) {
         userService.delete(id);
         return String.valueOf(id);
     }
 
     @GetMapping(value = "/{id}")
-    public User getUser(@PathVariable("id") Integer id)
-    {User user = userService.get(id);
+    public User getUser(@PathVariable("id") Integer id) {
+        User user = userService.get(id);
         return user;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<User> getUsers()
-    {
+    @GetMapping
+    public List<User> getUsers() {
         return userService.getAll();
     }
 }
