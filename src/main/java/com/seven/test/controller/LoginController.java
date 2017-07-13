@@ -1,5 +1,7 @@
 package com.seven.test.controller;
 
+import com.seven.test.model.Company;
+import com.seven.test.model.Report;
 import com.seven.test.model.User;
 import com.seven.test.service.CompanyService;
 import com.seven.test.service.ReportService;
@@ -15,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
