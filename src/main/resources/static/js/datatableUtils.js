@@ -46,6 +46,7 @@ function makeEditable() {
     return opts;
 }*/
 // TODO передавать нужные параметры в параметрах функций
+// TODO удаление поломалось..
 function save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg) {
     var validator = frmDetails.data('bs.validator');
 
