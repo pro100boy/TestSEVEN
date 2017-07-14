@@ -1,16 +1,13 @@
-var datatableApiUsers;
+var datatableApiCmp;
 
 $(function () {
-    var ajaxUrl = 'users/';
-    var modalForm = $('#editUser');
-    var successmsg = 'User successfully saved';
-    var errormsg = 'An user with such email is already registered in the app!!';
+    var ajaxUrl = 'companies/';
+    var modalForm = $('#editCompany');
+    var successmsg = 'Company successfully saved';
+    var errormsg = 'A company with such name and email is already registered in the app!!';
 
-    datatableApiUsers = $('#userTable').DataTable({
+    datatableApiCmp = $('#companyTable').DataTable({
         "columns": [
-            {
-                "data": "lastname"
-            },
             {
                 "data": "name"
             },
@@ -24,13 +21,7 @@ $(function () {
                 }
             },
             {
-                "data": "phone"
-            },
-            {
-                "data": "company.name"
-            },
-            {
-                "data": "roles[].role"
+                "data": "address"
             },
             {
                 "orderable": false,
@@ -51,9 +42,9 @@ $(function () {
         "paging": true,
         "info": true,
         "columnDefs": [
-            {"orderable": false, "targets": [2, 3, 4, 5, 6, 7]}
-            , {"width": "15%", "targets": [0, 1, 2]}
-            , {"width": "5%", "targets": [6, 7]}
+            {"orderable": false, "targets": [2, 3, 4]}
+            , {"width": "20%", "targets": [0, 1]}
+            , {"width": "5%", "targets": [3, 4]}
         ]
     });
 

@@ -1,6 +1,6 @@
 USE `sevendb`;
 INSERT INTO `company` (name, email, address) VALUES
-  ("TEST_CMP1", "name.cmp1@test.com", "address of TEST_CMP1 company"),
+  ("Admin's company", "adm.cmp@test.com", "address of Admin's company"),
   ("TEST_CMP2", "name.cmp2@test.com", "address of TEST_CMP2 company"),
   ("TEST_CMP3", "name.cmp3@test.com", "address of TEST_CMP3 company");
 
@@ -17,8 +17,7 @@ INSERT INTO `role` (role) VALUES
   INSERT INTO `user_roles` (user_id, role_id) VALUES
     (100003, 100009),
     (100004, 100010),
-    (100005, 100011),
-(100003, 100010);
+    (100005, 100011);
 
 INSERT INTO `report` (companyid, name, data, time) VALUES
   (100000, "Report 1", "I like this solution because it is remember me solution with Play Framework", "2017-07-01 12:36:53"),

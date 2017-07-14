@@ -36,13 +36,9 @@ function makeEditable() {
 }
 
 // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
-function extendsOpts(opts) {
+/*function extendsOpts(opts) {
     $.extend(true, opts,
         {
-            "ajax": {
-                "url": ajaxUrl,
-                "dataSrc": ""
-            },
             "autoWidth": false,
             "paging": true,
             "info": true,
@@ -50,7 +46,7 @@ function extendsOpts(opts) {
         }
     );
     return opts;
-}
+}*/
 
 function save() {
     var validator = frmDetails.data('bs.validator');

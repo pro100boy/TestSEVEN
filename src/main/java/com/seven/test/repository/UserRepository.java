@@ -23,10 +23,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Override
     User findOne(Integer id);
 
-    List<User> findAllByOrderByLastnameAscEmailAsc();
-
-    //@Query("SELECT u FROM User u JOIN FETCH Company c JOIN FETCH Role r WHERE u.company.id = c.id order by u.name")
-    @Query("SELECT u FROM User u JOIN FETCH u.company c ORDER BY u.name")
+    @Query("SELECT u FROM User u JOIN FETCH u.company")
     List<User> findAllWithParams();
 
     @Override

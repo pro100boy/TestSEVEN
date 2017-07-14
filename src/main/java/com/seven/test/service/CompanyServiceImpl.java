@@ -44,8 +44,7 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public List<Company> getAll() {
-        Sort sort = new Sort(Sort.DEFAULT_DIRECTION, "name");
-        return repository.findAll(sort);
+        return repository.findAll();
     }
 
     @Override

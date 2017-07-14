@@ -25,7 +25,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     Company findOne(Integer id);
 
     @Override
-    List<Company> findAll(Sort sort);
+    List<Company> findAll();
 
     @EntityGraph(value = Company.GRAPH_WITH_USERS_REPORTS)
     List<Company> findByNameIgnoreCaseStartingWith(String name);
