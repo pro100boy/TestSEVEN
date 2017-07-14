@@ -3,6 +3,7 @@ var datatableApiUsers;
 $(function () {
     var ajaxUrl = 'users/';
     var modalForm = $('#editUser');
+    var frmDetails = $('#detailsFormUser');
     var successmsg = 'User successfully saved';
     var errormsg = 'An user with such email is already registered in the app!!';
 

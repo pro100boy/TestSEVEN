@@ -3,6 +3,7 @@ var datatableApiCmp;
 $(function () {
     var ajaxUrl = 'companies/';
     var modalForm = $('#editCompany');
+    var frmDetails = $('#detailsFormCmp');
     var successmsg = 'Company successfully saved';
     var errormsg = 'A company with such name and email is already registered in the app!!';
 

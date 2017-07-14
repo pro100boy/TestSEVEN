@@ -1,5 +1,3 @@
-var frmDetails = $('#detailsForm');
-
 /* ============================================================ */
 /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
 /* provide PUT/DELETE ability via jQuery                        */
@@ -47,8 +45,8 @@ function makeEditable() {
     );
     return opts;
 }*/
-
-function save() {
+// TODO передавать нужные параметры в параметрах функций
+function save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg) {
     var validator = frmDetails.data('bs.validator');
 
     validator.reset();
@@ -57,7 +55,6 @@ function save() {
 
     // validate passed
     if (!validator.hasErrors()) {
-        //if ($('#detailsForm').find('.has-error, .has-danger').length == 0) {
         $.ajax({
             type: "POST",
             url: ajaxUrl,
@@ -82,7 +79,7 @@ function save() {
     }
 }
 
-function updateRow(id) {
+function updateRow(ajaxUrl, id, frmDetails, modalForm) {
     frmDetails[0].reset();
 
     var validator = frmDetails.data('bs.validator');
@@ -99,7 +96,7 @@ function updateRow(id) {
     });
 }
 
-function myvalidate() {
+function myvalidate(frmDetails) {
     frmDetails.find(':input').val('');
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
@@ -119,7 +116,7 @@ function renderDeleteBtn(data, type, row) {
     }
 }
 
-function deleteRow(id) {
+function deleteRow(ajaxUrl, id) {
     bootbox.dialog({
         message: "Are you sure you want to delete" + prepareDelete(id) + " ?",
         title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
