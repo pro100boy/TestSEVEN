@@ -61,3 +61,14 @@ $(function () {
         save(frmDetailsArr[0], modalFormArr[0], successmsg, errormsg, datatableApiUsers);
     });
 });
+
+function getCompanies(elem) {
+    $.get('/companies', function (data) {
+        $.each(data, function (key, value) {
+            //$('#mySelect').append( new Option(value,key) );
+            //elem.append(new Option(value.name, value.id));
+
+            elem.append( $('<option></option>').val(value.id).html(value.name));
+        });
+    });
+}

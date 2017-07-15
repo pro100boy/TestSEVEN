@@ -37,7 +37,7 @@ public class LoginController {
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
         //model.addAttribute("users", userService.getAll());
         model.addAttribute("reports", reportService.getAll());
-        model.addAttribute("companies", companyService.getAll());
+        //model.addAttribute("companies", companyService.getAll());
 
         // for modal forms
         model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);
