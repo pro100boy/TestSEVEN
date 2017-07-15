@@ -1,5 +1,5 @@
-var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp')];
-var modalFormArr = [$('#editUser'), $('#editCompany')];
+var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp'), $('#detailsFormRep')];
+var modalFormArr = [$('#editUser'), $('#editCompany'), $('#editReport')];
 
 /* ============================================================ */
 /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
