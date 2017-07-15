@@ -11,12 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
@@ -42,7 +37,7 @@ public class LoginController {
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
         //model.addAttribute("users", userService.getAll());
         model.addAttribute("reports", reportService.getAll());
-        //model.addAttribute("companies", companyService.getAll());
+        model.addAttribute("companies", companyService.getAll());
 
         // for modal forms
         model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);

@@ -2,8 +2,6 @@ var datatableApiUsers;
 
 $(function () {
     var ajaxUrl = 'users/';
-    var modalForm = $('#editUser');
-    var frmDetails = $('#detailsFormUser');
     var successmsg = 'User successfully saved';
     var errormsg = 'An user with such email is already registered in the app!!';
 
@@ -58,17 +56,8 @@ $(function () {
         ]
     });
 
-    frmDetails.validator().on('submit', function (e) {
+    frmDetailsArr[0].validator().on('submit', function (e) {
         e.preventDefault();
-        save();
+        save(frmDetailsArr[0], modalFormArr[0], successmsg, errormsg, datatableApiUsers);
     });
 });
-
-function prepareDelete(id)
-{
-    var currentRow = $("#rowid" + id).closest("tr");
-    var fname = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
-    var lname = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
-    var email = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
-    return "<br />" + fname + " " + lname + " (" + email + ")";
-}

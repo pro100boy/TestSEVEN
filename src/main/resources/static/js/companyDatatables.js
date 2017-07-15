@@ -2,8 +2,8 @@ var datatableApiCmp;
 
 $(function () {
     var ajaxUrl = 'companies/';
-    var modalForm = $('#editCompany');
-    var frmDetails = $('#detailsFormCmp');
+    var modalForm = modalFormArr[1];
+    var frmDetails = frmDetailsArr[1];
     var successmsg = 'Company successfully saved';
     var errormsg = 'A company with such name and email is already registered in the app!!';
 
@@ -51,15 +51,6 @@ $(function () {
 
     frmDetails.validator().on('submit', function (e) {
         e.preventDefault();
-        save();
+        save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg);
     });
 });
-
-function prepareDelete(id)
-{
-    var currentRow = $("#rowid" + id).closest("tr");
-    var fname = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
-    var lname = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
-    var email = currentRow.find("td:eq(2)").text(); // get current row 3rd TD
-    return "<br />" + fname + " " + lname + " (" + email + ")";
-}

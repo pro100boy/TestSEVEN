@@ -1,3 +1,6 @@
+var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp')];
+var modalFormArr = [$('#editUser'), $('#editCompany')];
+
 /* ============================================================ */
 /* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
 /* provide PUT/DELETE ability via jQuery                        */
@@ -33,21 +36,8 @@ function makeEditable() {
     // });
 }
 
-// https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
-/*function extendsOpts(opts) {
-    $.extend(true, opts,
-        {
-            "autoWidth": false,
-            "paging": true,
-            "info": true,
-            "initComplete": makeEditable()
-        }
-    );
-    return opts;
-}*/
 // TODO передавать нужные параметры в параметрах функций
-// TODO удаление поломалось..
-function save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg) {
+function save(frmDetails, modalForm, successmsg, errormsg, datatableApi) {
     var validator = frmDetails.data('bs.validator');
 
     validator.reset();
@@ -58,7 +48,7 @@ function save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg) {
     if (!validator.hasErrors()) {
         $.ajax({
             type: "POST",
-            url: ajaxUrl,
+            url: datatableApi.ajax.url(),
             data: frmDetails.serialize(),
             success: function (data) {
                 modalForm.modal('hide');
@@ -80,7 +70,26 @@ function save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg) {
     }
 }
 
-function updateRow(ajaxUrl, id, frmDetails, modalForm) {
+function updateRow(id) {
+    var currentTableId = $("#rowid" + id).closest("table").attr("id");
+    var frmDetails;
+    var ajaxUrl;
+    var modalForm;
+    switch (currentTableId){
+        case 'userTable':
+            ajaxUrl = datatableApiUsers.ajax.url();
+            frmDetails = frmDetailsArr[0];
+            modalForm = modalFormArr[0];
+            break;
+        case 'companyTable':
+            ajaxUrl = datatableApiCmp.ajax.url();
+            frmDetails = frmDetailsArr[1];
+            modalForm = modalFormArr[1];
+            break;
+        //TODO доделать
+        case 'reportTable': /*ajaxUrl = datatableApiRep.ajax.url();*/ break;
+    }
+
     frmDetails[0].reset();
 
     var validator = frmDetails.data('bs.validator');
@@ -97,7 +106,7 @@ function updateRow(ajaxUrl, id, frmDetails, modalForm) {
     });
 }
 
-function myvalidate(frmDetails) {
+function myValidate(frmDetails) {
     frmDetails.find(':input').val('');
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
@@ -117,9 +126,23 @@ function renderDeleteBtn(data, type, row) {
     }
 }
 
-function deleteRow(ajaxUrl, id) {
+function deleteRow(id) {
+    var currentTableId = $("#rowid" + id).closest("table").attr("id");
+    var ajaxUrl;
+    switch (currentTableId){
+        case 'userTable': ajaxUrl = datatableApiUsers.ajax.url(); break;
+        case 'companyTable': ajaxUrl = datatableApiCmp.ajax.url(); break;
+        // TODO доделать
+        //case 'reportTable': ajaxUrl = datatableApiRep.ajax.url(); break;
+    }
+
+    var currentRow = $("#rowid" + id).closest("tr");
+    var cell1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+    var cell2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+    var res = "<br />" + cell1 + " " + cell2;
+
     bootbox.dialog({
-        message: "Are you sure you want to delete" + prepareDelete(id) + " ?",
+        message: "Are you sure you want to delete" + res + " ?",
         title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
         size: 'small',
         buttons: {
@@ -142,6 +165,11 @@ function deleteRow(ajaxUrl, id) {
                             $("#rowid" + data).closest("tr").fadeOut(1000, function () {
                                 $("#rowid" + data).closest("tr").remove();
                             });
+                            if (currentTableId === 'companyTable') {
+                                // TODO удаляем связанных с компанией юзеров и отчеты
+                                datatableApiUsers.ajax.reload();
+                                //datatableApiRep.ajax.reload();
+                            }
                         }
                     })
                         .done(function (response) {
