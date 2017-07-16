@@ -3,6 +3,7 @@ package com.seven.test.controller;
 import com.seven.test.model.User;
 import com.seven.test.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class UserController {
     public void updateOrCreate(@Valid User user, BindingResult bindingResult) {
         if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
             userService.save(user);
-        }
+        } else throw new DataIntegrityViolationException("User hasn't been saved");
     }
 
     @DeleteMapping(value = "/{id}")

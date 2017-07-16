@@ -43,10 +43,9 @@ function save(frmDetails, modalForm, successmsg, errormsg, datatableApi) {
     validator.reset();
     validator.update();
     validator.validate();
-alert('before save');
+
     // validate passed
     if (!validator.hasErrors()) {
-        alert('inside save');
         $.ajax({
             type: "POST",
             url: datatableApi.ajax.url(),
@@ -69,7 +68,6 @@ alert('before save');
             }
         });
     }
-    alert('after save');
 }
 
 function updateRow(id) {
@@ -106,6 +104,8 @@ function updateRow(id) {
         });
         modalForm.modal();
     });
+    // TODO разобраться
+    //getCompanies($('#dropOperator'));
 }
 
 function myValidate(frmDetails) {
@@ -113,7 +113,7 @@ function myValidate(frmDetails) {
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
     // TODO разобраться
-    getCompanies($('#dropOperator'));
+    //getCompanies($('#dropOperator'));
 }
 
 function renderEditBtn(data, type, row) {

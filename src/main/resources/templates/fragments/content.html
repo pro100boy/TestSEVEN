@@ -98,9 +98,17 @@
     <!-- --------------------------------------------------------------------------------------- -->
     <!-- ---------------------------        ACTIONS WITH CONFIRM         ----------------------- -->
     <!-- --------------------------------------------------------------------------------------- -->
-    <script type="application/javascript" src="/js/datatableUtils.js"></script>
-    <script type="application/javascript" src="/js/userDatatables.js"></script>
-    <script type="application/javascript" src="/js/companyDatatables.js"></script>
+    <script type="application/javascript" src="/js/datatableUtils.js" defer></script>
+    <script type="application/javascript" src="/js/userDatatables.js" defer></script>
+    <script type="application/javascript" src="/js/companyDatatables.js" defer></script>
+
+    <select id="userslist">
+        <option value="" selected="selected">Select user:</option>
+        <option th:each="user : ${users}"
+                th:value="${user.id}"
+                th:text="${user.name}">
+        </option>
+    </select>
 
 </div>
 </body>

@@ -39,6 +39,10 @@ $(function () {
             "url": ajaxUrl,
             "dataSrc": ""
         },
+        // Disable initial automatic ajax call
+        // "serverSide": true,
+        // "deferLoading": 0,
+
         "autoWidth": false,
         "paging": true,
         "info": true,

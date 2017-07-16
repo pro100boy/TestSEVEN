@@ -1,7 +1,6 @@
 package com.seven.test.controller;
 
 import com.seven.test.model.User;
-import com.seven.test.service.CompanyService;
 import com.seven.test.service.ReportService;
 import com.seven.test.service.UserService;
 import com.seven.test.util.Patterns;
@@ -20,7 +19,7 @@ public class LoginController {
     private UserService userService;
 
     @Autowired
-    private CompanyService companyService;
+    private CompanyController companyController;
 
     @Autowired
     private ReportService reportService;
@@ -36,8 +35,8 @@ public class LoginController {
         User user = userService.findByEmail(auth.getName());
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
         //model.addAttribute("users", userService.getAll());
-        model.addAttribute("reports", reportService.getAll());
-        //model.addAttribute("companies", companyService.getAll());
+        //model.addAttribute("reports", reportService.getAll());
+        model.addAttribute("companies", companyController.getCompanies());
 
         // for modal forms
         model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);
