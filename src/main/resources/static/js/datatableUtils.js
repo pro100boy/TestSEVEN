@@ -105,7 +105,7 @@ function updateRow(id) {
         modalForm.modal();
     });
     // TODO разобраться
-    //getCompanies($('#dropOperator'));
+    getCompanies($('#dropOperator'));
 }
 
 function myValidate(frmDetails) {
@@ -113,7 +113,7 @@ function myValidate(frmDetails) {
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
     // TODO разобраться
-    //getCompanies($('#dropOperator'));
+    getCompanies($('#dropOperator'));
 }
 
 function renderEditBtn(data, type, row) {

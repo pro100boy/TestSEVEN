@@ -85,12 +85,12 @@
 
                     <div class="form-group blu-margin has-feedback">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <select class="form-control" id="dropOperator" data-error="Select a company" required>
+                            <select class="form-control" id="dropOperator" th:value="${company}" name = "company" data-error="Select a company" required>
                                 <option value="" selected="selected">Select company:</option>
-                                <option th:each="company : ${companies}"
+                                <!--<option th:each="company : ${companies}"
                                         th:value="${company.id}"
                                         th:text="${company.name}">
-                                </option>
+                                </option>-->
                                 <!--<script>getCompanies($('#dropOperator'));</script>-->
                             </select>
                             <span class='help-block with-errors'></span>
