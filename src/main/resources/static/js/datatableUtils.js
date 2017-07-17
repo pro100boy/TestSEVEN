@@ -37,7 +37,7 @@ function makeEditable() {
 }
 
 // TODO передавать нужные параметры в параметрах функций
-function save(frmDetails, modalForm, successmsg, errormsg, datatableApi) {
+function save(frmDetails, modalForm, successmsg, datatableApi) {
     var validator = frmDetails.data('bs.validator');
 
     validator.reset();
@@ -61,12 +61,35 @@ function save(frmDetails, modalForm, successmsg, errormsg, datatableApi) {
                 });
             },
             error: function (jqXHR, textStatus, thrownError) {
+                // doing SUBSTRING instead of REPLACE becouse due to <br/> doesn't change last quotes
+                var l = jqXHR.responseText.length - 1;
+                var msg = jqXHR.responseText.substring(1, l);
                 bootbox.alert({
-                    message: ('Возникла ошибка: ' + jqXHR.responseText),
+                    message: (msg),
                     size: 'small'
                 });
             }
         });
+    }
+}
+
+function formatErrorMessage(jqXHR, thrownError) {
+    if (jqXHR.status === 0) {
+        return ('Not connected.\nPlease verify your network connection.');
+    } else if (jqXHR.status == 404) {
+        return ('The requested page not found. [404]');
+    } else if (jqXHR.status == 500) {
+        return ('Internal Server Error [500].');
+    } else if (thrownError === 'parsererror') {
+        return ('Requested JSON parse failed.');
+    } else if (thrownError === 'timeout') {
+        return ('Time out error.');
+    } else if (thrownError === 'abort') {
+        return ('Ajax request aborted.');
+    } else if (thrownError === 'error') {
+        return ('Error occurred.');
+    } else {
+        return ('Uncaught Error.<br/>' + jqXHR.responseText);
     }
 }
 

@@ -3,7 +3,6 @@ var datatableApiUsers;
 $(function () {
     var ajaxUrl = 'users/';
     var successmsg = 'User successfully saved';
-    var errormsg = 'An user with such email is already registered in the app!!';
 
     datatableApiUsers = $('#userTable').DataTable({
         "columns": [
@@ -58,7 +57,7 @@ $(function () {
 
     frmDetailsArr[0].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetailsArr[0], modalFormArr[0], successmsg, errormsg, datatableApiUsers);
+        save(frmDetailsArr[0], modalFormArr[0], successmsg, datatableApiUsers);
     });
 });
 
