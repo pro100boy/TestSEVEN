@@ -62,7 +62,7 @@ function save(frmDetails, modalForm, successmsg, errormsg, datatableApi) {
             },
             error: function (xhr, str) {
                 bootbox.alert({
-                    message: errormsg,
+                    message: ('Возникла ошибка: ' + xhr.responseText),
                     size: 'small'
                 });
             }
