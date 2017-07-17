@@ -25,7 +25,7 @@ public class UserController {
     public ResponseEntity<?> updateOrCreate(@Valid User user, BindingResult bindingResult) {
         try {
             if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
-                userService.save(null);
+                userService.save(user);
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } else return new ResponseEntity<>("Binding error!", HttpStatus.BAD_REQUEST);
         } catch (Exception ex)
