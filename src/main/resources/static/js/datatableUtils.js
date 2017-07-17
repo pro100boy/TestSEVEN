@@ -60,9 +60,9 @@ function save(frmDetails, modalForm, successmsg, errormsg, datatableApi) {
                     }
                 });
             },
-            error: function (xhr, str) {
+            error: function (jqXHR, textStatus, thrownError) {
                 bootbox.alert({
-                    message: ('Возникла ошибка: ' + xhr.responseText),
+                    message: ('Возникла ошибка: ' + jqXHR.responseText),
                     size: 'small'
                 });
             }
