@@ -30,7 +30,7 @@
         <nekohtml.version>1.9.22</nekohtml.version>
         <thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
         <!--hibernate-->
-        <hibernate-core.version>5.2.10.Final</hibernate-core.version>
+        <hibernate.version>5.2.10.Final</hibernate.version>
         <hibernate-commons.version>5.0.1.Final</hibernate-commons.version>
         <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
         <jsoup.version>1.10.3</jsoup.version>
@@ -46,19 +46,9 @@
     <dependencies>
         <!--hibernate-->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate-core.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate.common</groupId>
             <artifactId>hibernate-commons-annotations</artifactId>
             <version>${hibernate-commons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate-validator.version}</version>
         </dependency>
         <!--need to validator's @SafeHtml correct work-->
          <dependency>
@@ -144,6 +134,13 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <!--entitymanager is deprecated. hibernate-core instead of-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-entitymanager</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -185,11 +182,11 @@
             <version>${thymeleaf-extras-java8time.version}</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>${thymeleaf.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>org.thymeleaf</groupId>

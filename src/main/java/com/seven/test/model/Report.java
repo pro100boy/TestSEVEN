@@ -1,6 +1,5 @@
 package com.seven.test.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seven.test.util.DateTimeUtil;
 import lombok.AllArgsConstructor;
