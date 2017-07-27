@@ -67,7 +67,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:/locale/messages");
         messageSource.setCacheSeconds(60);
-        messageSource.setDefaultEncoding("windows-1251"); // UTF-8 doesn't show cyrillic
+        messageSource.setDefaultEncoding("UTF-8");
         messageSource.setFallbackToSystemLocale(false);
         return messageSource;
     }

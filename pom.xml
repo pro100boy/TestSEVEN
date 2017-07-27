@@ -11,6 +11,19 @@
     <name>test7</name>
     <description>Test project for SEVEN</description>
 
+    <developers>
+        <developer>
+            <id>GPG</id>
+            <name>Galushkin Paul</name>
+            <email>galushkinpaul at gmail.com</email>
+            <organization>Yuzhnoye SDO</organization>
+            <organizationUrl>http://www.yuzhnoye.com</organizationUrl>
+            <roles>
+                <role>Project developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -41,6 +54,8 @@
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <!--lombok-->
         <lombok.version>1.16.16</lombok.version>
+        <!--LOG-->
+        <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencies>
@@ -158,6 +173,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin.external.google</groupId>
+                    <artifactId>android-json</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -221,6 +242,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+                <configuration>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>
