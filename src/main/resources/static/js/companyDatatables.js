@@ -2,10 +2,9 @@ var datatableApiCmp;
 
 $(function () {
     var ajaxUrl = 'companies/';
-    var modalForm = modalFormArr[1];
-    var frmDetails = frmDetailsArr[1];
     var successmsg = 'Company successfully saved';
-    var errormsg = 'A company with such name and email is already registered in the app!!';
+
+    // var errormsg = 'A company with such name and email is already registered in the app!!';
 
     datatableApiCmp = $('#companyTable').DataTable({
         "columns": [
@@ -39,9 +38,6 @@ $(function () {
             "url": ajaxUrl,
             "dataSrc": ""
         },
-        // Disable initial automatic ajax call
-        // "serverSide": true,
-        // "deferLoading": 0,
 
         "autoWidth": false,
         "paging": true,
@@ -53,8 +49,8 @@ $(function () {
         ]
     });
 
-    frmDetails.validator().on('submit', function (e) {
+    frmDetailsArr[1].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetails, modalForm, ajaxUrl, successmsg, errormsg);
+        save(frmDetailsArr[1], modalFormArr[1], successmsg, datatableApiUsers);
     });
 });

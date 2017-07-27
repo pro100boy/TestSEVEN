@@ -77,11 +77,11 @@ server:
 # ===============================
 logging:
   config: classpath:logback.xml
-  #level:
+  level:
     #show sql statement
-    #org.hibernate.SQL: debug
+    org.hibernate.SQL: debug
     #show sql values
-    #org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
 # ===============================
 # = Email configurations
 # ===============================

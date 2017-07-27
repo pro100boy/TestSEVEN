@@ -16,12 +16,6 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
     @Query("DELETE FROM Report r WHERE r.id=:id AND r.company.id = :companyId")
     int delete(@Param("id") int id, @Param("companyId") int companyId);
 
-    @Override
-    Report save(Report report);
-
-    @Override
-    Report findOne(Integer id);
-
     List<Report> findAllByOrderByDateDesc();
 
     @Query("SELECT r FROM Report r WHERE r.company.id = ?1 ORDER BY r.date DESC")

@@ -10,12 +10,19 @@
             <span th:utext="${userName}"></span>
         </h4>
 
+<!--    на будущее
+        <span th:text="#{lang.change}"></span>:
+        <select id="locales">
+            <option value=""></option>
+            <option value="en" th:text="#{lang.eng}"></option>
+            <option value="fr" th:text="#{lang.fr}"></option>
+        </select>-->
+
         <div class="dropdown pull-right" style="padding-top: 7.5px">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></a>
 
             <ul class="dropdown-menu" role="menu">
-                <li><a href="#">New company</a></li>
-                <!-- TODO сделать отдельной функцией очистку форм. Потом вызывать с каждой-->
+                <li><a href="#" data-toggle="modal" data-target="#editCompany" onclick="myValidate(frmDetailsArr[1])">New company</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#editUser" onclick="myValidate(frmDetailsArr[0])">New user</a></li>
                 <li class="divider"></li>
                 <li><a href="/logout">Log out</a></li>

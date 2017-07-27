@@ -1,6 +1,13 @@
 var datatableApiUsers;
 
 $(function () {
+    // на будущее
+    /*$("#locales").change(function () {
+        var selectedOption = $('#locales').val();
+        if (selectedOption != ''){
+            window.location.replace('international?lang=' + selectedOption);
+        }
+    });*/
     var ajaxUrl = 'users/';
     var successmsg = 'User successfully saved';
 

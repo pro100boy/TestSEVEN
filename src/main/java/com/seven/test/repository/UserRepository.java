@@ -17,17 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("DELETE FROM User u WHERE u.id=:id")
     int delete(@Param("id") int id);
 
-    @Override
-    User save(User user);
-
-    @Override
-    User findOne(Integer id);
-
     @Query("SELECT u FROM User u JOIN FETCH u.company")
     List<User> findAllWithParams();
-
-    @Override
-    List<User> findAll();
 
     // null if not found
     User findByEmail(String email);

@@ -61,7 +61,7 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
                 });
             },
             error: function (jqXHR, textStatus, thrownError) {
-                // doing SUBSTRING instead of REPLACE becouse due to <br/> doesn't change last quotes
+                // doing SUBSTRING instead of REPLACE because last quotes doesn't change due to <br/>
                 var l = jqXHR.responseText.length - 1;
                 var msg = jqXHR.responseText.substring(1, l);
                 bootbox.alert({
@@ -127,16 +127,18 @@ function updateRow(id) {
         });
         modalForm.modal();
     });
-    // TODO разобраться
-    getCompanies($('#dropOperator'));
+
+    if (frmDetails == frmDetailsArr[0])
+        getCompanies($('#dropOperator'));
 }
 
 function myValidate(frmDetails) {
     frmDetails.find(':input').val('');
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
-    // TODO разобраться
-    getCompanies($('#dropOperator'));
+
+    if (frmDetails == frmDetailsArr[0])
+        getCompanies($('#dropOperator'));
 }
 
 function renderEditBtn(data, type, row) {
