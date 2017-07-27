@@ -1,0 +1,97 @@
+spring:
+  application:
+    name: "SEVEN"
+
+  mandatory-file-encoding: utf-8
+
+  # ===============================
+  # = DATA SOURCE
+  # ===============================
+  datasource:
+    url: jdbc:mysql://localhost:3306/sevendb?useSSL=false
+
+    platform: mysql
+    schema: classpath:/db/schema-mysql.sql
+    data: classpath:/db/data-mysql.sql
+    # set to false after 1st run
+    initialize: true
+    username: root
+    password: root
+    tomcat:
+      test-while-idle: true
+      validationQuery: SELECT 1
+      # Maximum number of active connections that can be allocated from this pool at the same time.
+      max-active: 10
+      min-idle: 2
+      # Number of ms to wait before throwing an exception if no connection is available.
+      max-wait: 20000
+      max-idle: 5
+      initial-size: 5
+      # Validate the connection before borrowing it from the pool.
+      test-on-borrow: true
+      remove-abandoned: true
+      test-on-connect: true
+
+  # ===============================
+  # = JPA / HIBERNATE
+  # ===============================
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      hbm2ddl:
+        auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+  # ===============================
+  # = Thymeleaf configurations
+  # ===============================
+  thymeleaf:
+    mode: HTML
+    cache: false
+    prefix: classpath:/templates/
+
+  # ===============================
+  # = HTTP/HTTPS
+  # ===============================
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+
+# ===============================
+# = Tomcat
+# ===============================
+server:
+  port: 8888
+  tomcat:
+    uri-encoding: UTF-8
+
+# ===============================
+# = LOG
+# ===============================
+logging:
+  config: classpath:logback.xml
+  #level:
+    #show sql statement
+    #org.hibernate.SQL: debug
+    #show sql values
+    #org.hibernate.type.descriptor.sql.BasicBinder: trace
+# ===============================
+# = Email configurations
+# ===============================
+# Email (MailProperties)
+# spring.mail.default-encoding=UTF-8 # Default MimeMessage encoding.
+# spring.mail.host= # SMTP server host. For instance `smtp.example.com`
+# spring.mail.jndi-name= # Session JNDI name. When set, takes precedence to others mail settings.
+# spring.mail.password= # Login password of the SMTP server.
+# spring.mail.port= # SMTP server port.
+# spring.mail.properties.*= # Additional JavaMail session properties.
+# spring.mail.protocol=smtp # Protocol used by the SMTP server.
+# spring.mail.test-connection=false # Test that the mail server is available on startup.
+# spring.mail.username= # Login user of the SMTP server.
