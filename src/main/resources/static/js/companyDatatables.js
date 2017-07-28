@@ -51,6 +51,6 @@ $(function () {
 
     frmDetailsArr[1].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetailsArr[1], modalFormArr[1], successmsg, datatableApiUsers);
+        save(frmDetailsArr[1], modalFormArr[1], successmsg, datatableApiCmp);
     });
 });
