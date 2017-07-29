@@ -19,6 +19,7 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    //TODO проверить
     @PreAuthorize("!hasAuthority('ADMIN')")
     @PostMapping
     public void updateOrCreate(@Valid Report report, BindingResult bindingResult) {
@@ -26,7 +27,7 @@ public class ReportController {
             //reportService.save(report);
         } else throw new ValidationException();
     }
-
+    //TODO проверить
     @PreAuthorize("!hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {

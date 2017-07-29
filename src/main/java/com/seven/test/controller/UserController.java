@@ -25,7 +25,7 @@ public class UserController {
                 userService.save(user);
             } else throw new ValidationException();
     }
-
+    //TODO проверить и в jquery проверить, почему строка исчезает, а админ не может удалить
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
