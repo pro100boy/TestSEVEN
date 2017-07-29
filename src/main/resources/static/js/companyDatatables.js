@@ -6,7 +6,7 @@ $(function () {
 
     // var errormsg = 'A company with such name and email is already registered in the app!!';
 
-    datatableApiCmp = $('#companyTable').DataTable({
+    datatableApiCmp = $('#companyTable').DataTable(extendsOpts(ajaxUrl, {
         "columns": [
             {
                 "data": "name"
@@ -34,20 +34,12 @@ $(function () {
                 "render": renderDeleteBtn
             }
         ],
-        "ajax": {
-            "url": ajaxUrl,
-            "dataSrc": ""
-        },
-
-        "autoWidth": false,
-        "paging": true,
-        "info": true,
         "columnDefs": [
             {"orderable": false, "targets": [2, 3, 4]}
             , {"width": "20%", "targets": [0, 1]}
             , {"width": "5%", "targets": [3, 4]}
         ]
-    });
+    }));
 
     frmDetailsArr[1].validator().on('submit', function (e) {
         e.preventDefault();

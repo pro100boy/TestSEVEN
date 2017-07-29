@@ -1,7 +1,7 @@
 package com.seven.test.controller;
 
-import com.seven.test.model.Company;
-import com.seven.test.service.CompanyService;
+import com.seven.test.model.Report;
+import com.seven.test.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -12,31 +12,32 @@ import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class CompanyController {
+@RequestMapping(value = "/reports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+public class ReportController {
+
     @Autowired
-    private CompanyService companyService;
+    private ReportService reportService;
 
     @PostMapping
-    public void updateOrCreate(@Valid Company company, BindingResult bindingResult) {
+    public void updateOrCreate(@Valid Report report, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            companyService.save(company);
+            //reportService.save(report);
         } else throw new ValidationException();
     }
 
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
-        companyService.delete(id);
+        //reportService.delete(id);
         return String.valueOf(id);
     }
 
     @GetMapping(value = "/{id}")
-    public Company getCompany(@PathVariable("id") Integer id) {
-        return companyService.get(id);
+    public Report getCompany(@PathVariable("id") Integer id) {
+        return null;//reportService.get(id);
     }
 
     @GetMapping
-    public List<Company> getCompanies() {
-        return companyService.getAll();
+    public List<Report> getCompanies() {
+        return reportService.getAll();
     }
 }

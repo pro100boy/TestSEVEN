@@ -1,4 +1,4 @@
-package com.seven.test.controller;
+package com.seven.test.util.exception;
 
 import com.seven.test.util.ValidationUtil;
 import org.springframework.beans.factory.annotation.Autowired;

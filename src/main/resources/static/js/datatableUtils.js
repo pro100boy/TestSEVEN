@@ -23,6 +23,26 @@ jQuery.each(["put", "delete"], function (i, method) {
     };
 });
 
+// https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
+function extendsOpts(ajaxUrl, opts) {
+    $.extend(true, opts,
+        {
+            "ajax": {
+                "url": ajaxUrl,
+                "dataSrc": ""
+            },
+            "autoWidth": false,
+            "paging": true,
+            "info": true
+        }
+    );
+    return opts;
+}
+
+function formatDate(date) {
+    return date.replace('T', ' ').substr(0, 16);
+}
+
 function makeEditable() {
     //form = $('#detailsForm');
     // $(document).ajaxError(function (event, jqXHR, options, jsExc) {
@@ -100,7 +120,7 @@ function updateRow(id) {
     var modalForm;
     switch (currentTableId){
         case 'userTable':
-            ajaxUrl = datatableApiUsers.ajax.url();
+            ajaxUrl = datatableApiReport.ajax.url();
             frmDetails = frmDetailsArr[0];
             modalForm = modalFormArr[0];
             break;
@@ -159,10 +179,9 @@ function deleteRow(id) {
     var currentTableId = $("#rowid" + id).closest("table").attr("id");
     var ajaxUrl;
     switch (currentTableId){
-        case 'userTable': ajaxUrl = datatableApiUsers.ajax.url(); break;
+        case 'userTable': ajaxUrl = datatableApiReport.ajax.url(); break;
         case 'companyTable': ajaxUrl = datatableApiCmp.ajax.url(); break;
-        // TODO доделать
-        //case 'reportTable': ajaxUrl = datatableApiRep.ajax.url(); break;
+        case 'reportTable': ajaxUrl = datatableApiReport.ajax.url(); break;
     }
 
     var currentRow = $("#rowid" + id).closest("tr");
@@ -195,9 +214,9 @@ function deleteRow(id) {
                                 $("#rowid" + data).closest("tr").remove();
                             });
                             if (currentTableId === 'companyTable') {
-                                // TODO удаляем связанных с компанией юзеров и отчеты
+                                // удаляем связанных с компанией юзеров и отчеты
                                 datatableApiUsers.ajax.reload();
-                                //datatableApiRep.ajax.reload();
+                                datatableApiReport.ajax.reload();
                             }
                         }
                     })

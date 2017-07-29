@@ -1,41 +1,32 @@
-var datatableApiUsers;
+var datatableApiReport;
 
 $(function () {
-    // на будущее
-    /*$("#locales").change(function () {
-        var selectedOption = $('#locales').val();
-        if (selectedOption != ''){
-            window.location.replace('international?lang=' + selectedOption);
-        }
-    });*/
-    var ajaxUrl = 'users/';
-    var successmsg = 'User successfully saved';
+    var ajaxUrl = 'reports/';
+    var successmsg = 'Report successfully saved';
 
-    datatableApiUsers = $('#userTable').DataTable(extendsOpts(ajaxUrl, {
+    datatableApiReport = $('#reportTable').DataTable(extendsOpts(ajaxUrl, {
         "columns": [
-            {
-                "data": "lastname"
-            },
             {
                 "data": "name"
             },
             {
-                "data": "email",
-                "render": function (data, type, row) {
+                "data": "date",
+                "render": function (date, type, row) {
                     if (type == 'display') {
-                        return '<a href="mailto:' + data + '">' + data + '</a>';
+                        return formatDate(date);
                     }
-                    return data;
+                    return date;
                 }
             },
             {
-                "data": "phone"
-            },
-            {
-                "data": "company.name"
-            },
-            {
-                "data": "roles[].role"
+                "data": "data",
+                "render": function (data, type, row) {
+                    if (type == 'display') {
+                        //return '<a href="mailto:' + data + '">' + data + '</a>';
+                        return data.substring(0, 30);
+                    }
+                    return data;
+                }
             },
             {
                 "orderable": false,
@@ -49,15 +40,17 @@ $(function () {
             }
         ],
         "columnDefs": [
-            {"orderable": false, "targets": [2, 3, 4, 5, 6, 7]}
-            , {"width": "15%", "targets": [0, 1, 2]}
-            , {"width": "5%", "targets": [6, 7]}
+            {"orderable": false, "targets": [2, 3, 4]}
+            , {"width": "10%", "targets": 0}
+            , {"width": "15%", "targets": 1}
+            , {"width": "30%", "targets": 2}
+            , {"width": "5%", "targets": [3,4]}
         ]
     }));
 
-    frmDetailsArr[0].validator().on('submit', function (e) {
+    frmDetailsArr[2].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetailsArr[0], modalFormArr[0], successmsg, datatableApiUsers);
+        save(frmDetailsArr[2], modalFormArr[2], successmsg, datatableApiReport);
     });
 });
 
@@ -87,3 +80,4 @@ function getCompanies(elem) {
      });
      });*/
 }
+
