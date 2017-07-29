@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @RestController
@@ -24,25 +25,8 @@ public class CompanyController {
     public void updateOrCreate(@Valid Company company, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             companyService.save(company);
-        }
+        } else throw new ValidationException();
     }
-
-/*    @PostMapping
-    public ResponseEntity<?> updateOrCreate(@Valid CompanyTo company, BindingResult bindingResult) {
-        try {
-            if (!bindingResult.hasErrors()) {
-                System.out.println(company);
-                return new ResponseEntity<>(company, HttpStatus.OK);
-            } else return new ResponseEntity<>("Binding error!", HttpStatus.BAD_REQUEST);
-        }catch (DataIntegrityViolationException e)
-        {
-            return new ResponseEntity<>(messageSource.getMessage("exception.users.duplicate_email", null, LocaleContextHolder.getLocale()), HttpStatus.BAD_REQUEST);
-        }
-        catch (Exception ex)
-        {
-            return new ResponseEntity<>(ValidationUtil.getRootCause(ex).getLocalizedMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }*/
 
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
