@@ -90,7 +90,7 @@
         <p class="text-center" th:utext="${message}"></p>
     </th:block>
 
-    <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
+    <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}" var="isUser">
         <p class="text-center">Non admin message</p>
     </th:block>
 

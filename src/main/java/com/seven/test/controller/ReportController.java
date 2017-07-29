@@ -4,6 +4,7 @@ import com.seven.test.model.Report;
 import com.seven.test.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    @PreAuthorize("!hasAuthority('ADMIN')")
     @PostMapping
     public void updateOrCreate(@Valid Report report, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -25,6 +27,7 @@ public class ReportController {
         } else throw new ValidationException();
     }
 
+    @PreAuthorize("!hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
         //reportService.delete(id);
