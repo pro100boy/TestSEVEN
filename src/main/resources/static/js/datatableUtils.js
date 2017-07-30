@@ -1,29 +1,8 @@
 var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp'), $('#detailsFormRep')];
 var modalFormArr = [$('#editUser'), $('#editCompany'), $('#editReport')];
 
-/* ============================================================ */
-/* http://stepansuvorov.com/blog/2014/04/jquery-put-and-delete  */
-/* provide PUT/DELETE ability via jQuery                        */
-/* ============================================================ */
-jQuery.each(["put", "delete"], function (i, method) {
-    jQuery[method] = function (url, data, callback, type) {
-        if (jQuery.isFunction(data)) {
-            type = type || callback;
-            callback = data;
-            data = undefined;
-        }
-
-        return jQuery.ajax({
-            url: url,
-            type: method,
-            dataType: type,
-            data: data,
-            success: callback
-        });
-    };
-});
-
 // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
+// common options for datatables
 function extendsOpts(ajaxUrl, opts) {
     $.extend(true, opts,
         {
@@ -69,8 +48,9 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
         $.ajax({
             type: "POST",
             url: datatableApi.ajax.url(),
-            data: frmDetails.serialize(),
-            success: function (data) {
+            data: frmDetails.serialize()
+        })
+            .done(function (data, textStatus, jqXHR) {
                 modalForm.modal('hide');
                 bootbox.alert({
                     message: successmsg,
@@ -78,38 +58,11 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
                     callback: function () {
                         datatableApi.ajax.reload();
                     }
-                });
-            },
-            error: function (jqXHR, textStatus, thrownError) {
-                // doing SUBSTRING instead of REPLACE because last quotes doesn't change due to <br/>
-                var l = jqXHR.responseText.length - 1;
-                var msg = jqXHR.responseText.substring(1, l);
-                bootbox.alert({
-                    message: (msg),
-                    size: 'small'
-                });
-            }
-        });
-    }
-}
-
-function formatErrorMessage(jqXHR, thrownError) {
-    if (jqXHR.status === 0) {
-        return ('Not connected.\nPlease verify your network connection.');
-    } else if (jqXHR.status == 404) {
-        return ('The requested page not found. [404]');
-    } else if (jqXHR.status == 500) {
-        return ('Internal Server Error [500].');
-    } else if (thrownError === 'parsererror') {
-        return ('Requested JSON parse failed.');
-    } else if (thrownError === 'timeout') {
-        return ('Time out error.');
-    } else if (thrownError === 'abort') {
-        return ('Ajax request aborted.');
-    } else if (thrownError === 'error') {
-        return ('Error occurred.');
-    } else {
-        return ('Uncaught Error.<br/>' + jqXHR.responseText);
+                })
+            })
+            .fail(function (jqXHR, textStatus, thrownError) {
+                showErrorMessage(jqXHR);
+            })
     }
 }
 
@@ -118,9 +71,9 @@ function updateRow(id) {
     var frmDetails;
     var ajaxUrl;
     var modalForm;
-    switch (currentTableId){
+    switch (currentTableId) {
         case 'userTable':
-            ajaxUrl = datatableApiReport.ajax.url();
+            ajaxUrl = datatableApiUsers.ajax.url();
             frmDetails = frmDetailsArr[0];
             modalForm = modalFormArr[0];
             break;
@@ -130,7 +83,8 @@ function updateRow(id) {
             modalForm = modalFormArr[1];
             break;
         //TODO доделать
-        case 'reportTable': /*ajaxUrl = datatableApiRep.ajax.url();*/ break;
+        case 'reportTable': /*ajaxUrl = datatableApiRep.ajax.url();*/
+            break;
     }
 
     frmDetails[0].reset();
@@ -178,10 +132,16 @@ function renderDeleteBtn(data, type, row) {
 function deleteRow(id) {
     var currentTableId = $("#rowid" + id).closest("table").attr("id");
     var ajaxUrl;
-    switch (currentTableId){
-        case 'userTable': ajaxUrl = datatableApiReport.ajax.url(); break;
-        case 'companyTable': ajaxUrl = datatableApiCmp.ajax.url(); break;
-        case 'reportTable': ajaxUrl = datatableApiReport.ajax.url(); break;
+    switch (currentTableId) {
+        case 'userTable':
+            ajaxUrl = datatableApiUsers.ajax.url();
+            break;
+        case 'companyTable':
+            ajaxUrl = datatableApiCmp.ajax.url();
+            break;
+        case 'reportTable':
+            ajaxUrl = datatableApiReport.ajax.url();
+            break;
     }
 
     var currentRow = $("#rowid" + id).closest("tr");
@@ -208,26 +168,37 @@ function deleteRow(id) {
 
                     $.ajax({
                         type: 'DELETE',
-                        url: ajaxUrl + id,
-                        success: function (data) {
-                            $("#rowid" + data).closest("tr").fadeOut(1000, function () {
+                        url: ajaxUrl + id
+                    })
+                        .done(function (data, textStatus, jqXHR) {
+                            $("#rowid" + data).closest("tr").fadeOut("slow", function () {
                                 $("#rowid" + data).closest("tr").remove();
                             });
                             if (currentTableId === 'companyTable') {
-                                // удаляем связанных с компанией юзеров и отчеты
+                                // связанные с компанией юзеры и отчеты удалились автоматически. Перегружаем
                                 datatableApiUsers.ajax.reload();
                                 datatableApiReport.ajax.reload();
                             }
-                        }
-                    })
-                        .done(function (response) {
-                            bootbox.alert('Item has been deleted successfully...');
+                            bootbox.alert({
+                                message: 'Item has been deleted successfully',
+                                size: 'small'
+                            })
                         })
-                        .fail(function () {
-                            bootbox.alert('Oops... Something Went Wrong ....');
+                        .fail(function (jqXHR, textStatus, thrownError) {
+                            showErrorMessage(jqXHR);
                         })
                 }
             }
         }
     });
+}
+
+function showErrorMessage(jqXHR) {
+    // doing SUBSTRING instead of REPLACE because last quotes doesn't change due to <br/>
+    var l = jqXHR.responseText.length - 1;
+    var msg = jqXHR.responseText.substring(1, l);
+    bootbox.alert({
+        message: (msg),
+        size: 'small'
+    })
 }
