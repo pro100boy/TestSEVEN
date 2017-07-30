@@ -35,7 +35,6 @@ function makeEditable() {
     // });
 }
 
-// TODO передавать нужные параметры в параметрах функций
 function save(frmDetails, modalForm, successmsg, datatableApi) {
     var validator = frmDetails.data('bs.validator');
 
@@ -66,6 +65,7 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
     }
 }
 
+// заполняем поля в модальной форме при редактировании 
 function updateRow(id) {
     var currentTableId = $("#rowid" + id).closest("table").attr("id");
     var frmDetails;
@@ -111,6 +111,7 @@ function myValidate(frmDetails) {
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
 
+    // если редактируем юзера, то подгружаем ему список компаний
     if (frmDetails == frmDetailsArr[0])
         getCompanies($('#dropOperator'));
 }
@@ -198,7 +199,7 @@ function showErrorMessage(jqXHR) {
     var l = jqXHR.responseText.length - 1;
     var msg = jqXHR.responseText.substring(1, l);
     bootbox.alert({
-        message: (msg),
+        message: msg,
         size: 'small'
     })
 }

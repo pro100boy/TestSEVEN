@@ -2,10 +2,10 @@ package com.seven.test.service;
 
 import com.seven.test.model.Role;
 import com.seven.test.model.User;
-import com.seven.test.repository.RoleRepository;
 import com.seven.test.repository.UserRepository;
-import com.seven.test.util.PasswordUtil;
+import com.seven.test.to.UserTo;
 import com.seven.test.util.exception.NotFoundException;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,31 +14,34 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static com.seven.test.util.ValidationUtil.checkNotFoundWithId;
+import static com.seven.test.util.UserUtil.prepareToSave;
+import static com.seven.test.util.UserUtil.updateFromTo;
+import static com.seven.test.util.ValidationUtil.*;
 
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    @Override
+    @Transactional
+    public User save(@NonNull User user) {
+        checkNew(user);
+        return repository.save(prepareToSave(user));
+    }
 
     @Override
     @Transactional
-    public User save(User user) {
-        Assert.notNull(user, "user must not be null");
-        user.setPassword(PasswordUtil.encode(user.getPassword()));
-        user.setEmail(user.getEmail().toLowerCase());
-
-        // setup default lowest role
-        Role userRole = roleRepository.findByRole("COMPANY_EMPLOYER");
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
-        return repository.save(user);
+    public void update(UserTo userTo, int id) {
+        checkIdConsistent(userTo, id);
+        User user = updateFromTo(get(id), userTo);
+        repository.save(prepareToSave(user));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.seven.test.controller;
 
 import com.seven.test.model.User;
 import com.seven.test.service.UserService;
+import com.seven.test.to.UserTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import javax.validation.ValidationException;
 import java.util.List;
 import java.util.Objects;
 
+import static com.seven.test.util.UserUtil.createNewFromTo;
+
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
@@ -19,9 +22,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public void updateOrCreate(@Valid User user, BindingResult bindingResult) {
-            if (!bindingResult.hasErrors() && !Objects.isNull(user.getCompany())) {
-                userService.save(user);
+    public void updateOrCreate(@Valid UserTo userTo, BindingResult bindingResult) {
+            if (!bindingResult.hasErrors() && !Objects.isNull(userTo.getCompany())) {
+                if (userTo.isNew()) {
+                    userService.save(createNewFromTo(userTo));
+                } else {
+                    userService.update(userTo, userTo.getId());
+                }
             } else throw new ValidationException();
     }
 

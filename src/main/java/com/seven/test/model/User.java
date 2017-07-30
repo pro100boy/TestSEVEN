@@ -1,12 +1,10 @@
 package com.seven.test.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -17,12 +15,12 @@ import org.springframework.util.CollectionUtils;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(exclude = "roles", callSuper = true)
+@ToString(exclude = "password", callSuper = true)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
@@ -40,7 +38,6 @@ public class User extends NamedEntity {
     private String email;
 
     @Column(name = "password", nullable = false)
-
     // https://security.stackexchange.com/a/39851
     // do not bound max length of the password
     @Length(min = 5, message = "*Password must be at least 5 characters")
@@ -72,19 +69,5 @@ public class User extends NamedEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User (" +
-                "id=" + getId() +
-                ", firstname='" + name + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                //", company ='" + getCompany().getName() + '\'' +
-                //", password='" + password + '\'' +
-                ", roles=" + roles.stream().map(Role::getRole).collect(Collectors.joining(", ")) +
-                ", phone='" + phone + '\'' +
-                '}';
     }
 }

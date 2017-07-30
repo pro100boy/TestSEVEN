@@ -16,5 +16,5 @@ public interface CompanyService {
 
     List<Company> getAll();
 
-    void update(Company company);
+    void update(Company company, int id);
 }

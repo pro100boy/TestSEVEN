@@ -20,7 +20,11 @@ public class CompanyController {
     @PostMapping
     public void updateOrCreate(@Valid Company company, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            companyService.save(company);
+            if (company.isNew()) {
+                companyService.save(company);
+            } else {
+                companyService.update(company, company.getId());
+            }
         } else throw new ValidationException();
     }
 
