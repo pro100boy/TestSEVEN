@@ -35,12 +35,12 @@ public class ReportController {
     }
 
     @GetMapping(value = "/{id}")
-    public Report getCompany(@PathVariable("id") Integer id) {
-        return null;//reportService.get(id);
+    public Report getReport(@PathVariable("id") Integer id) {
+        return reportService.get(id, 0);
     }
 
     @GetMapping
-    public List<Report> getCompanies() {
+    public List<Report> getReports() {
         return reportService.getAll();
     }
 }

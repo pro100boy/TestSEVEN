@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <!--<form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post"
                       class="form-horizontal" role="form" data-toggle="validator" id="detailsForm">-->
-                <form autocomplete="off" action="#" th:object="${user}"
+                <form autocomplete="off" action="#"
                       class="form-horizontal" role="form" data-toggle="validator" id="detailsFormUser">
 
                     <input type="hidden" id="id" name="id"/>
@@ -20,7 +20,7 @@
                         <label for="name" class="control-label col-xs-3">First name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" th:value="${name}" placeholder="First name" id="name" name="name"
+                            <input type="text" placeholder="First name" id="name" name="name"
                                    class="form-control" data-minlength="3" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block">Minimum of 3 characters</div>
@@ -31,7 +31,7 @@
                         <label for="lname" class="control-label col-xs-3">Last name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" th:value="${lastname}" placeholder="Last name" id="lname"
+                            <input type="text" placeholder="Last name" id="lname"
                                    name="lastname"
                                    class="form-control" data-minlength="3" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -43,7 +43,7 @@
                         <label for="email" class="control-label col-xs-3">Email</label>
 
                         <div class="col-xs-9">
-                            <input type="text" th:value="${email}" placeholder="Email" id="email" name="email"
+                            <input type="text" placeholder="Email" id="email" name="email"
                                    class="form-control" th:pattern="${emailpattern}"
                                    data-error="***Please provide a valid Email" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -55,7 +55,7 @@
                         <label for="inputPassword" class="control-label col-xs-3">Password</label>
 
                         <div class="col-xs-9">
-                            <input type="password" th:value="${password}" id="inputPassword" name="password"
+                            <input type="password" id="inputPassword" name="password"
                                    placeholder="Password" th:pattern="${passwdpattern}"
                                    class="form-control" data-minlength="5" maxlength="15" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -74,7 +74,7 @@
                         <label for="phone" class="control-label col-xs-3">Phone</label>
 
                         <div class="col-xs-9">
-                            <input type="text" th:value="${phone}" placeholder="Phone: +1234567" id="phone"
+                            <input type="text" placeholder="Phone: +1234567" id="phone"
                                    name="phone"
                                    data-minlength="5"
                                    class="form-control" th:pattern="${phonepattern}" required/>
@@ -85,15 +85,10 @@
 
                     <div class="form-group blu-margin has-feedback">
                         <div class="col-xs-offset-3 col-xs-9">
-                            <select class="form-control" id="dropOperator" th:value="${company}" name = "company" data-error="Select a company" required>
-                                <option value="" selected="selected">Select company:</option>
-                                <!--<option th:each="company : ${companies}"
-                                        th:value="${company.id}"
-                                        th:text="${company.name}">
-                                </option>-->
-                                <!--<script>getCompanies($('#dropOperator'));</script>-->
+                            <select class="form-control" id="dropOperator" name = "company" required>
+                                <!--<option value="" selected="selected">Select company:</option>-->
                             </select>
-                            <span class='help-block with-errors'></span>
+                            <span class='help-block'></span>
                         </div>
                     </div>
 

@@ -82,8 +82,10 @@ function updateRow(id) {
             frmDetails = frmDetailsArr[1];
             modalForm = modalFormArr[1];
             break;
-        //TODO доделать
-        case 'reportTable': /*ajaxUrl = datatableApiRep.ajax.url();*/
+        case 'reportTable':
+            ajaxUrl = datatableApiReport.ajax.url();
+            frmDetails = frmDetailsArr[2];
+            modalForm = modalFormArr[2];
             break;
     }
 
@@ -97,12 +99,16 @@ function updateRow(id) {
 
     $.get(ajaxUrl + id, function (data) {
         $.each(data, function (key, value) {
-            frmDetails.find("input[name='" + key + "']").val(value);
+            frmDetails.find("input[name='" + key + "']").val(
+                key === "date" ? formatDate(value) : value
+            );
+            // просмотр отчета
+            frmDetails.find("textarea[name='" + key + "']").val(value);
         });
         modalForm.modal();
     });
 
-    if (frmDetails == frmDetailsArr[0])
+    if (frmDetails === frmDetailsArr[0])
         getCompanies($('#dropOperator'));
 }
 
@@ -112,7 +118,7 @@ function myValidate(frmDetails) {
     frmDetails.data('bs.validator').reset();
 
     // если редактируем юзера, то подгружаем ему список компаний
-    if (frmDetails == frmDetailsArr[0])
+    if (frmDetails === frmDetailsArr[0])
         getCompanies($('#dropOperator'));
 }
 

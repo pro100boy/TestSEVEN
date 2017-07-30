@@ -6,11 +6,11 @@
     <div class="panel-heading">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tabcompanies" data-toggle="tab">Companies
-                <!--<span class="glyphicon glyphicon-home"></span>--></a></li>
-            <li><a href="#tabusers" data-toggle="tab">Users <!--<span class="glyphicon glyphicon-user"></span>--></a>
+                <span class="glyphicon glyphicon-home"></span></a></li>
+            <li><a href="#tabusers" data-toggle="tab">Users <span class="glyphicon glyphicon-user"></span></a>
             </li>
             <li><a href="#tabreports" data-toggle="tab">Reports
-                <!--<span class="glyphicon glyphicon-list-alt"></span>--></a></li>
+                <span class="glyphicon glyphicon-list-alt"></span></a></li>
         </ul>
     </div>
     <div class="panel-body">
@@ -32,8 +32,8 @@
                 <table class="table table-striped display" id="userTable">
                     <thead>
                     <tr>
-                        <th class="col-md-1">Last name</th>
-                        <th class="col-md-1">First name</th>
+                        <th>Last name</th>
+                        <th>First name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Company</th>
@@ -45,58 +45,33 @@
                 </table>
             </div>
             <div class="tab-pane fade" id="tabreports">
-                <div class="table-responsive">
-                    <table class="table table-striped display" id="reportTable">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Data</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="report : ${reports}">
-                            <td th:text="${report.name}"></td>
-                            <td th:text="${#temporals.format(report.date, 'yyyy-MM-dd HH:mm')}"></td>
-                            <!--TODO сделать ограничение на кол-во символов, типа выводить только заголовок отчета. С линком на сам отчет-->
-                            <td th:text="${report.data}"></td>
-                            <td>
-                                <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                    <button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal"
-                                            data-target="#edit"><span class="glyphicon glyphicon-pencil"></span>
-                                    </button>
-                                </p>
-                            </td>
-                            <!--TODO Админ не имеет права удалять и править отчеты. Учесть в reportDatatables.js-->
-                            <td>
-                                <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                    <button class="btn btn-danger btn-xs" data-title="Delete">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                </p>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table table-striped display" id="reportTable">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Data</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
             </div>
-
         </div>
     </div>
 
-    <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
-        <p class="text-center" th:utext="${message}"></p>
-    </th:block>
+    <!--    <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+            <p class="text-center" th:utext="${message}"></p>
+        </th:block>
 
-    <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}" var="isUser">
-        <p class="text-center">Non admin message</p>
-    </th:block>
+        <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
+            <p class="text-center">Non admin message</p>
+        </th:block>-->
 
     <!--   modal forms  -->
     <th:block th:replace="~{fragments/modals/user :: editUser}"></th:block>
     <th:block th:replace="~{fragments/modals/company :: editCompany}"></th:block>
+    <th:block th:replace="~{fragments/modals/report :: editReport}"></th:block>
     <!-- --------------------------------------------------------------------------------------- -->
     <!-- ---------------------------        ACTIONS WITH CONFIRM         ----------------------- -->
     <!-- --------------------------------------------------------------------------------------- -->
@@ -104,14 +79,6 @@
     <script type="application/javascript" src="/js/userDatatables.js" defer></script>
     <script type="application/javascript" src="/js/companyDatatables.js" defer></script>
     <script type="application/javascript" src="/js/reportDatatables.js" defer></script>
-
-<!--    <select id="userslist">
-        <option value="" selected="selected">Select user:</option>
-        <option th:each="user : ${users}"
-                th:value="${user.id}"
-                th:text="${user.name}">
-        </option>
-    </select>-->
 
 </div>
 </body>

@@ -27,16 +27,11 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-        //model.addAttribute("users", userService.getAll());
-        //model.addAttribute("reports", reportService.getAll());
-        //model.addAttribute("companies", companyController.getCompanies());
 
         // for modal forms
         model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);
         model.addAttribute("phonepattern", Patterns.PHONE_PATTERN);
         model.addAttribute("passwdpattern", Patterns.PASSWORD_PATTERN);
-        model.addAttribute("user", new User());
-        // TODO потом добавить Company и Report
         return "main";
     }
 }

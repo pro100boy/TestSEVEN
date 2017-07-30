@@ -1,13 +1,13 @@
 USE `sevendb`;
 INSERT INTO `company` (name, email, address) VALUES
   ("Admin's company", "adm.cmp@test.com", "address of Admin's company"),
-  ("TEST_CMP2", "name.cmp2@test.com", "address of TEST_CMP2 company"),
-  ("TEST_CMP3", "name.cmp3@test.com", "address of TEST_CMP3 company");
+  ("Рога и копыта", "rik@test.com", "address of 'Рога и копыта' company"),
+  ("Apollo", "apollo@test.com", "address of 'Apollo' company");
 
 INSERT INTO `users` (companyid, name, lastname, email, phone, password) VALUES
-  (100000, "Ivan", "Petrov", "admin@gmail.com", "111111", "$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju"),
-  (100001, "Sidor", "Ivanov", "ivanov@gmail.com", "222222", "$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju"),
-  (100002, "Petr", "Sidoroff", "sid@gmail.com", "333333", "$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju");
+  (100000, "Ivan", "Petrov", "admin@gmail.com", "+380971234567", "$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju"),
+  (100001, "Sidor", "Ivanov", "ivanov@gmail.com", "+380509876543", "$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju"),
+  (100002, "Petr", "Sidoroff", "sid@gmail.com", "+14084567890", "$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju");
 
 INSERT INTO `role` (role) VALUES
   ("ADMIN"),
