@@ -6,6 +6,7 @@ import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class CompanyServiceImpl implements CompanyService{
     @Autowired
     private CompanyRepository repository;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     @Transactional
     public Company save(@NonNull Company company) {
@@ -25,6 +27,7 @@ public class CompanyServiceImpl implements CompanyService{
         return repository.save(company);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id) != 0, id);
@@ -45,6 +48,7 @@ public class CompanyServiceImpl implements CompanyService{
         return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'COMPANY_OWNER')")
     @Override
     public void update(@NonNull Company company, int id) {
         checkIdConsistent(company, id);

@@ -4,7 +4,6 @@ import com.seven.test.model.Company;
 import com.seven.test.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @PostMapping
     public void updateOrCreate(@Valid Company company, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -30,7 +29,6 @@ public class CompanyController {
         } else throw new ValidationException();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
         companyService.delete(id);
