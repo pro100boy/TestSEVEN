@@ -23,20 +23,24 @@ public class ReportController {
     @PostMapping
     public void updateOrCreate(@Valid Report report, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            //reportService.save(report);
+            if (report.isNew()) {
+                reportService.save(report);
+            } else {
+                reportService.update(report, report.getId());
+            }
         } else throw new ValidationException();
     }
 
     @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
-        //reportService.delete(id);
+        reportService.delete(id);
         return String.valueOf(id);
     }
 
     @GetMapping(value = "/{id}")
     public Report getReport(@PathVariable("id") Integer id) {
-        return reportService.get(id, 0);
+        return reportService.get(id);
     }
 
     @GetMapping
