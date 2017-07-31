@@ -18,7 +18,7 @@ public class CompanyController {
     @Autowired
     private CompanyService companyService;
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void updateOrCreate(@Valid Company company, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
@@ -30,7 +30,7 @@ public class CompanyController {
         } else throw new ValidationException();
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
         companyService.delete(id);

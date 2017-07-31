@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Configuration
+//@EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
