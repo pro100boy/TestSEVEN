@@ -19,6 +19,9 @@ public class CompanyServiceImpl implements CompanyService{
     @Autowired
     private CompanyRepository repository;
 
+    @Autowired
+    private UserService userService;
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     @Transactional
@@ -45,6 +48,7 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public List<Company> getAll() {
+
         return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
     }
 

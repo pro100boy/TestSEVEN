@@ -45,4 +45,14 @@ public class UserTo  extends BaseTo implements Serializable {
     private String phone;
 
     private Company company;
+
+    public UserTo(Integer id, String name, String lastname, String email, String password, String phone, Company company) {
+        super(id);
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.company = company;
+    }
 }

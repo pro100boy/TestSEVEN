@@ -11,6 +11,7 @@ function extendsOpts(ajaxUrl, opts) {
                 "dataSrc": ""
             },
             "autoWidth": false,
+            "ordering": true,
             "paging": true,
             "info": true
         }

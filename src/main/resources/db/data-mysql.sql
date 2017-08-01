@@ -20,6 +20,6 @@ INSERT INTO `role` (role) VALUES
     (100005, 100011);
 
 INSERT INTO `report` (companyid, name, data, time) VALUES
-  (100000, "Report for ATB", "I like this solution because it is remember me solution with Play Framework", "2017-07-01 12:36:53"),
+  (100002, "Report2 for 'Apollo'", "I like this solution because it is remember me solution with Play Framework", "2017-07-01 12:36:53"),
   (100001, "Report for 'Рога и копыта'", "ublic void configAuthentication(AuthenticationManagerBuilder auth) throws Exception", "2017-07-03 12:30:00"),
   (100002, "Report for 'Apollo'", "uth.jdbcAuthentication().dataSource(dataSource)", "2017-07-03 12:40:00");

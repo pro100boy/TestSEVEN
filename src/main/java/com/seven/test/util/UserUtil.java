@@ -14,6 +14,11 @@ public class UserUtil {
         return user;
     }
 
+    public static UserTo asTo(User user) {
+        //Integer id, String name, String lastname, String email, String password, String phone, Company company
+        return new UserTo(user.getId(), user.getName(), user.getLastname(), user.getEmail(), user.getPassword(), user.getPhone(), user.getCompany());
+    }
+
     public static User updateFromTo(User user, UserTo userTo) {
         user.setName(userTo.getName());
         user.setLastname(userTo.getLastname());

@@ -49,7 +49,9 @@ $(function () {
             }
         ],
         "columnDefs": [
-            {"orderable": false, "targets": [2, 3, 4, 5, 6, 7]}
+               // sort by last name then by first name
+              {"orderData": [0, 1], "targets": 0}
+            , {"orderable": false, "targets": [2, 3, 4, 5, 6, 7]}
             , {"width": "15%", "targets": [0, 1, 2]}
             , {"width": "5%", "targets": [6, 7]}
         ]
@@ -78,6 +80,7 @@ function getCompanies(elem) {
         elem.append($('<option></option>').val(id).html(val));
     }*/
 
+    // all companies. When Admin creates user and links him with company.
     $.get('/companies', function (data) {
         $.each(data, function (key, value) {
             //$('#mySelect').append( new Option(value,key) );
