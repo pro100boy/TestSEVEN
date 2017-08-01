@@ -5,7 +5,10 @@ import com.seven.test.model.User;
 import com.seven.test.to.UserTo;
 import com.seven.test.util.UserUtil;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
 
@@ -52,6 +55,19 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
 
     public UserTo getUserTo() {
         return userTo;
+    }
+
+    public static boolean userHasAuthority(String authority)
+    {
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        for (GrantedAuthority grantedAuthority : authorities) {
+            if (authority.equals(grantedAuthority.getAuthority())) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override

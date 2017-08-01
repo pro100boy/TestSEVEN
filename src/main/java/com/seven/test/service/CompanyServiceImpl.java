@@ -1,28 +1,26 @@
 package com.seven.test.service;
 
+import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Company;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.ValidationUtil.*;
 
 @Service("companyService")
-public class CompanyServiceImpl implements CompanyService{
+public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private CompanyRepository repository;
 
-    @Autowired
-    private UserService userService;
-
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     @Transactional
     public Company save(@NonNull Company company) {
@@ -30,7 +28,6 @@ public class CompanyServiceImpl implements CompanyService{
         return repository.save(company);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @Override
     public void delete(int id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id) != 0, id);
@@ -48,11 +45,13 @@ public class CompanyServiceImpl implements CompanyService{
 
     @Override
     public List<Company> getAll() {
-
-        return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
+        if (userHasAuthority("ADMIN"))
+            return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
+        else {
+            return Arrays.asList(get(AuthorizedUser.companyId()));
+        }
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'COMPANY_OWNER')")
     @Override
     public void update(@NonNull Company company, int id) {
         checkIdConsistent(company, id);

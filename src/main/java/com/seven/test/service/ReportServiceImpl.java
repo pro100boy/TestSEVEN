@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.ValidationUtil.checkIdConsistent;
 import static com.seven.test.util.ValidationUtil.checkNotFoundWithId;
 
@@ -56,12 +57,10 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public List<Report> getAllByCompany(int companyId) {
-        return reportRepository.getAllByCompany(companyId);
-    }
-
-    @Override
     public List<Report> getAll() {
-        return reportRepository.findAllByOrderByDateDesc();
+        if (userHasAuthority("ADMIN"))
+            return reportRepository.findAllByOrderByDateDesc();
+        else
+            return reportRepository.getAllByCompany(AuthorizedUser.companyId());
     }
 }
