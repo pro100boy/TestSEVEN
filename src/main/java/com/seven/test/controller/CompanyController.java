@@ -43,7 +43,6 @@ public class CompanyController {
         return companyService.get(id);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN', 'COMPANY_OWNER')")
     @GetMapping
     public List<Company> getCompanies() {
         return companyService.getAll();

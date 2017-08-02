@@ -4,8 +4,7 @@ import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.to.UserTo;
 
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
 
 public class UserUtil {
     public static User prepareToSave(User user) {
@@ -32,10 +31,7 @@ public class UserUtil {
     public static User createNewFromTo(UserTo newUser) {
         final User user = new User();
         // setup default lowest role
-        //Role userRole = new Role("COMPANY_EMPLOYER");//roleRepository.findByRole("COMPANY_EMPLOYER");
-        Collection<Role> roles = new HashSet<>();
-        roles.add(Role.COMPANY_EMPLOYER);
-        user.setRoles(roles);
+        user.setRoles(Collections.singleton(Role.COMPANY_EMPLOYER));
         return updateFromTo(user, newUser);
     }
 }

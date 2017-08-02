@@ -81,7 +81,7 @@ function getCompanies(elem) {
     }*/
 
     // all companies. When Admin creates user and links him with company.
-    $.get('/companies', function (data) {
+    $.get('companies/', function (data) {
         $.each(data, function (key, value) {
             //$('#mySelect').append( new Option(value,key) );
             //elem.append(new Option(value.name, value.id));

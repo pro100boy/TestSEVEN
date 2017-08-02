@@ -39,11 +39,6 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<Company> getByName(@NonNull String name) throws NotFoundException {
-        return checkNotFound(repository.findByNameIgnoreCaseStartingWith(name), "name=" + name);
-    }
-
-    @Override
     public List<Company> getAll() {
         if (userHasAuthority("ADMIN"))
             return repository.findAll(new Sort(Sort.Direction.ASC, "name"));

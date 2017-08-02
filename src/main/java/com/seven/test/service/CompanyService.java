@@ -12,7 +12,7 @@ public interface CompanyService {
 
     Company get(int id) throws NotFoundException;
 
-    List<Company> getByName(String name) throws NotFoundException;
+    //List<Company> getByName(String name) throws NotFoundException;
 
     List<Company> getAll();
 
