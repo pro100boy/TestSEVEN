@@ -59,10 +59,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> getAll() {
         // ADMIN can CRUD any users
-        if (userHasAuthority("ADMIN"))
+        if (userHasAuthority(Role.ADMIN.name()))
             return repository.findAllWithParams();//findAll();
         // COMPANY_OWNER can CRUD only his company's employees
-        else if (userHasAuthority("COMPANY_OWNER"))
+        else if (userHasAuthority(Role.COMPANY_OWNER.name()))
             return repository.findAllByCompanyAndRoles(AuthorizedUser.companyId(), Role.COMPANY_EMPLOYER);
         // COMPANY_EMPLOYER can CRUD only own profile
         else return Arrays.asList(get(AuthorizedUser.id()));

@@ -27,9 +27,9 @@ public class UserUtil {
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setPassword(userTo.getPassword());
         user.setPhone(userTo.getPhone());
-        if (userHasAuthority("ADMIN"))
+        if (userHasAuthority(Role.ADMIN.name()))
             user.setCompany(userTo.getCompany());
-        else if (userHasAuthority("COMPANY_OWNER"))
+        else if (userHasAuthority(Role.COMPANY_OWNER.name()))
             user.setCompany(AuthorizedUser.company());
         return user;
     }
