@@ -27,10 +27,14 @@ public class UserUtil {
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setPassword(userTo.getPassword());
         user.setPhone(userTo.getPhone());
+        // set the company chosen by Admin for User
         if (userHasAuthority(Role.ADMIN.name()))
             user.setCompany(userTo.getCompany());
+        // set the owner's company for an employees
         else if (userHasAuthority(Role.COMPANY_OWNER.name()))
             user.setCompany(AuthorizedUser.company());
+        // and employee don't change his company
+
         return user;
     }
 
