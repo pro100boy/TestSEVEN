@@ -93,9 +93,10 @@ function getCompanies(elem) {
         });
 
         // choose 1st element for companies owners and employees
-        var n = elem.children('option').length;
+        // need when remove lines 30-33 from UserUtil.java and add bindingResult in user controller
+        /*var n = elem.children('option').length;
         if (n === 2)
-            elem[0].selectedIndex = 1;
+            elem[0].selectedIndex = 1;*/
     });
 
 

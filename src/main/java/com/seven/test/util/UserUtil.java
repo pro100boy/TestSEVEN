@@ -1,10 +1,13 @@
 package com.seven.test.util;
 
+import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.to.UserTo;
 
 import java.util.Collections;
+
+import static com.seven.test.AuthorizedUser.userHasAuthority;
 
 public class UserUtil {
     public static User prepareToSave(User user) {
@@ -24,7 +27,10 @@ public class UserUtil {
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setPassword(userTo.getPassword());
         user.setPhone(userTo.getPhone());
-        user.setCompany(userTo.getCompany());
+        if (userHasAuthority("ADMIN"))
+            user.setCompany(userTo.getCompany());
+        else if (userHasAuthority("COMPANY_OWNER"))
+            user.setCompany(AuthorizedUser.company());
         return user;
     }
 
