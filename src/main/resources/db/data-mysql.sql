@@ -12,18 +12,18 @@ INSERT INTO `users` (companyid, name, lastname, email, phone, password) VALUES
   (100002, 'Andre', 'Tan', 'tan@gmail.com', '+14081111154', '$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju'),
   (100001, 'Paul', 'Furman', 'fur@gmail.com', '+12354654', '$2a$10$Habgs3AQoWMKcMbIlLLbM.pV2DdPxrRSItlbeySrdHAdzqQEl7vee');
 
-INSERT INTO `role` (role) VALUES
+/*INSERT INTO `role` (role) VALUES
   ("ADMIN"),
   ("COMPANY_OWNER"),
-  ("COMPANY_EMPLOYER");
+  ("COMPANY_EMPLOYER");*/
 
-INSERT INTO `user_roles` (user_id, role_id) VALUES
-  (200000, 1),
-  (200001, 2),
-  (200004, 2),
-  (200002, 3),
-  (200003, 3),
-  (200005, 3);
+INSERT INTO `user_roles` (user_id, role) VALUES
+  (200000, "ADMIN"),
+  (200001, "COMPANY_OWNER"),
+  (200004, "COMPANY_OWNER"),
+  (200002, "COMPANY_EMPLOYER"),
+  (200003, "COMPANY_EMPLOYER"),
+  (200005, "COMPANY_EMPLOYER");
 
 INSERT INTO `report` (companyid, name, data, time) VALUES
   (100002, 'Report2 for ''Apollo''', 'I like this solution because it is remember me solution with Play Framework', '2017-07-01 12:36:53'),

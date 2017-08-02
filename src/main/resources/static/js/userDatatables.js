@@ -35,7 +35,7 @@ $(function () {
                 "data": "company.name"
             },
             {
-                "data": "roles[].role"
+                "data": "roles"
             },
             {
                 "orderable": false,

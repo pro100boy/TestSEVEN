@@ -1,8 +1,8 @@
 package com.seven.test.service;
 
 import com.seven.test.AuthorizedUser;
+import com.seven.test.model.Role;
 import com.seven.test.model.User;
-import com.seven.test.repository.RoleRepository;
 import com.seven.test.repository.UserRepository;
 import com.seven.test.to.UserTo;
 import com.seven.test.util.exception.NotFoundException;
@@ -25,9 +25,6 @@ import static com.seven.test.util.ValidationUtil.*;
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
-
-    @Autowired
-    private RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -66,7 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             return repository.findAllWithParams();//findAll();
         // COMPANY_OWNER can CRUD only his company's employees
         else if (userHasAuthority("COMPANY_OWNER"))
-            return repository.findAllByCompanyAndRoles(AuthorizedUser.companyId(), roleRepository.findByRole("COMPANY_EMPLOYER"));
+            return repository.findAllByCompanyAndRoles(AuthorizedUser.companyId(), Role.COMPANY_EMPLOYER);
         // COMPANY_EMPLOYER can CRUD only own profile
         else return Arrays.asList(get(AuthorizedUser.id()));
     }
