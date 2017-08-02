@@ -2,6 +2,7 @@ package com.seven.test.service;
 
 import com.seven.test.AuthorizedUser;
 import com.seven.test.model.User;
+import com.seven.test.repository.RoleRepository;
 import com.seven.test.repository.UserRepository;
 import com.seven.test.to.UserTo;
 import com.seven.test.util.exception.NotFoundException;
@@ -12,8 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.UserUtil.prepareToSave;
 import static com.seven.test.util.UserUtil.updateFromTo;
 import static com.seven.test.util.ValidationUtil.*;
@@ -22,6 +25,9 @@ import static com.seven.test.util.ValidationUtil.*;
 public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     @Transactional
@@ -49,19 +55,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User findByEmail(String email)  {
+    public User findByEmail(String email) {
         return repository.findByEmail(email);
     }
 
     @Override
     public List<User> getAll() {
-        return repository.findAllWithParams();//findAll();
-        //findAllByOrderByLastnameAscEmailAsc();
-    }
-
-    @Override
-    public List<User> getAllByCompany(int companyId) {
-        return repository.getAllByCompany(companyId);
+        // ADMIN can CRUD any users
+        if (userHasAuthority("ADMIN"))
+            return repository.findAllWithParams();//findAll();
+        // COMPANY_OWNER can CRUD only his company's employees
+        else if (userHasAuthority("COMPANY_OWNER"))
+            return repository.findAllByCompanyAndRoles(AuthorizedUser.companyId(), roleRepository.findByRole("COMPANY_EMPLOYER"));
+        // COMPANY_EMPLOYER can CRUD only own profile
+        else return Arrays.asList(get(AuthorizedUser.id()));
     }
 
     @Override

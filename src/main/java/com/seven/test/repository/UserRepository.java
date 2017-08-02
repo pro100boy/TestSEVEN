@@ -1,5 +1,6 @@
 package com.seven.test.repository;
 
+import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,6 +24,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // null if not found
     User findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.company.id = ?1 ORDER BY u.lastname, u.name")
-    List<User> getAllByCompany(int companyId);
+    @Query("SELECT u FROM User u JOIN FETCH u.company WHERE u.id=:id")
+    User findOne(@Param("id") int id);
+
+    @Query("SELECT u FROM User u JOIN FETCH u.company WHERE u.company.id=:id AND :role member u.roles")
+    List<User> findAllByCompanyAndRoles(@Param("id") int id, @Param("role") Role role);
 }
