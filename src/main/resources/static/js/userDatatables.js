@@ -64,6 +64,9 @@ $(function () {
 });
 
 function getCompanies(elem) {
+    // remove-all-options-except-first-option
+    // $('select').children('option:not(:first)').remove();
+
     // https://stackoverflow.com/a/47829/7203956
     elem.find('option')
         .remove()
@@ -88,5 +91,12 @@ function getCompanies(elem) {
 
             elem.append($('<option></option>').val(value.id).html(value.name));
         });
+
+        // choose 1st element for companies owners and employees
+        var n = elem.children('option').length;
+        if (n === 2)
+            elem[0].selectedIndex = 1;
     });
+
+
 }
