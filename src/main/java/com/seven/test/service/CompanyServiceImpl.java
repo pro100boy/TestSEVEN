@@ -5,8 +5,11 @@ import com.seven.test.model.Company;
 import com.seven.test.model.User;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.util.UserUtil;
+import com.seven.test.util.ValidationUtil;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.mail.MailSendException;
@@ -21,6 +24,8 @@ import static com.seven.test.util.ValidationUtil.*;
 
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private CompanyRepository repository;
 
@@ -42,30 +47,35 @@ public class CompanyServiceImpl implements CompanyService {
 
         // send email to just created owner
         try {
+            log.info("Try to send email to company owner: " + newOwner);
             String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
             emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
+            log.info("Email sent to company owner: " + newOwner);
         } catch (MailSendException ex)
         {
             // catch the exception here because Company and User have to be created anyway
-            // TODO логировать
-            ex.printStackTrace();
+            log.error(ValidationUtil.getRootCause(ex).getMessage());
         }
 
+        log.info("Company saved: " + c);
         return c;
     }
 
     @Override
     public void delete(int id) throws NotFoundException {
+        log.info("Delete company id = " + id);
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     @Override
     public Company get(int id) throws NotFoundException {
+        log.info("Get company id = " + id);
         return checkNotFoundWithId(repository.findOne(id), id);
     }
 
     @Override
     public List<Company> getAll() {
+        log.info("Get all companies");
         if (userHasAuthority("ADMIN"))
             return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
         else {
@@ -75,6 +85,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void update(@NonNull Company company, int id) {
+        log.info("Update company: " + company);
         checkIdConsistent(company, id);
         repository.save(company);
     }
