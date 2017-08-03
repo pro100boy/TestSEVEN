@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
+@ToString(exclude = "company", callSuper = true)
 @Entity
 @Table(name = "report")
 public class Report extends NamedEntity {

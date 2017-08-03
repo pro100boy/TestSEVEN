@@ -38,6 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public Company save(@NonNull Company company) {
+        log.info("save: " + company);
         checkNew(company);
         Company c = repository.save(company);
 
@@ -47,7 +48,6 @@ public class CompanyServiceImpl implements CompanyService {
 
         // send email to just created owner
         try {
-            log.info("Try to send email to company owner: " + newOwner);
             String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
             emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
             log.info("Email sent to company owner: " + newOwner);
@@ -57,25 +57,24 @@ public class CompanyServiceImpl implements CompanyService {
             log.error(ValidationUtil.getRootCause(ex).getMessage());
         }
 
-        log.info("Company saved: " + c);
         return c;
     }
 
     @Override
     public void delete(int id) throws NotFoundException {
-        log.info("Delete company id = " + id);
+        log.info("delete id = " + id);
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     @Override
     public Company get(int id) throws NotFoundException {
-        log.info("Get company id = " + id);
+        log.info("get id = " + id);
         return checkNotFoundWithId(repository.findOne(id), id);
     }
 
     @Override
     public List<Company> getAll() {
-        log.info("Get all companies");
+        log.info("get all");
         if (userHasAuthority("ADMIN"))
             return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
         else {
@@ -85,7 +84,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void update(@NonNull Company company, int id) {
-        log.info("Update company: " + company);
+        log.info("update: " + company);
         checkIdConsistent(company, id);
         repository.save(company);
     }

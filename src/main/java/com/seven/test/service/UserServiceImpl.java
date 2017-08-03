@@ -7,6 +7,8 @@ import com.seven.test.repository.UserRepository;
 import com.seven.test.to.UserTo;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,12 +25,15 @@ import static com.seven.test.util.ValidationUtil.*;
 
 @Service("userService")
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private UserRepository repository;
 
     @Override
     @Transactional
     public User save(@NonNull User user) {
+        log.info("save: " + user);
         checkNew(user);
         return repository.save(prepareToSave(user));
     }
@@ -36,6 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void update(UserTo userTo, int id) {
+        log.info("update: " + userTo);
         checkIdConsistent(userTo, id);
         User user = updateFromTo(get(id), userTo);
         repository.save(prepareToSave(user));
@@ -43,11 +49,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void delete(int id) throws NotFoundException {
+        log.info("delete id = " + id);
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     @Override
     public User get(int id) throws NotFoundException {
+        log.info("get id = " + id);
         return checkNotFoundWithId(repository.findOne(id), id);
     }
 
@@ -58,6 +66,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<User> getAll() {
+        log.info("get all");
         // ADMIN can CRUD any users
         if (userHasAuthority(Role.ADMIN.name()))
             return repository.findAllWithParams();
@@ -74,6 +83,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (u == null) {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
+        log.info("logged: " + u);
         return new AuthorizedUser(u);
     }
 }

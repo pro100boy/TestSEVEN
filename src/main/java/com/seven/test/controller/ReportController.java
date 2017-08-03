@@ -38,6 +38,7 @@ public class ReportController {
         return String.valueOf(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
     @GetMapping(value = "/{id}")
     public Report getReport(@PathVariable("id") Integer id) {
         return reportService.get(id);

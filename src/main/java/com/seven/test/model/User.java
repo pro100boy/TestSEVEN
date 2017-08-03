@@ -23,7 +23,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@ToString(exclude = "password", callSuper = true)
+@ToString(exclude = {"password", "company"}, callSuper = true)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends NamedEntity {
