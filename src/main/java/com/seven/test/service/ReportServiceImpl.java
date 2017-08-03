@@ -20,12 +20,6 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
-/*    @Autowired
-    private CompanyRepository companyRepository;
-
-    @Autowired
-    private UserService userService;*/
-
     @Override
     @Transactional
     public Report save(@NonNull Report report) {

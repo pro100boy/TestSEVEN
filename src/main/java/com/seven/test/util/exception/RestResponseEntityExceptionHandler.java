@@ -81,4 +81,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
+
+/*    @ExceptionHandler(MailSendException.class)
+    protected ResponseEntity<Object> mailException(RuntimeException ex, WebRequest request) {
+        String bodyOfResponse = "Email error has been occurred";
+        return handleExceptionInternal(ex, bodyOfResponse,
+                new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }*/
 }

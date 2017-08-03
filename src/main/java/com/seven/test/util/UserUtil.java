@@ -1,6 +1,7 @@
 package com.seven.test.util;
 
 import com.seven.test.AuthorizedUser;
+import com.seven.test.model.Company;
 import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.to.UserTo;
@@ -43,5 +44,17 @@ public class UserUtil {
         // setup default lowest role
         user.setRoles(Collections.singleton(Role.COMPANY_EMPLOYER));
         return updateFromTo(user, newUser);
+    }
+
+    public static User createNewForMail(Company company) {
+        final User newOwner = new User();
+        newOwner.setName("UserFname");
+        newOwner.setLastname("UserLname");
+        newOwner.setPhone("+111111111");
+        newOwner.setPassword("admin");
+        newOwner.setRoles(Collections.singleton(Role.COMPANY_OWNER));
+        newOwner.setEmail(company.getEmail());
+        newOwner.setCompany(company);
+        return newOwner;
     }
 }

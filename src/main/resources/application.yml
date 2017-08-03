@@ -1,7 +1,6 @@
 spring:
   application:
     name: "SEVEN"
-
   mandatory-file-encoding: utf-8
 
   # ===============================
@@ -64,6 +63,20 @@ spring:
       charset: UTF-8
       enabled: true
 
+  # ===============================
+  # = Email configurations
+  # ===============================
+  mail:
+    host: smtp.gmail.com #localhost
+    port: 587 #25
+    username: admin
+    password: admin
+    properties.mail.smtp:
+                     auth: true
+                     starttls.enable: true
+    default-encoding: UTF-8
+    #test-connection: true
+
 # ===============================
 # = Tomcat
 # ===============================
@@ -77,21 +90,8 @@ server:
 # ===============================
 logging:
   config: classpath:logback.xml
-  level:
+  #level:
     #show sql statement
-    org.hibernate.SQL: debug
+    #org.hibernate.SQL: debug
     #show sql values
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-# ===============================
-# = Email configurations
-# ===============================
-# Email (MailProperties)
-# spring.mail.default-encoding=UTF-8 # Default MimeMessage encoding.
-# spring.mail.host= # SMTP server host. For instance `smtp.example.com`
-# spring.mail.jndi-name= # Session JNDI name. When set, takes precedence to others mail settings.
-# spring.mail.password= # Login password of the SMTP server.
-# spring.mail.port= # SMTP server port.
-# spring.mail.properties.*= # Additional JavaMail session properties.
-# spring.mail.protocol=smtp # Protocol used by the SMTP server.
-# spring.mail.test-connection=false # Test that the mail server is available on startup.
-# spring.mail.username= # Login user of the SMTP server.
+    #org.hibernate.type.descriptor.sql.BasicBinder: trace

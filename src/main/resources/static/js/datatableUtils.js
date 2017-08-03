@@ -57,6 +57,10 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
                     size: 'small',
                     callback: function () {
                         datatableApi.ajax.reload();
+                        if (modalForm == modalFormArr[1]) {
+                            // Перегружаем, чтобы появился созданный юзер после сохранения компании
+                            datatableApiUsers.ajax.reload();
+                        }
                     }
                 })
             })
