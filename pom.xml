@@ -229,6 +229,20 @@
 
     <build>
         <plugins>
+            <!-- Компиляция -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <!--<compilerArgument>-Xlint:all</compilerArgument>-->
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -241,6 +255,7 @@
                 </dependencies>
                 <configuration>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <finalName>test7</finalName>
                 </configuration>
             </plugin>
             <plugin>
