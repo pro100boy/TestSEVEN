@@ -1,21 +1,13 @@
 package com.seven.test.controller;
 
-import com.seven.test.model.User;
-import com.seven.test.service.UserService;
 import com.seven.test.util.Patterns;
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping(value = "/login")
     public String login() {
@@ -24,10 +16,6 @@ public class LoginController {
 
     @GetMapping(value = {"/", "/main"})
     public String main(Model model) throws NotFoundException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        model.addAttribute("userName", "Welcome " + user.getName() + " " + user.getLastname() + " (" + user.getEmail() + ")");
-
         // for modal forms
         model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);
         model.addAttribute("phonepattern", Patterns.PHONE_PATTERN);
