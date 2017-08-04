@@ -19,6 +19,7 @@ INSERT INTO `users` (companyid, name, lastname, email, phone, password) VALUES
 
 INSERT INTO `user_roles` (user_id, role) VALUES
   (200000, "ADMIN"),
+  (200000, "ACTUATOR"),
   (200001, "COMPANY_OWNER"),
   (200004, "COMPANY_OWNER"),
   (200002, "COMPANY_EMPLOYER"),

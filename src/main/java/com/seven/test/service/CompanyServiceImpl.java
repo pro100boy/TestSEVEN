@@ -49,7 +49,7 @@ public class CompanyServiceImpl implements CompanyService {
         // send email to just created owner
         try {
             String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
-            emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
+            //emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
             log.info("Email sent to company owner: " + newOwner);
         } catch (MailSendException ex)
         {
