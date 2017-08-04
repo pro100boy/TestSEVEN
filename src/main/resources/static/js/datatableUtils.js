@@ -111,6 +111,8 @@ function updateRow(id) {
             frmDetails.find("textarea[name='" + key + "']").val(value);
         });
         modalForm.modal();
+    }).fail(function (jqXHR, textStatus, thrownError) {
+        showErrorMessage(jqXHR);
     });
 
     if (frmDetails === frmDetailsArr[0])

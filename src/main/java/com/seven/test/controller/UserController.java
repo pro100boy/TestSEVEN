@@ -5,6 +5,7 @@ import com.seven.test.service.UserService;
 import com.seven.test.to.UserTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
         userService.delete(id);
