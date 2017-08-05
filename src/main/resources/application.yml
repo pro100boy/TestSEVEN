@@ -7,8 +7,8 @@ spring:
   # = DATA SOURCE
   # ===============================
   datasource:
+    #url: jdbc:mysql://10.10.192.101:3306/sevendb?useSSL=false
     url: jdbc:mysql://localhost:3306/sevendb?useSSL=false
-
     platform: mysql
     schema: classpath:/db/schema-mysql.sql
     data: classpath:/db/data-mysql.sql

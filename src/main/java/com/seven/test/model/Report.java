@@ -2,10 +2,7 @@ package com.seven.test.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seven.test.util.DateTimeUtil;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -22,6 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString(exclude = "company", callSuper = true)
 @Entity
+@EqualsAndHashCode(callSuper=true)
 @Table(name = "report")
 public class Report extends NamedEntity {
     @Column(name = "time", columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
