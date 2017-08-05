@@ -47,6 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
         userService.save(newOwner);
 
         // send email to just created owner
+        // TODO пароль генерировать рандомно
         try {
             String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
             emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
