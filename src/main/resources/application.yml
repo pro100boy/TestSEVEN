@@ -69,13 +69,13 @@ spring:
   mail:
     host: smtp.gmail.com #localhost
     port: 587 #25
-    username: admin
-    password: admin
+    username: gpg.home@gmail.com
+    password: zywrmeegxqntdekv
     properties.mail.smtp:
                      auth: true
                      starttls.enable: true
     default-encoding: UTF-8
-    #test-connection: true
+    test-connection: true
 
 # ===============================
 # = Tomcat
