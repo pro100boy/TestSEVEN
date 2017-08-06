@@ -1,19 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <body>
 <div class="panel with-nav-tabs panel-default" th:fragment="content">
 
     <div class="panel-heading">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tabusers" data-toggle="tab">Users <span
-                    class="glyphicon glyphicon-user"></span></a></li>
+            <li class="active"><a href="#tabusers" data-toggle="tab" th:text="#{tab.users}">Users</a></li>
 
             <li th:if="${#authorization.expression('!hasAuthority(''COMPANY_EMPLOYER'')')}">
-                <a href="#tabcompanies" data-toggle="tab">Companies
-                    <span class="glyphicon glyphicon-home"></span></a></li>
+                <a href="#tabcompanies" data-toggle="tab" th:text="#{tab.companies}">Companies</a></li>
 
-            <li><a href="#tabreports" data-toggle="tab">Reports
-                <span class="glyphicon glyphicon-list-alt"></span></a></li>
+            <li><a href="#tabreports" data-toggle="tab" th:text="#{tab.reports}">Reports</a></li>
         </ul>
     </div>
     <div class="panel-body">
@@ -23,12 +20,12 @@
                 <table class="table table-striped display" id="userTable">
                     <thead>
                     <tr>
-                        <th>Last name</th>
-                        <th>First name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Company</th>
-                        <th>Roles</th>
+                        <th th:text="#{user.lastname}">Last name</th>
+                        <th th:text="#{user.name}">Name</th>
+                        <th th:text="#{user.email}">Email</th>
+                        <th th:text="#{user.phone}">Phone</th>
+                        <th th:text="#{user.company}">Company</th>
+                        <th th:text="#{user.roles}">Roles</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -42,9 +39,9 @@
                 <table class="table table-striped display" id="companyTable">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Address</th>
+                        <th th:text="#{company.name}">Name</th>
+                        <th th:text="#{company.email}">Email</th>
+                        <th th:text="#{company.address}">Address</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -57,9 +54,9 @@
                 <table class="table table-striped display" id="reportTable">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Data</th>
+                        <th th:text="#{order.name}">Name</th>
+                        <th th:text="#{order.date}">Date</th>
+                        <th th:text="#{order.data}">Data</th>
                         <th></th>
                         <th></th>
                     </tr>

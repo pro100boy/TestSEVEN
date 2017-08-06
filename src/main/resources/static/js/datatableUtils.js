@@ -13,7 +13,11 @@ function extendsOpts(ajaxUrl, opts) {
             "autoWidth": false,
             "ordering": true,
             "paging": true,
-            "info": true
+            "info": true,
+            "language": {
+                "url" : "json/" + localeCode + ".json"
+            },
+            "initComplete": makeEditable
         }
     );
     return opts;
@@ -24,16 +28,11 @@ function formatDate(date) {
 }
 
 function makeEditable() {
-    //form = $('#detailsForm');
-    // $(document).ajaxError(function (event, jqXHR, options, jsExc) {
-    //     failNoty(event, jqXHR, options, jsExc);
-    // });
-
-    // var token = $("meta[name='_csrf']").attr("content");
-    // var header = $("meta[name='_csrf_header']").attr("content");
-    // $(document).ajaxSend(function(e, xhr, options) {
-    //     xhr.setRequestHeader(header, token);
-    // });
+    var token = $("meta[name='_csrf']").attr("content");
+    var header = $("meta[name='_csrf_header']").attr("content");
+    $(document).ajaxSend(function(e, xhr, options) {
+        xhr.setRequestHeader(header, token);
+    });
 }
 
 function save(frmDetails, modalForm, successmsg, datatableApi) {

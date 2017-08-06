@@ -8,38 +8,33 @@
     <div class="panel-heading clearfix">
         <h4 class="panel-title pull-left" style="padding-top: 7.5px">
             <th:block>
-                <p>
-                    Welcome <span th:text="${#authentication.getPrincipal().getUserTo().getName()}">username</span>
+                <p> <span th:text="#{user.logged}">Welcome </span>
+                    <span th:text="${#authentication.getPrincipal().getUserTo().getName()}">username</span>
                     <span th:text="${#authentication.getPrincipal().getUserTo().getLastname()}">username</span>
                     (<span th:text="${#authentication.getPrincipal().getUserTo().getEmail()}">username</span>)
                 </p>
             </th:block>
         </h4>
 
-        <!--    на будущее
-                <span th:text="#{lang.change}"></span>:
-                <select id="locales">
-                    <option value=""></option>
-                    <option value="en" th:text="#{lang.eng}"></option>
-                    <option value="fr" th:text="#{lang.fr}"></option>
-                </select>-->
-
-        <div class="dropdown pull-right" style="padding-top: 7.5px">
+        <div class="dropdown pull-right" style="padding-top: 7.5px; padding-left: 10px">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></a>
 
             <ul class="dropdown-menu" role="menu">
                 <li th:if="${#authorization.expression('!hasAuthority(''COMPANY_EMPLOYER'')')}">
-                    <a href="#" data-toggle="modal" data-target="#editUser" onclick="myValidate(frmDetailsArr[0])">
+                    <a href="#" data-toggle="modal" data-target="#editUser"
+                       onclick="myValidate(frmDetailsArr[0])">
                         New user
                     </a>
                 </li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
-                    <a href="#" data-toggle="modal" data-target="#editCompany" onclick="myValidate(frmDetailsArr[1])">
+                    <a href="#" data-toggle="modal" data-target="#editCompany"
+                       onclick="myValidate(frmDetailsArr[1])">
                         New company
                     </a>
                 </li>
                 <li th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
-                    <a href="#" data-toggle="modal" data-target="#editReport" onclick="myValidate(frmDetailsArr[2])">
+                    <a href="#" data-toggle="modal" data-target="#editReport"
+                       onclick="myValidate(frmDetailsArr[2])">
                         New report
                     </a>
                 </li>
@@ -47,6 +42,8 @@
                 <li><a href="/logout">Log out</a></li>
             </ul>
         </div>
+
+        <div th:replace="~{fragments/lang :: lang}"></div>
     </div>
 </div>
 </body>

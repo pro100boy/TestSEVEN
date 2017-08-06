@@ -63,7 +63,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = {AccessDeniedException.class, NotFoundException.class})
     protected ResponseEntity<Object> accessDenied(RuntimeException ex, WebRequest request) {
         // String rootMsg = ValidationUtil.getRootCause(ex).getMessage(); // = "Access is denied"
-        String bodyOfResponse = messageSource.getMessage("access.denied.exception", null, LocaleContextHolder.getLocale());//"AccessDeniedException";
+        String bodyOfResponse = messageSource.getMessage("exception.access.denied", null, LocaleContextHolder.getLocale());//"AccessDeniedException";
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }

@@ -51,8 +51,7 @@ $(function () {
         save(frmDetailsArr[2], modalFormArr[2], successmsg, datatableApiReport);
     });
 
-    // TODO $.datetimepicker.setLocale('ru');
-    //$.datetimepicker.setLocale('ru');
+    $.datetimepicker.setLocale(localeCode);
 
     var dateTime = $('#date');
     dateTime.datetimepicker({

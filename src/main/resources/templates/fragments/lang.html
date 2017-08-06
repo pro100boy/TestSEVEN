@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:float="http://www.w3.org/1999/xhtml"
+      xmlns:width="http://www.w3.org/1999/xhtml">
+<div class="dropdown pull-right" style="padding-top: 7.5px; padding-left: 10px" th:fragment="lang">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="${#locale.language}"/><b
+            class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a onclick="show('en')">En</a></li>
+        <li><a onclick="show('ru')">Ru</a></li>
+    </ul>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var localeCode = [[${#locale.language}]];
+
+        /*]]>*/
+        function show(lang) {
+            window.location.href = window.location.href.split('?')[0] + '?lang=' + lang;
+        }
+    </script>
+
+</div>
