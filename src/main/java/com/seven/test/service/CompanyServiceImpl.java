@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
@@ -79,7 +80,7 @@ public class CompanyServiceImpl implements CompanyService {
         if (userHasAuthority("ADMIN"))
             return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
         else {
-            return Arrays.asList(get(AuthorizedUser.companyId()));
+            return Collections.singletonList(get(AuthorizedUser.companyId()));
         }
     }
 

@@ -6,80 +6,78 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="modalTitle">Add/edit user</h2>
+                <h3 class="modal-title" id="modalTitle" th:text="#{user.modaltitle}">Add/edit user</h3>
             </div>
             <div class="modal-body">
-                <!--<form autocomplete="off" action="#" th:action="@{/registration}" th:object="${user}" method="post"
-                      class="form-horizontal" role="form" data-toggle="validator" id="detailsForm">-->
                 <form autocomplete="off" action="#"
                       class="form-horizontal" role="form" data-toggle="validator" id="detailsFormUser">
 
                     <input type="hidden" id="id" name="id"/>
 
                     <div class="form-group has-feedback">
-                        <label for="name" class="control-label col-xs-3">First name</label>
+                        <label for="name" class="control-label col-xs-3" th:text="#{user.name}">First name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" placeholder="First name" id="name" name="name"
+                            <input type="text" th:placeholder="#{user.name}" id="name" name="name"
                                    class="form-control" data-minlength="3" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block">Minimum of 3 characters</div>
+                            <div class="help-block" th:text="#{hint.min3chars}">Minimum of 3 characters</div>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="lname" class="control-label col-xs-3">Last name</label>
+                        <label for="lname" class="control-label col-xs-3" th:text="#{user.lastname}">Last name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" placeholder="Last name" id="lname"
+                            <input type="text" th:placeholder="#{user.lastname}" id="lname"
                                    name="lastname"
                                    class="form-control" data-minlength="3" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block">Minimum of 3 characters</div>
+                            <div class="help-block" th:text="#{hint.min3chars}">Minimum of 3 characters</div>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="email" class="control-label col-xs-3">Email</label>
+                        <label for="email" class="control-label col-xs-3" th:text="#{user.email}">Email</label>
 
                         <div class="col-xs-9">
-                            <input type="text" placeholder="Email" id="email" name="email"
+                            <input type="text" th:placeholder="#{user.email}" id="email" name="email"
                                    class="form-control" th:pattern="${emailpattern}"
-                                   data-error="***Please provide a valid Email" required/>
+                                   th:data-error="#{hint.email}" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                             <div class="help-block with-errors"></div>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="inputPassword" class="control-label col-xs-3">Password</label>
+                        <label for="inputPassword" class="control-label col-xs-3" th:text="#{user.password}">Password</label>
 
                         <div class="col-xs-9">
                             <input type="password" id="inputPassword" name="password"
-                                   placeholder="Password" th:pattern="${passwdpattern}"
+                                   th:placeholder="#{user.password}" th:pattern="${passwdpattern}"
                                    class="form-control" data-minlength="5" maxlength="15" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block">Password must have 5-15 characters</div>
+                            <div class="help-block" th:text="#{hint.password}">Password must have 5-15 characters</div>
                         </div>
 
                         <div class="col-xs-offset-3 col-xs-9">
-                            <input type="password" id="inputPasswordConfirm" placeholder="Confirm password"
+                            <input type="password" id="inputPasswordConfirm" th:placeholder="#{user.confirm.password}"
                                    class="form-control" data-match="#inputPassword"
-                                   data-match-error="***Whoops, these don't match" required/>
+                                   th:data-match-error="#{hint.password.mismatch}" required/>
                             <div class="help-block"></div>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="phone" class="control-label col-xs-3">Phone</label>
+                        <label for="phone" class="control-label col-xs-3" th:text="#{user.phone}">Phone</label>
 
                         <div class="col-xs-9">
-                            <input type="text" placeholder="Phone: +1234567" id="phone"
+                            <input type="text" th:placeholder="#{user.phone}" id="phone"
                                    name="phone"
                                    data-minlength="5"
                                    class="form-control" th:pattern="${phonepattern}" required/>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block">Format: + than 7-15 digits</div>
+                            <div class="help-block" th:text="#{hint.phone}">Format: + than 7-15 digits</div>
                         </div>
                     </div>
 
@@ -88,18 +86,18 @@
                             <select class="form-control" id="dropOperator" name = "company" required>
                                 <!--<option value="" selected="selected">Select company:</option>-->
                             </select>
-                            <span class='help-block'></span>
+                            <span class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <button type="submit" class="btn btn-primary save-user" data-placement="top"
-                                    data-toggle="tooltip" title="Save">
+                                    data-toggle="tooltip" th:title="#{button.save}">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             </button>
                             <button type="button" onclick="" class="btn btn-warning" data-placement="top"
-                                    data-toggle="tooltip" data-dismiss="modal" title="Cancel">
+                                    data-toggle="tooltip" data-dismiss="modal" th:title="#{button.cancel}">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                         </div>

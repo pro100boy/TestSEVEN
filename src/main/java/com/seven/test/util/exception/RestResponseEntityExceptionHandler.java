@@ -70,14 +70,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(ValidationException.class)
     protected ResponseEntity<Object> handleArgumentException(RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "Validation exception has been occurred";
+        String bodyOfResponse = messageSource.getMessage("exception.validation", null, LocaleContextHolder.getLocale());
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
     @ExceptionHandler(value = {SQLException.class, DataAccessException.class})
     protected ResponseEntity<Object> handleDBException(RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "Database error has been occurred";
+        String bodyOfResponse = messageSource.getMessage("exception.db", null, LocaleContextHolder.getLocale());
         return handleExceptionInternal(ex, bodyOfResponse,
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }

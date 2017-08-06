@@ -17,29 +17,29 @@
         </h4>
 
         <div class="dropdown pull-right" style="padding-top: 7.5px; padding-left: 10px">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{header.menu}"/> <span class="caret"/></a>
 
-            <ul class="dropdown-menu" role="menu">
+            <ul class="dropdown-menu" role="menu" style="min-width: 0px; !important;">
                 <li th:if="${#authorization.expression('!hasAuthority(''COMPANY_EMPLOYER'')')}">
                     <a href="#" data-toggle="modal" data-target="#editUser"
-                       onclick="myValidate(frmDetailsArr[0])">
+                       onclick="myValidate(frmDetailsArr[0])" th:text="#{new.user}">
                         New user
                     </a>
                 </li>
                 <li th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
                     <a href="#" data-toggle="modal" data-target="#editCompany"
-                       onclick="myValidate(frmDetailsArr[1])">
+                       onclick="myValidate(frmDetailsArr[1])" th:text="#{new.company}">
                         New company
                     </a>
                 </li>
                 <li th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
                     <a href="#" data-toggle="modal" data-target="#editReport"
-                       onclick="myValidate(frmDetailsArr[2])">
+                       onclick="myValidate(frmDetailsArr[2])" th:text="#{new.report}">
                         New report
                     </a>
                 </li>
                 <li class="divider"></li>
-                <li><a href="/logout">Log out</a></li>
+                <li><a href="/logout" th:text="#{log.out}">Log out</a></li>
             </ul>
         </div>
 

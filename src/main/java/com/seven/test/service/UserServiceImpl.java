@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
@@ -74,7 +75,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         else if (userHasAuthority(Role.COMPANY_OWNER.name()))
             return repository.findAllByCompanyAndRoles(AuthorizedUser.companyId(), Role.COMPANY_EMPLOYER);
         // COMPANY_EMPLOYER can CRUD only own profile
-        else return Arrays.asList(get(AuthorizedUser.id()));
+        else return Collections.singletonList(get(AuthorizedUser.id()));
     }
 
     @Override

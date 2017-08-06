@@ -2,6 +2,7 @@ var datatableApiCmp;
 
 $(function () {
     var ajaxUrl = 'companies/';
+    // TODO локализовать сообщения в JS
     var successmsg = 'Company successfully saved';
 
     // var errormsg = 'A company with such name and email is already registered in the app!!';

@@ -15,7 +15,7 @@
     </div>
     <div class="panel-body">
         <div class="tab-content">
-            <!--    СОТРУДНИКИ    -->
+            <!--    USERS    -->
             <div class="tab-pane fade in active" id="tabusers">
                 <table class="table table-striped display" id="userTable">
                     <thead>
@@ -33,7 +33,7 @@
                 </table>
             </div>
 
-            <!--    КОМПАНИИ    -->
+            <!--    COMPANIES    -->
             <div class="tab-pane fade" id="tabcompanies"
                  th:if="${#authorization.expression('!hasAuthority(''COMPANY_EMPLOYER'')')}">
                 <table class="table table-striped display" id="companyTable">
@@ -49,14 +49,14 @@
                 </table>
             </div>
 
-            <!--    ОТЧЕТЫ    -->
+            <!--    REPORTS    -->
             <div class="tab-pane fade" id="tabreports">
                 <table class="table table-striped display" id="reportTable">
                     <thead>
                     <tr>
-                        <th th:text="#{order.name}">Name</th>
-                        <th th:text="#{order.date}">Date</th>
-                        <th th:text="#{order.data}">Data</th>
+                        <th th:text="#{report.name}">Name</th>
+                        <th th:text="#{report.date}">Date</th>
+                        <th th:text="#{report.data}">Data</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -65,14 +65,6 @@
             </div>
         </div>
     </div>
-
-    <!--    <th:block th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
-            <p class="text-center" th:utext="${message}"></p>
-        </th:block>
-
-        <th:block th:if="${#authorization.expression('!hasAuthority(''ADMIN'')')}">
-            <p class="text-center">Non admin message</p>
-        </th:block>-->
 
     <!--   modal forms  -->
     <th:block th:replace="~{fragments/modals/user :: editUser}"></th:block>

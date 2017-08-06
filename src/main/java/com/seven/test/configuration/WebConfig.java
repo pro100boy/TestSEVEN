@@ -40,15 +40,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public StringHttpMessageConverter customStringHttpMessageConverter()
-    {
+    public StringHttpMessageConverter customStringHttpMessageConverter() {
         StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
         stringHttpMessageConverter.setSupportedMediaTypes(
-                new ArrayList(
-                        Arrays.asList(
-                                new MediaType("text", "plain", Charset.forName("UTF-8")),
-                                new MediaType("text", "html", Charset.forName("UTF-8")))
-                )
+                Arrays.asList(
+                        new MediaType("text", "plain", Charset.forName("UTF-8")),
+                        new MediaType("text", "html", Charset.forName("UTF-8")))
         );
         return stringHttpMessageConverter;
     }
@@ -62,8 +59,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     // Internationalization beans
     @Bean
-    public MessageSource messageSource()
-    {
+    public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:/locale/messages");
         messageSource.setCacheSeconds(60);

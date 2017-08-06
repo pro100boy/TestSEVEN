@@ -6,7 +6,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="modalTitle">Add/edit report</h2>
+                <h3 class="modal-title" id="modalTitle" th:text="#{report.modaltitle}">Add/edit report</h3>
             </div>
             <div class="modal-body">
                 <form autocomplete="off" action="#"
@@ -15,45 +15,45 @@
                     <input type="hidden" id="id" name="id"/>
 
                     <div class="form-group has-feedback">
-                        <label for="name" class="control-label col-xs-3">Name</label>
+                        <label for="name" class="control-label col-xs-3" th:text="#{report.name}">Name</label>
 
                         <div class="col-xs-9">
-                            <input type="text" placeholder="Name" id="name" name="name"
+                            <input type="text" th:placeholder="#{report.name}" id="name" name="name"
                                    class="form-control" data-minlength="3" required />
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block">Minimum of 3 characters</div>
+                            <div class="help-block" th:text="#{hint.min3chars}">Minimum of 3 characters</div>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="date" class="control-label col-xs-3">Date and time</label>
+                        <label for="date" class="control-label col-xs-3" th:text="#{report.date}">Date and time</label>
 
                         <div class="col-xs-9">
                             <input type="text" id="date" name="date"
                                    class="form-control" required />
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block with-errors"></div>
+                            <div class="help-block"></div>
                         </div>
                     </div>
 
                     <div class="form-group has-feedback">
-                        <label for="data" class="control-label col-xs-3">Data</label>
+                        <label for="data" class="control-label col-xs-3" th:text="#{report.data}">Data</label>
 
                         <div class="col-xs-9">
-                            <textarea rows="10" cols="45" placeholder="Data" id="data" name="data" class="form-control" data-minlength="5" required ></textarea>
+                            <textarea rows="10" cols="45" th:placeholder="#{report.data}" id="data" name="data" class="form-control" data-minlength="5" required ></textarea>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
-                            <div class="help-block">Minimum of 5 characters</div>
+                            <div class="help-block" th:text="#{hint.min5chars}">Minimum of 5 characters</div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-offset-3 col-xs-9">
                             <button type="submit" class="btn btn-primary save-report" data-placement="top"
-                                    data-toggle="tooltip" title="Save">
+                                    data-toggle="tooltip" th:title="#{button.save}">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             </button>
                             <button type="button" onclick="" class="btn btn-warning" data-placement="top"
-                                    data-toggle="tooltip" data-dismiss="modal" title="Cancel">
+                                    data-toggle="tooltip" data-dismiss="modal" th:title="#{button.cancel}">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                         </div>
