@@ -114,8 +114,10 @@ function updateRow(id) {
         showErrorMessage(jqXHR);
     });
 
-    if (frmDetails === frmDetailsArr[0])
+    if (frmDetails === frmDetailsArr[0]) {
         getCompanies($('#dropOperator'));
+        // TODO загрузить компанию юзера с id=id и выставить ее в списке
+    }
 }
 
 function myValidate(frmDetails) {
