@@ -43,7 +43,7 @@ public class CompanyServiceImpl implements CompanyService {
         Company c = repository.save(company);
 
         // create new company owner
-        User newOwner = UserUtil.createNewForMail(c);
+        User newOwner = UserUtil.createNewOwner(c);
         userService.save(newOwner);
 
         // send email to just created owner

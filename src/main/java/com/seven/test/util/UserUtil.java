@@ -13,9 +13,9 @@ import java.util.Collections;
 import static com.seven.test.AuthorizedUser.userHasAuthority;
 
 public class UserUtil {
-    private static final RandomStringGenerator RSG_PASSWD = new RandomStringGenerator.Builder().withinRange('!', 'z').build();
-    private static final RandomStringGenerator RSG_LETTERS = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
-    private static final RandomStringGenerator RSG_DIGITS = new RandomStringGenerator.Builder().withinRange('0', '9').build();
+    public static final RandomStringGenerator RSG_PASSWD = new RandomStringGenerator.Builder().withinRange('!', 'z').build();
+    public static final RandomStringGenerator RSG_LETTERS = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
+    public static final RandomStringGenerator RSG_DIGITS = new RandomStringGenerator.Builder().withinRange('0', '9').build();
 
     public static User prepareToSave(User user) {
         user.setPassword(PasswordUtil.encode(user.getPassword()));
@@ -51,7 +51,7 @@ public class UserUtil {
         return updateFromTo(user, newUser);
     }
 
-    public static User createNewForMail(Company company) {
+    public static User createNewOwner(Company company) {
         final User newOwner = new User();
         newOwner.setName(RSG_LETTERS.generate(5));
         newOwner.setLastname(RSG_LETTERS.generate(10));

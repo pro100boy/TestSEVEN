@@ -73,6 +73,16 @@ public class User extends NamedEntity {
     @JsonManagedReference(value="company-users")
     private Company company;
 
+    public User(Integer id, String name, String lastname, String email, String password, Set<Role> roles, String phone, Company company) {
+        super(id, name);
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+        this.phone = phone;
+        this.company = company;
+    }
+
     public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }

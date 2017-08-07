@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.transaction.TransactionException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +76,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
     }
 
-    @ExceptionHandler(value = {SQLException.class, DataAccessException.class})
+    @ExceptionHandler(value = {SQLException.class, DataAccessException.class, TransactionException.class})
     protected ResponseEntity<Object> handleDBException(RuntimeException ex, WebRequest request) {
         String bodyOfResponse = messageSource.getMessage("exception.db", null, LocaleContextHolder.getLocale());
         return handleExceptionInternal(ex, bodyOfResponse,
