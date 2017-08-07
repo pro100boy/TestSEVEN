@@ -16,7 +16,6 @@ import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class CompanyServiceImpl implements CompanyService {
         // TODO пароль генерировать рандомно http://kodejava.org/how-do-i-generate-a-random-alpha-numeric-string/
         try {
             String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
-            emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
+            //emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
             log.info("Email sent to company owner: " + newOwner);
         } catch (MailSendException ex)
         {
