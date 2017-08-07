@@ -1,13 +1,6 @@
 var datatableApiUsers;
 
 $(function () {
-    // на будущее
-    /*$("#locales").change(function () {
-        var selectedOption = $('#locales').val();
-        if (selectedOption != ''){
-            window.location.replace('international?lang=' + selectedOption);
-        }
-    });*/
     var ajaxUrl = 'users/';
     var successmsg = 'User successfully saved';
 
@@ -63,7 +56,7 @@ $(function () {
     });
 });
 
-function getCompanies(elem) {
+function getCompanies(elem, id) {
     // remove-all-options-except-first-option
     // $('select').children('option:not(:first)').remove();
 
@@ -72,16 +65,6 @@ function getCompanies(elem) {
         .remove()
         .end()//;
         .append('<option value="" selected="selected">Select company:</option>');
-    //.val('Select company:');
-
-/*    //datatableApiCmp.rows().every( function ( rowIdx, tableLoop, rowLoop ) { // не выбирается последняя строка ((
-    var table = document.getElementById('companyTable');
-    // начинаем с 1, т.к. 0 = заголовок таблицы
-    for (var i = 1; i < table.rows.length; i++) {
-        var val = table.rows[i].cells[0].innerText;
-        var id = $(table.rows[i].cells[3].innerHTML).attr("id").replace("rowid", "");
-        elem.append($('<option></option>').val(id).html(val));
-    }*/
 
     // all companies. When Admin creates user and links him with company.
     $.get('companies/', function (data) {
@@ -92,12 +75,11 @@ function getCompanies(elem) {
             elem.append($('<option></option>').val(value.id).html(value.name));
         });
 
-        // choose 1st element for companies owners and employees
-        // need when remove lines 30-33 from UserUtil.java and add bindingResult in user controller
-        /*var n = elem.children('option').length;
-        if (n === 2)
-            elem[0].selectedIndex = 1;*/
+        // select user's company when admin edits user
+
+        if (id !== undefined)
+            $.get('users/companyid/' + id, function (data) {
+               elem.val(data);
+            });
     });
-
-
 }

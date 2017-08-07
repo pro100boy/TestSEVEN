@@ -1,6 +1,6 @@
 var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp'), $('#detailsFormRep')];
 var modalFormArr = [$('#editUser'), $('#editCompany'), $('#editReport')];
-
+var cmpID;
 // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
 // common options for datatables
 function extendsOpts(ajaxUrl, opts) {
@@ -75,6 +75,7 @@ function updateRow(id) {
     var frmDetails;
     var ajaxUrl;
     var modalForm;
+
     switch (currentTableId) {
         case 'userTable':
             ajaxUrl = datatableApiUsers.ajax.url();
@@ -108,16 +109,16 @@ function updateRow(id) {
             );
             // просмотр отчета
             frmDetails.find("textarea[name='" + key + "']").val(value);
+            // company id
+            cmpID = (key === "company") ? value.id : cmpID = undefined;
         });
         modalForm.modal();
     }).fail(function (jqXHR, textStatus, thrownError) {
         showErrorMessage(jqXHR);
     });
 
-    if (frmDetails === frmDetailsArr[0]) {
-        getCompanies($('#dropOperator'));
-        // TODO загрузить компанию юзера с id=id и выставить ее в списке
-    }
+    if (frmDetails === frmDetailsArr[0])
+        getCompanies($('#dropOperator'), cmpID);
 }
 
 function myValidate(frmDetails) {
