@@ -56,7 +56,7 @@ $(function () {
     });
 });
 
-function getCompanies(elem, id) {
+function getCompanies(elem) {
     // remove-all-options-except-first-option
     // $('select').children('option:not(:first)').remove();
 
@@ -77,8 +77,8 @@ function getCompanies(elem, id) {
 
         // select user's company when admin edits user
 
-        if (id !== undefined)
-            $.get('users/companyid/' + id, function (data) {
+        if (cmpID !== undefined)
+            $.get('users/companyid/' + cmpID, function (data) {
                elem.val(data);
             });
     });

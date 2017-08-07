@@ -118,7 +118,7 @@ function updateRow(id) {
     });
 
     if (frmDetails === frmDetailsArr[0])
-        getCompanies($('#dropOperator'), cmpID);
+        getCompanies($('#dropOperator'));
 }
 
 function myValidate(frmDetails) {
