@@ -1,6 +1,7 @@
 var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp'), $('#detailsFormRep')];
 var modalFormArr = [$('#editUser'), $('#editCompany'), $('#editReport')];
-var cmpID = 99;
+var cmpID;
+var tt;
 // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
 // common options for datatables
 function extendsOpts(ajaxUrl, opts) {
@@ -166,8 +167,13 @@ function deleteRow(id) {
     var cell2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
     var res = "<br />" + cell1 + " " + cell2;
 
+    /*$.get('/myajax', function(data){
+        callback(data);
+    });*/
+
+    this.getResults();
     bootbox.dialog({
-        message: "Are you sure you want to delete" + res + " ?",
+        message: tt,//"Are you sure you want to delete" + res + " ?",
         title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
         size: 'small',
         buttons: {
@@ -206,6 +212,17 @@ function deleteRow(id) {
                         })
                 }
             }
+        }
+    });
+}
+
+function getResults() {
+    $.ajax({
+        type: 'GET',
+        url: 'myajax/',
+        async: false,
+        success: function(data) {
+            tt = data.toString().split(",")[0];
         }
     });
 }
