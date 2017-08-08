@@ -29,7 +29,4 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u JOIN FETCH u.company WHERE u.company.id=:id AND :role member u.roles")
     List<User> findAllByCompanyAndRoles(@Param("id") int id, @Param("role") Role role);
-
-    @Query(nativeQuery = true, value = "SELECT companyid FROM users WHERE users.id=:id")
-    Integer getCompanyId(@Param("id") int id);
 }

@@ -40,11 +40,6 @@ public class UserController {
         return userService.get(id);
     }
 
-    @GetMapping(value = "/companyid/{id}")
-    public Integer getCompanyId(@PathVariable("id") Integer id) {
-        return userService.getCompanyId(id);
-    }
-
     @GetMapping
     public List<User> getUsers() {
         return userService.getAll();

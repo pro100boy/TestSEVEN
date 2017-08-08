@@ -42,8 +42,8 @@ $(function () {
             }
         ],
         "columnDefs": [
-               // sort by last name then by first name
-              {"orderData": [0, 1], "targets": 0}
+            // sort by last name then by first name
+            {"orderData": [0, 1], "targets": 0}
             , {"orderable": false, "targets": [2, 3, 4, 5, 6, 7]}
             , {"width": "15%", "targets": [0, 1, 2]}
             , {"width": "5%", "targets": [6, 7]}
@@ -76,10 +76,7 @@ function getCompanies(elem) {
         });
 
         // select user's company when admin edits user
-
         if (cmpID !== undefined)
-            $.get('users/companyid/' + cmpID, function (data) {
-               elem.val(data);
-            });
+            elem.val(cmpID);
     });
 }

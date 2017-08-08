@@ -1,6 +1,6 @@
 var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp'), $('#detailsFormRep')];
 var modalFormArr = [$('#editUser'), $('#editCompany'), $('#editReport')];
-var cmpID;
+var cmpID = 99;
 // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
 // common options for datatables
 function extendsOpts(ajaxUrl, opts) {
@@ -110,15 +110,16 @@ function updateRow(id) {
             // просмотр отчета
             frmDetails.find("textarea[name='" + key + "']").val(value);
             // company id
-            cmpID = (key === "company") ? value.id : cmpID = undefined;
+            if (key === 'company') cmpID = value.id;
         });
-        modalForm.modal();
     }).fail(function (jqXHR, textStatus, thrownError) {
         showErrorMessage(jqXHR);
-    });
+    }).done(function (){
+        if (frmDetails === frmDetailsArr[0])
+            getCompanies($('#dropOperator'));
 
-    if (frmDetails === frmDetailsArr[0])
-        getCompanies($('#dropOperator'));
+        modalForm.modal();
+    });
 }
 
 function myValidate(frmDetails) {

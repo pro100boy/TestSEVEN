@@ -78,11 +78,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Integer getCompanyId(int id) {
-        return repository.getCompanyId(id);
-    }
-
-    @Override
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User u = findByEmail(email.toLowerCase());
         if (u == null) {
