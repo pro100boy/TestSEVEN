@@ -16,7 +16,7 @@ function extendsOpts(ajaxUrl, opts) {
             "paging": true,
             "info": true,
             "language": {
-                "url" : "json/" + localeCode + ".json"
+                "url": "json/" + localeCode + ".json"
             },
             "initComplete": makeEditable
         }
@@ -31,7 +31,7 @@ function formatDate(date) {
 function makeEditable() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function(e, xhr, options) {
+    $(document).ajaxSend(function (e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
 }
@@ -115,7 +115,7 @@ function updateRow(id) {
         });
     }).fail(function (jqXHR, textStatus, thrownError) {
         showErrorMessage(jqXHR);
-    }).done(function (){
+    }).done(function () {
         if (frmDetails === frmDetailsArr[0])
             getCompanies($('#dropOperator'));
 
@@ -167,13 +167,11 @@ function deleteRow(id) {
     var cell2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
     var res = "<br />" + cell1 + " " + cell2;
 
-    /*$.get('/myajax', function(data){
-        callback(data);
-    });*/
+    this.getResultsMap();
 
-    this.getResults();
+    //this.getResults();
     bootbox.dialog({
-        message: tt,//"Are you sure you want to delete" + res + " ?",
+        message: "Are you sure you want to delete" + res + " ?", //tt,
         title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
         size: 'small',
         buttons: {
@@ -221,10 +219,25 @@ function getResults() {
         type: 'GET',
         url: 'myajax/',
         async: false,
-        success: function(data) {
+        success: function (data) {
             tt = data.toString().split(",")[0];
         }
-    });
+    })
+}
+
+function getResultsMap() {
+    $.ajax({
+        type: 'GET',
+        url: 'myajaxmap/',
+        async: false,
+        success: function (data) {
+
+            //alert(key + " :: " + value);
+            //alert(data['user.save']);
+            alert(data['user.name']);
+        }
+
+    })
 }
 
 function showErrorMessage(jqXHR) {

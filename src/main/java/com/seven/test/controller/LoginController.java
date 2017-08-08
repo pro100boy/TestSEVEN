@@ -12,12 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class LoginController {
     private final Logger log = LoggerFactory.getLogger(getClass());
+
     @GetMapping(value = "/login")
     public String login() {
         return "login";
@@ -44,5 +44,16 @@ public class LoginController {
                 messageSource.getMessage("user.name", null, LocaleContextHolder.getLocale()),
                 messageSource.getMessage("user.lastname", null, LocaleContextHolder.getLocale())
         );
+    }
+
+    @GetMapping(value = "/myajaxmap")
+    @ResponseBody
+    public Map<String, String> getMyAjaxMessageMap() {
+        log.info("getMyAjaxMessageMap()");
+        return Collections.unmodifiableMap(new HashMap<String, String>() {{
+            put("user.save", messageSource.getMessage("user.save", null, LocaleContextHolder.getLocale()));
+            put("user.name", messageSource.getMessage("user.name", null, LocaleContextHolder.getLocale()));
+            put("user.lastname", messageSource.getMessage("user.lastname", null, LocaleContextHolder.getLocale()));
+        }});
     }
 }
