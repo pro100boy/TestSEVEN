@@ -39,12 +39,18 @@ public class Company extends NamedEntity {
     private String address;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
-    @JsonBackReference(value = "company-users")
+    //@JsonBackReference(value = "company-users")
     private Set<User> users;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
-    @JsonBackReference(value = "company-reports")
+    //@JsonBackReference(value = "company-reports")
     private Set<Report> reports;
+
+    public Company(Integer id, String name, String email, String address) {
+        super(id, name);
+        this.email = email;
+        this.address = address;
+    }
 
     @Override
     public String toString() {

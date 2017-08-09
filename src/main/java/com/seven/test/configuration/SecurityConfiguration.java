@@ -20,7 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    AuthenticationSuccessHandler successHandler;
+    private AuthenticationSuccessHandler successHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;

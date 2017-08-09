@@ -36,6 +36,6 @@ public class Report extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference(value = "company-reports")
+    //@JsonManagedReference(value = "company-reports")
     private Company company;
 }

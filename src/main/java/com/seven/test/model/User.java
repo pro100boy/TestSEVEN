@@ -70,7 +70,7 @@ public class User extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "companyid", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonManagedReference(value="company-users")
+    //@JsonManagedReference(value="company-users")
     private Company company;
 
     public User(Integer id, String name, String lastname, String email, String password, Set<Role> roles, String phone, Company company) {
