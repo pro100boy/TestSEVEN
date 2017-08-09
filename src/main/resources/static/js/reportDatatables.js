@@ -2,7 +2,6 @@ var datatableApiReport;
 
 $(function () {
     var ajaxUrl = 'reports/';
-    var successmsg = 'Report successfully saved';
 
     datatableApiReport = $('#reportTable').DataTable(extendsOpts(ajaxUrl, {
         "columns": [
@@ -48,7 +47,7 @@ $(function () {
 
     frmDetailsArr[2].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetailsArr[2], modalFormArr[2], successmsg, datatableApiReport);
+        save(frmDetailsArr[2], modalFormArr[2], datatableApiReport);
     });
 
     $.datetimepicker.setLocale(localeCode);

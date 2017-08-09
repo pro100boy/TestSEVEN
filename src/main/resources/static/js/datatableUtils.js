@@ -1,7 +1,25 @@
 var frmDetailsArr = [$('#detailsFormUser'), $('#detailsFormCmp'), $('#detailsFormRep')];
 var modalFormArr = [$('#editUser'), $('#editCompany'), $('#editReport')];
+/**
+ * the company ID for using in dropdown
+ */
 var cmpID;
-var tt;
+/**
+ * localized messages
+ * format: Map<String key, String value>
+ *     for example: alert(i18n['user.name']);
+ */
+var i18n;
+
+$.ajax({
+    type: 'GET',
+    url: 'i18n/',
+    //async: false,
+    success: function (data) {
+        i18n = data;
+    }
+});
+
 // https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN
 // common options for datatables
 function extendsOpts(ajaxUrl, opts) {
@@ -36,7 +54,7 @@ function makeEditable() {
     });
 }
 
-function save(frmDetails, modalForm, successmsg, datatableApi) {
+function save(frmDetails, modalForm, datatableApi) {
     var validator = frmDetails.data('bs.validator');
 
     validator.reset();
@@ -53,7 +71,7 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
             .done(function (data, textStatus, jqXHR) {
                 modalForm.modal('hide');
                 bootbox.alert({
-                    message: successmsg,
+                    message: i18n['common.saved'],
                     size: 'small',
                     callback: function () {
                         datatableApi.ajax.reload();
@@ -70,7 +88,7 @@ function save(frmDetails, modalForm, successmsg, datatableApi) {
     }
 }
 
-// заполняем поля в модальной форме при редактировании 
+// filling fields in modal form for editing
 function updateRow(id) {
     var currentTableId = $("#rowid" + id).closest("table").attr("id");
     var frmDetails;
@@ -128,7 +146,7 @@ function myValidate(frmDetails) {
     // get validator and reset it
     frmDetails.data('bs.validator').reset();
 
-    // если редактируем юзера, то подгружаем ему список компаний
+    // load company list before user editing
     if (frmDetails === frmDetailsArr[0])
         getCompanies($('#dropOperator'));
 }
@@ -165,25 +183,22 @@ function deleteRow(id) {
     var currentRow = $("#rowid" + id).closest("tr");
     var cell1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
     var cell2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
-    var res = "<br />" + cell1 + " " + cell2;
+    var questionmsg = i18n['common.delete'] + " " + cell1 + " " + cell2 + "?";
 
-    this.getResultsMap();
-
-    //this.getResults();
     bootbox.dialog({
-        message: "Are you sure you want to delete" + res + " ?", //tt,
-        title: "<i class='glyphicon glyphicon-trash'></i> Delete !",
+        message: questionmsg, //i18n,
+        title: i18n['common.captiondlg'],
         size: 'small',
         buttons: {
             success: {
-                label: "No",
+                label: i18n['common.cancel'],
                 className: "btn-success",
                 callback: function () {
                     $('.bootbox').modal('hide');
                 }
             },
             danger: {
-                label: "Delete!",
+                label: i18n['common.delete'],
                 className: "btn-danger",
                 callback: function () {
 
@@ -201,7 +216,7 @@ function deleteRow(id) {
                                 datatableApiReport.ajax.reload();
                             }
                             bootbox.alert({
-                                message: 'Item has been deleted successfully',
+                                message: i18n['common.deleted'],
                                 size: 'small'
                             })
                         })
@@ -212,32 +227,6 @@ function deleteRow(id) {
             }
         }
     });
-}
-
-function getResults() {
-    $.ajax({
-        type: 'GET',
-        url: 'myajax/',
-        async: false,
-        success: function (data) {
-            tt = data.toString().split(",")[0];
-        }
-    })
-}
-
-function getResultsMap() {
-    $.ajax({
-        type: 'GET',
-        url: 'myajaxmap/',
-        async: false,
-        success: function (data) {
-
-            //alert(key + " :: " + value);
-            //alert(data['user.save']);
-            alert(data['user.name']);
-        }
-
-    })
 }
 
 function showErrorMessage(jqXHR) {

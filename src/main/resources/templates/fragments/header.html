@@ -22,7 +22,7 @@
             <ul class="dropdown-menu" role="menu" style="min-width: 0px; !important;">
                 <li th:if="${#authorization.expression('!hasAuthority(''COMPANY_EMPLOYER'')')}">
                     <a href="#" data-toggle="modal" data-target="#editUser"
-                       onclick="myValidate(frmDetailsArr[0])" th:text="#{new.user}">
+                       onclick="cmpID = undefined; myValidate(frmDetailsArr[0])" th:text="#{new.user}">
                         New user
                     </a>
                 </li>

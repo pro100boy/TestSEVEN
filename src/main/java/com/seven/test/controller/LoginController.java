@@ -18,6 +18,9 @@ import java.util.*;
 public class LoginController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
+    @Autowired
+    MessageSource messageSource;
+
     @GetMapping(value = "/login")
     public String login() {
         return "login";
@@ -32,28 +35,17 @@ public class LoginController {
         return "main";
     }
 
-    @Autowired
-    MessageSource messageSource;
-
-    @GetMapping(value = "/myajax")
-    @ResponseBody
-    public List<String> getMyAjaxMessage() {
-        log.info("getMyAjaxMessage()");
-        return Arrays.asList(
-                messageSource.getMessage("user.save", null, LocaleContextHolder.getLocale()),
-                messageSource.getMessage("user.name", null, LocaleContextHolder.getLocale()),
-                messageSource.getMessage("user.lastname", null, LocaleContextHolder.getLocale())
-        );
-    }
-
-    @GetMapping(value = "/myajaxmap")
+    @GetMapping(value = "/i18n")
     @ResponseBody
     public Map<String, String> getMyAjaxMessageMap() {
-        log.info("getMyAjaxMessageMap()");
+        log.info("i18n");
         return Collections.unmodifiableMap(new HashMap<String, String>() {{
-            put("user.save", messageSource.getMessage("user.save", null, LocaleContextHolder.getLocale()));
-            put("user.name", messageSource.getMessage("user.name", null, LocaleContextHolder.getLocale()));
-            put("user.lastname", messageSource.getMessage("user.lastname", null, LocaleContextHolder.getLocale()));
+            put("common.saved", messageSource.getMessage("common.saved", null, LocaleContextHolder.getLocale()));
+            put("common.deleted", messageSource.getMessage("common.deleted", null, LocaleContextHolder.getLocale()));
+            put("common.cancel", messageSource.getMessage("common.cancel", null, LocaleContextHolder.getLocale()));
+            put("company.select", messageSource.getMessage("company.select", null, LocaleContextHolder.getLocale()));
+            put("common.delete", messageSource.getMessage("common.delete", null, LocaleContextHolder.getLocale()));
+            put("common.captiondlg", messageSource.getMessage("common.captiondlg", null, LocaleContextHolder.getLocale()));
         }});
     }
 }

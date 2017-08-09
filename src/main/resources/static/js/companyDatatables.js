@@ -2,10 +2,6 @@ var datatableApiCmp;
 
 $(function () {
     var ajaxUrl = 'companies/';
-    // TODO локализовать сообщения в JS
-    var successmsg = 'Company successfully saved';
-
-    // var errormsg = 'A company with such name and email is already registered in the app!!';
 
     datatableApiCmp = $('#companyTable').DataTable(extendsOpts(ajaxUrl, {
         "columns": [
@@ -44,6 +40,6 @@ $(function () {
 
     frmDetailsArr[1].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetailsArr[1], modalFormArr[1], successmsg, datatableApiCmp);
+        save(frmDetailsArr[1], modalFormArr[1], datatableApiCmp);
     });
 });

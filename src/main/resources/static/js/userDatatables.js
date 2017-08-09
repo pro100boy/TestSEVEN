@@ -2,7 +2,6 @@ var datatableApiUsers;
 
 $(function () {
     var ajaxUrl = 'users/';
-    var successmsg = 'User successfully saved';
 
     datatableApiUsers = $('#userTable').DataTable(extendsOpts(ajaxUrl, {
         "columns": [
@@ -52,7 +51,7 @@ $(function () {
 
     frmDetailsArr[0].validator().on('submit', function (e) {
         e.preventDefault();
-        save(frmDetailsArr[0], modalFormArr[0], successmsg, datatableApiUsers);
+        save(frmDetailsArr[0], modalFormArr[0], datatableApiUsers);
     });
 });
 
@@ -64,7 +63,7 @@ function getCompanies(elem) {
     elem.find('option')
         .remove()
         .end()//;
-        .append('<option value="" selected="selected">Select company:</option>');
+        .append('<option value="" selected="selected">' + i18n['company.select'] + '</option>');
 
     // all companies. When Admin creates user and links him with company.
     $.get('companies/', function (data) {
