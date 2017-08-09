@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.CoreMatchers.instanceOf;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @Sql(scripts = {"classpath:db/schema-mysql.sql", "classpath:db/data-mysql.sql"}, config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractServiceTest {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractServiceTest.class);

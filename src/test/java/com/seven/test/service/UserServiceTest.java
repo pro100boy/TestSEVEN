@@ -1,23 +1,19 @@
-package com.seven.test.controller;
+package com.seven.test.service;
 
 import com.seven.test.model.Role;
 import com.seven.test.model.User;
-import com.seven.test.service.AbstractServiceTest;
-import com.seven.test.service.UserService;
 import com.seven.test.util.exception.NotFoundException;
-import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import static testdata.CompanyTestData.COMPANY1;
 import static testdata.UserTestData.*;
-import static testdata.UserTestData.MATCHER;
 
 public class UserServiceTest extends AbstractServiceTest {
 
@@ -27,10 +23,11 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     public void testSave() throws Exception {
         User newUser = new User(null, "New", "New", "new@gmail.com", "newPass", "+12354654", Collections.singleton(Role.COMPANY_EMPLOYER));
+        newUser.setCompany(COMPANY1);
 
         User created = service.save(newUser);
         newUser.setId(created.getId());
-        MATCHER.assertCollectionEquals(Arrays.asList(USER3, USER1, USER5, USER2, USER4, newUser), service.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(USER3, newUser, USER1, USER5, USER2, USER4), service.getAll());
     }
 
     @Test(expected = DataAccessException.class)
@@ -71,31 +68,40 @@ public class UserServiceTest extends AbstractServiceTest {
         Collection<User> all = service.getAll();
         MATCHER.assertCollectionEquals(Arrays.asList(USER3, USER1, USER5, USER2, USER4), all);
     }
-/*
+
     @Test
     public void testUpdate() throws Exception {
-        User updated = new User(USER1);
+        User updated = USER1;
         updated.setName("UpdatedName");
-        //updated.setRoles(Collections.singletonList(Role.ROLE_ADMIN));
+        updated.setCompany(COMPANY1);
+
         service.update(updated);
         MATCHER.assertEquals(updated, service.get(USER1_ID));
     }
 
     @Test
-    public void testSetEnabledEquals() {
-        service.enable(USER1_ID, false);
-        Assert.assertFalse(service.get(USER1_ID).isEnabled());
-        service.enable(USER1_ID, true);
-        Assert.assertTrue(service.get(USER1_ID).isEnabled());
+    public void update() throws Exception {
+    }
+
+    @Test
+    public void getAllOwner() throws Exception {
+    }
+
+    @Test
+    public void getAllEmployer() throws Exception {
+    }
+
+    @Test
+    public void loadUserByUsername() throws Exception {
     }
 
     @Test
     public void testValidation() throws Exception {
         // empty name
-        validateRootCause(() -> service.save(new User(null, "  ", "invalid@yandex.ru", "password", Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.save(new User(null, " ", "Ivanov", "ivanov@gmail.com", "password", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
         // empty email
-        validateRootCause(() -> service.save(new User(null, "User", "  ", "password", Role.ROLE_USER)), ConstraintViolationException.class);
+        validateRootCause(() -> service.save(new User(null, "Sidor", "Ivanov", " ", "password", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
         // empty password
-        validateRootCause(() -> service.save(new User(null, "User", "invalid@yandex.ru", "  ", Role.ROLE_USER)), ConstraintViolationException.class);
-    }*/
+        validateRootCause(() -> service.save(new User(null, "Sidor", "Ivanov", "ivanov@gmail.com", "", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
+    }
 }

@@ -11,6 +11,8 @@ public interface UserService {
 
     void update(UserTo userTo, int id);
 
+    void update(User user);
+
     void delete(int id) throws NotFoundException;
 
     User get(int id) throws NotFoundException;

@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collections;
 import java.util.List;
 
-import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.UserUtil.prepareToSave;
 import static com.seven.test.util.UserUtil.updateFromTo;
 import static com.seven.test.util.ValidationUtil.*;
@@ -40,10 +39,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void update(UserTo userTo, int id) {
+    public void update(@NonNull UserTo userTo, int id) {
         log.info("update: " + userTo);
         checkIdConsistent(userTo, id);
         User user = updateFromTo(get(id), userTo);
+        repository.save(prepareToSave(user));
+    }
+
+    @Override
+    @Transactional
+    public void update(@NonNull User user) {
         repository.save(prepareToSave(user));
     }
 
