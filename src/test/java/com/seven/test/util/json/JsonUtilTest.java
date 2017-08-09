@@ -1,26 +1,26 @@
 package com.seven.test.util.json;
 
-import com.seven.test.model.Company;
+import com.seven.test.model.Report;
 import org.junit.Test;
 
 import java.util.List;
 
-import static testdata.CompanyTestData.*;
+import static testdata.ReportTestData.*;
 
 public class JsonUtilTest {
     @Test
     public void testReadWriteValue() throws Exception {
-        String json = JsonUtil.writeValue(COMPANY1);
+        String json = JsonUtil.writeValue(REPORT1);
         System.out.println(json);
-        Company company = JsonUtil.readValue(json, Company.class);
-        MATCHER.assertEquals(COMPANY1, company);
+        Report report = JsonUtil.readValue(json, Report.class);
+        MATCHER.assertEquals(REPORT1, report);
     }
 
     @Test
     public void testReadWriteValues() throws Exception {
-        String json = JsonUtil.writeValue(COMPANIES);
+        String json = JsonUtil.writeValue(REPORTS);
         System.out.println(json);
-        List<Company> meals = JsonUtil.readValues(json, Company.class);
-        MATCHER.assertCollectionEquals(COMPANIES, meals);
+        List<Report> reports = JsonUtil.readValues(json, Report.class);
+        MATCHER.assertCollectionEquals(REPORTS, reports);
     }
 }

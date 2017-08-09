@@ -15,7 +15,6 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @EqualsAndHashCode(exclude = {"users", "reports"}, callSuper = true)
 @NamedEntityGraph(name = Company.GRAPH_WITH_USERS_REPORTS, attributeNodes =

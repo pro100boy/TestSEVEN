@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(exclude = "company", callSuper = true)
 @Entity
 @EqualsAndHashCode(callSuper=true)
@@ -38,4 +37,10 @@ public class Report extends NamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     //@JsonManagedReference(value = "company-reports")
     private Company company;
+
+    public Report(Integer id, String name, LocalDateTime date, String data) {
+        super(id, name);
+        this.date = date;
+        this.data = data;
+    }
 }

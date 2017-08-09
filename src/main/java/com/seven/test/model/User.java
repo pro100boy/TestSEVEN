@@ -21,7 +21,6 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString(exclude = {"password", "company"}, callSuper = true)
 @Entity
@@ -73,14 +72,17 @@ public class User extends NamedEntity {
     //@JsonManagedReference(value="company-users")
     private Company company;
 
-    public User(Integer id, String name, String lastname, String email, String password, Set<Role> roles, String phone, Company company) {
+    public User(Integer id, String name, String lastname, String email, String password, String phone, Role role, Role... roles) {
+        this(id, name, lastname, email, password, phone, EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, String name, String lastname, String email, String password, String phone, Set<Role> roles) {
         super(id, name);
         this.lastname = lastname;
         this.email = email;
         this.password = password;
-        this.roles = roles;
         this.phone = phone;
-        this.company = company;
+        setRoles(roles);
     }
 
     public void setRoles(Collection<Role> roles) {
