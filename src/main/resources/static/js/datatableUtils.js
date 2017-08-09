@@ -14,7 +14,7 @@ var i18n;
 $.ajax({
     type: 'GET',
     url: 'i18n/',
-    async: false,
+    //async: false,
     success: function (data) {
         i18n = data;
     }

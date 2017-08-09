@@ -45,7 +45,7 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void delete(int id) throws NotFoundException {
         log.info("delete id = " + id);
-        int companyId = AuthorizedUser.companyId();//getCompanyId();
+        int companyId = AuthorizedUser.companyId();
         // проверка, чтоб не удалил отчет не своей компании
         checkNotFoundWithId(reportRepository.delete(id, companyId) != 0, id);
     }
