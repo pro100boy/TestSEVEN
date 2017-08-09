@@ -1,5 +1,7 @@
 package com.seven.test.controller;
 
+import com.seven.test.AuthorizedUser;
+import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.service.UserService;
 import com.seven.test.to.UserTo;
@@ -9,8 +11,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
+import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.UserUtil.createNewFromTo;
 
 @RestController
@@ -42,6 +46,13 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers() {
-        return userService.getAll();
+        // ADMIN can CRUD any users
+        if (userHasAuthority(Role.ADMIN.name()))
+            return userService.getAll();
+            // COMPANY_OWNER can CRUD only his company's employees
+        else if (userHasAuthority(Role.COMPANY_OWNER.name()))
+            return userService.getAllOwner(AuthorizedUser.companyId());
+            // COMPANY_EMPLOYER can CRUD only own profile
+        else return userService.getAllEmployer(AuthorizedUser.id());
     }
 }

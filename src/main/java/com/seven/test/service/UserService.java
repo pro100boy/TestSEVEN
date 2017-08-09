@@ -18,4 +18,8 @@ public interface UserService {
     User findByEmail(String email);
 
     List<User> getAll();
+
+    List<User> getAllOwner(int companyId);
+
+    List<User> getAllEmployer(int userId);
 }
