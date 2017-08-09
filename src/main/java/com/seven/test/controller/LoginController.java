@@ -32,7 +32,7 @@ public class LoginController {
             put("common.cancel", messageSource.getMessage("common.cancel", null, LocaleContextHolder.getLocale()));
             put("company.select", messageSource.getMessage("company.select", null, LocaleContextHolder.getLocale()));
             put("common.delete", messageSource.getMessage("common.delete", null, LocaleContextHolder.getLocale()));
-            put("common.captiondlg", messageSource.getMessage("common.captiondlg", null, LocaleContextHolder.getLocale()));
+            put("common.caption", messageSource.getMessage("common.caption", null, LocaleContextHolder.getLocale()));
         }});
     }
 

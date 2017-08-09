@@ -187,7 +187,7 @@ function deleteRow(id) {
 
     bootbox.dialog({
         message: questionmsg, //i18n,
-        title: i18n['common.captiondlg'],
+        title: i18n['common.caption'],
         size: 'small',
         buttons: {
             success: {
