@@ -14,7 +14,7 @@ var i18n;
 $.ajax({
     type: 'GET',
     url: 'i18n/',
-    //async: false,
+    async: false,
     success: function (data) {
         i18n = data;
     }
@@ -34,7 +34,7 @@ function extendsOpts(ajaxUrl, opts) {
             "paging": true,
             "info": true,
             "language": {
-                "url": "json/" + localeCode + ".json"
+                "url" : "json/" + localeCode + ".json"
             },
             "initComplete": makeEditable
         }
@@ -49,7 +49,7 @@ function formatDate(date) {
 function makeEditable() {
     var token = $("meta[name='_csrf']").attr("content");
     var header = $("meta[name='_csrf_header']").attr("content");
-    $(document).ajaxSend(function (e, xhr, options) {
+    $(document).ajaxSend(function(e, xhr, options) {
         xhr.setRequestHeader(header, token);
     });
 }

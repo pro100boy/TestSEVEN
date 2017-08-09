@@ -18,6 +18,9 @@ public interface ReportRepository extends JpaRepository<Report, Integer> {
 
     List<Report> findAllByOrderByDateDesc();
 
+    @Query("SELECT r FROM Report r JOIN FETCH r.company WHERE r.id=?1 and r.company.id=?2")
+    Report findOne(int id, int companyId);
+
     @Query("SELECT r FROM Report r WHERE r.company.id = ?1 ORDER BY r.date DESC")
     List<Report> getAllByCompany(int companyId);
 }

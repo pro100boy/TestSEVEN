@@ -54,8 +54,7 @@ public class ReportServiceImpl implements ReportService {
     public Report get(int id) throws NotFoundException {
         log.info("get id = " + id);
         int companyId = AuthorizedUser.companyId();
-        Report report = reportRepository.findOne(id);
-        return checkNotFoundWithId(report != null && report.getCompany().getId() == companyId ? report : null, id);
+        return reportRepository.findOne(id, companyId);
     }
 
     @Override
