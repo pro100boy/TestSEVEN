@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 import java.util.List;
 
+import static com.seven.test.AuthorizedUser.userHasAuthority;
+
 @RestController
 @RequestMapping(value = "/reports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ReportController {
@@ -47,6 +49,9 @@ public class ReportController {
 
     @GetMapping
     public List<Report> getReports() {
-        return reportService.getAll();
+        if (userHasAuthority("ADMIN"))
+            return reportService.getAll();
+        else
+            return reportService.getAllByCompany(AuthorizedUser.companyId());
     }
 }

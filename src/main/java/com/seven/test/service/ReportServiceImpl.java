@@ -1,7 +1,7 @@
 package com.seven.test.service;
 
-import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Report;
+import com.seven.test.repository.CompanyRepository;
 import com.seven.test.repository.ReportRepository;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.ValidationUtil.checkNotFoundWithId;
 
 @Service("reportService")
@@ -23,6 +22,9 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private ReportRepository reportRepository;
 
+    @Autowired
+    private CompanyRepository companyRepository;
+
     @Override
     @Transactional
     public Report save(@NonNull Report report, int companyId) {
@@ -30,7 +32,7 @@ public class ReportServiceImpl implements ReportService {
         if (!report.isNew() && get(report.getId(), companyId) == null) {
             return null;
         }
-        report.setCompany(AuthorizedUser.company());
+        report.setCompany(companyRepository.getOne(companyId));
         return reportRepository.save(report);
     }
 
@@ -64,9 +66,12 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public List<Report> getAll() {
         log.info("get all");
-        if (userHasAuthority("ADMIN"))
-            return reportRepository.findAllByOrderByDateDesc();
-        else
-            return reportRepository.getAllByCompany(AuthorizedUser.companyId());
+        return reportRepository.findAllByOrderByDateDesc();
+    }
+
+    @Override
+    public List<Report> getAllByCompany(int companyId) {
+        log.info("getAllByCompany for company: " + companyId);
+        return reportRepository.getAllByCompany(companyId);
     }
 }
