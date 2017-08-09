@@ -12,6 +12,8 @@ public interface ReportService {
 
     void delete(int id) throws NotFoundException;
 
+    Report getWithCompany(int id) throws NotFoundException;
+
     Report get(int id) throws NotFoundException;
 
     List<Report> getAll();

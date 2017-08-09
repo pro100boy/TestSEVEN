@@ -129,7 +129,7 @@ function updateRow(id) {
             // просмотр отчета
             frmDetails.find("textarea[name='" + key + "']").val(value);
             // company id
-            if (key === 'company') cmpID = value.id;
+            if (frmDetails === frmDetailsArr[0] && key === 'company') cmpID = value.id;
         });
     }).fail(function (jqXHR, textStatus, thrownError) {
         showErrorMessage(jqXHR);
