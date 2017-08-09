@@ -1,5 +1,6 @@
 package com.seven.test.controller;
 
+import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Report;
 import com.seven.test.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,9 @@ public class ReportController {
     public void updateOrCreate(@Valid Report report, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             if (report.isNew()) {
-                reportService.save(report);
+                reportService.save(report, AuthorizedUser.companyId());
             } else {
-                reportService.update(report, report.getId());
+                reportService.update(report, AuthorizedUser.companyId());
             }
         } else throw new ValidationException();
     }
@@ -34,14 +35,14 @@ public class ReportController {
     @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
     @DeleteMapping(value = "/{id}")
     public String delete(@PathVariable("id") Integer id) {
-        reportService.delete(id);
+        reportService.delete(id, AuthorizedUser.companyId());
         return String.valueOf(id);
     }
 
     @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
     @GetMapping(value = "/{id}")
     public Report getReport(@PathVariable("id") Integer id) {
-        return reportService.get(id);
+        return reportService.get(id, AuthorizedUser.companyId());
     }
 
     @GetMapping

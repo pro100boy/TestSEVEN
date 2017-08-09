@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
-import static com.seven.test.util.ValidationUtil.checkIdConsistent;
 import static com.seven.test.util.ValidationUtil.checkNotFoundWithId;
 
 @Service("reportService")
@@ -26,41 +25,38 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     @Transactional
-    public Report save(@NonNull Report report) {
+    public Report save(@NonNull Report report, int companyId) {
         log.info("save: " + report);
-        report.setCompany(AuthorizedUser.company()); // gets ID only
+        if (!report.isNew() && get(report.getId(), companyId) == null) {
+            return null;
+        }
+        report.setCompany(AuthorizedUser.company());
         return reportRepository.save(report);
     }
 
     @Override
     @Transactional
-    public Report update(@NonNull Report report, int reportId) throws NotFoundException {
-        log.info("update: " + report);
-        checkIdConsistent(report, reportId);
-        report.setCompany(AuthorizedUser.company());
+    public Report update(@NonNull Report report, int companyId) throws NotFoundException {
         // проверка, чтоб не обновил отчет не своей компании
-        return checkNotFoundWithId(reportRepository.save(report), report.getId());
+        return checkNotFoundWithId(save(report, companyId), report.getId());
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
+    public void delete(int id, int companyId) throws NotFoundException {
         log.info("delete id = " + id);
-        int companyId = AuthorizedUser.companyId();
         // проверка, чтоб не удалил отчет не своей компании
         checkNotFoundWithId(reportRepository.delete(id, companyId) != 0, id);
     }
 
     @Override
-    public Report getWithCompany(int id) throws NotFoundException {
+    public Report getWithCompany(int id, int companyId) throws NotFoundException {
         log.info("get id = " + id);
-        int companyId = AuthorizedUser.companyId();
         return reportRepository.getWithCompany(id, companyId);
     }
 
     @Override
-    public Report get(int id) throws NotFoundException {
+    public Report get(int id, int companyId) throws NotFoundException {
         log.info("get id = " + id);
-        int companyId = AuthorizedUser.companyId();
         Report report = reportRepository.findOne(id);
         return checkNotFoundWithId(report != null && report.getCompany().getId() == companyId ? report : null, id);
     }
