@@ -1,7 +1,6 @@
 package com.seven.test.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
 import lombok.*;

@@ -13,9 +13,6 @@ import java.util.regex.Pattern;
  * (see <a href="http://stackoverflow.com/questions/4459474/hibernate-validator-email-accepts-askstackoverflow-as-valid">Stackoverflow</a> article), which is no good.
  */
 public class EnsureEmailValidator implements ConstraintValidator<EnsureEmail, String> {
-
-    private Pattern pattern;
-    private Matcher matcher;
     @Getter
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-+]+(.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(.[A-Za-z0-9]+)*(.[A-Za-z]{2,})$";
 
@@ -29,8 +26,8 @@ public class EnsureEmailValidator implements ConstraintValidator<EnsureEmail, St
     }
 
     private boolean validateEmail(String email) {
-        pattern = Pattern.compile(EMAIL_PATTERN);
-        matcher = pattern.matcher(email);
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 }

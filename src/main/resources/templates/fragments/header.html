@@ -6,7 +6,7 @@
 
 <div class="panel panel-info" th:fragment="header">
     <div class="panel-heading clearfix">
-        <h4 class="panel-title pull-left" style="padding-top: 7.5px">
+        <h4 class="panel-title pull-left" style="padding-top: 8px">
             <th:block>
                 <p> <span th:text="#{user.logged}">Welcome </span>
                     <span th:text="${#authentication.getPrincipal().getUserTo().getName()}">username</span>
@@ -16,7 +16,7 @@
             </th:block>
         </h4>
 
-        <div class="dropdown pull-right" style="padding-top: 7.5px; padding-left: 10px">
+        <div class="dropdown pull-right" style="padding-top: 8px; padding-left: 10px">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span th:text="#{header.menu}"/> <span class="caret"/></a>
 
             <ul class="dropdown-menu" role="menu" style="min-width: 0px; !important;">

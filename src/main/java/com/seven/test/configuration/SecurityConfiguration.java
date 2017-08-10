@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 // based on https://medium.com/@gustavo.ponce.ch/spring-boot-spring-mvc-spring-security-mysql-a5d8545d837d
@@ -18,9 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    private AuthenticationSuccessHandler successHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -38,15 +34,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 authorizeRequests()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/main", "/fragments/**").hasAnyAuthority("COMPANY_OWNER", "COMPANY_EMPLOYER", "ADMIN")
-                    //.antMatchers("/admin/**").hasAuthority("ADMIN")
                     .anyRequest().authenticated()
                     .and()
                 //.csrf().disable()
                 .formLogin()
                     .loginPage("/login").failureUrl("/login?error=true")
                     .defaultSuccessUrl("/main")
-                    // раскидать разные роли по разным страницам
-                    //.successHandler(successHandler)
                     .usernameParameter("email")
                     .passwordParameter("password")
                     .and()
@@ -65,6 +58,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/resources/**", "/webjars/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
-
-
 }
