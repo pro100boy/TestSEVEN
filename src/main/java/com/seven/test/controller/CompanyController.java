@@ -1,5 +1,6 @@
 package com.seven.test.controller;
 
+import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Company;
 import com.seven.test.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.util.Collections;
 import java.util.List;
+
+import static com.seven.test.AuthorizedUser.userHasAuthority;
 
 @RestController
 @RequestMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -45,6 +49,10 @@ public class CompanyController {
 
     @GetMapping
     public List<Company> getCompanies() {
-        return companyService.getAll();
+        if (userHasAuthority("ADMIN"))
+            return companyService.getAll();
+        else {
+            return Collections.singletonList(companyService.get(AuthorizedUser.companyId()));
+        }
     }
 }

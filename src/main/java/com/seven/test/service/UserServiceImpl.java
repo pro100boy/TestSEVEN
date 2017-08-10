@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 import static com.seven.test.util.UserUtil.prepareToSave;
@@ -75,16 +74,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return repository.findAllWithParams();
     }
 
+    /**
+     * Gets all employees in company
+     * @param companyId owner's company id
+     * @return list of employees
+     */
     @Override
     public List<User> getAllOwner(int companyId) {
         log.info("get all for owner");
-        return repository.findAllByCompanyAndRoles(AuthorizedUser.companyId(), Role.COMPANY_EMPLOYER);
-    }
-
-    @Override
-    public List<User> getAllEmployer(int userId) {
-        log.info("get all for employer");
-        return Collections.singletonList(get(AuthorizedUser.id()));
+        return repository.findAllByCompanyAndRoles(companyId, Role.COMPANY_EMPLOYER);
     }
 
     @Override

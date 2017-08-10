@@ -1,6 +1,5 @@
 package com.seven.test.service;
 
-import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Company;
 import com.seven.test.model.User;
 import com.seven.test.repository.CompanyRepository;
@@ -11,15 +10,12 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
-import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.util.ValidationUtil.*;
 
 @Service("companyService")
@@ -51,8 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
             String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
             //emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
             log.info("Email sent to company owner: " + newOwner);
-        } catch (MailSendException ex)
-        {
+        } catch (MailSendException ex) {
             // catch the exception here because Company and User have to be created anyway
             log.error(ValidationUtil.getRootCause(ex).getMessage());
         }
@@ -75,11 +70,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public List<Company> getAll() {
         log.info("get all");
-        if (userHasAuthority("ADMIN"))
-            return repository.findAll(new Sort(Sort.Direction.ASC, "name"));
-        else {
-            return Collections.singletonList(get(AuthorizedUser.companyId()));
-        }
+        return repository.findAll();
     }
 
     @Override

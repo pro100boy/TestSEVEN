@@ -11,8 +11,10 @@ import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import static testdata.CompanyTestData.COMPANY1;
+import static testdata.CompanyTestData.COMPANY2_ID;
 import static testdata.UserTestData.*;
 
 public class UserServiceTest extends AbstractServiceTest {
@@ -80,19 +82,9 @@ public class UserServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    public void update() throws Exception {
-    }
-
-    @Test
     public void getAllOwner() throws Exception {
-    }
-
-    @Test
-    public void getAllEmployer() throws Exception {
-    }
-
-    @Test
-    public void loadUserByUsername() throws Exception {
+        List<User> list = service.getAllOwner(COMPANY2_ID);
+        MATCHER.assertEquals(USER5, list.get(0));
     }
 
     @Test
@@ -101,7 +93,11 @@ public class UserServiceTest extends AbstractServiceTest {
         validateRootCause(() -> service.save(new User(null, " ", "Ivanov", "ivanov@gmail.com", "password", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
         // empty email
         validateRootCause(() -> service.save(new User(null, "Sidor", "Ivanov", " ", "password", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
+        // empty lastname
+        validateRootCause(() -> service.save(new User(null, "Sidor", "", "ivanov@gmail.com", "password", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
         // empty password
         validateRootCause(() -> service.save(new User(null, "Sidor", "Ivanov", "ivanov@gmail.com", "", "+380509876543", Role.COMPANY_OWNER)), ConstraintViolationException.class);
+        // short phone
+        validateRootCause(() -> service.save(new User(null, "Sidor", "Ivanov", "ivanov@gmail.com", "password", "+658", Role.COMPANY_OWNER)), ConstraintViolationException.class);
     }
 }

@@ -53,6 +53,6 @@ public class UserController {
         else if (userHasAuthority(Role.COMPANY_OWNER.name()))
             return userService.getAllOwner(AuthorizedUser.companyId());
             // COMPANY_EMPLOYER can CRUD only own profile
-        else return userService.getAllEmployer(AuthorizedUser.id());
+        else return Collections.singletonList(userService.get(AuthorizedUser.id()));
     }
 }

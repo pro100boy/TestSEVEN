@@ -22,6 +22,4 @@ public interface UserService {
     List<User> getAll();
 
     List<User> getAllOwner(int companyId);
-
-    List<User> getAllEmployer(int userId);
 }

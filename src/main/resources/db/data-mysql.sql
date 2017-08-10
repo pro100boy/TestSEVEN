@@ -23,6 +23,6 @@ INSERT INTO `user_roles` (user_id, role) VALUES
 
 INSERT INTO `report` (companyid, name, data, time) VALUES
   (100002, 'Report 2 for ''Apollo''', 'Content of report 2 for ''Apollo''', '2017-07-01 12:30:00'),
-  (100001, 'Report for ''Рога и копыта''', 'Content of report 2 for ''Рога и копыта''', '2017-06-01 12:30:00'),
+  (100001, 'Report for ''Рога и копыта''', 'Content of report for ''Рога и копыта''', '2017-06-01 12:30:00'),
   (100002, 'Report 1 for ''Apollo''', 'Content of report 1 for ''Apollo''', '2017-01-01 12:30:00'),
   (100002, 'Report 3 for Apollo', 'Content of report 3 for Apollo', '2017-02-02 12:00:00');

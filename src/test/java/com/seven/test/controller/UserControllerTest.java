@@ -2,11 +2,10 @@ package com.seven.test.controller;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-public class UserControllerTest {
+public class UserControllerTest extends AbstractControllerTest{
     @Test
     public void updateOrCreate() throws Exception {
+        System.out.println("asf");
     }
 
     @Test
