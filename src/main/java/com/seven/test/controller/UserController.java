@@ -20,10 +20,12 @@ import static com.seven.test.util.UserUtil.createNewFromTo;
 @RestController
 @RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
+    static final String REST_URL = "/users";
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
+    @PostMapping//(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void updateOrCreate(@Valid UserTo userTo) {
         if (userTo.isNew()) {
             userService.save(createNewFromTo(userTo));

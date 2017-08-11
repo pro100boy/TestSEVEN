@@ -1,9 +1,11 @@
 package com.seven.test.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.seven.test.util.validation.EnsureEmail;
 import com.seven.test.util.validation.EnsureNumber;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -50,7 +52,7 @@ public class User extends NamedEntity {
     //@Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).*$", message = "*Password must contains latin symbols (in upper and lower case) and digits")
     //@Transient
     @SafeHtml
-    @JsonIgnore
+    //@JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
