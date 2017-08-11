@@ -5,17 +5,22 @@ import com.seven.test.model.Company;
 import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.to.UserTo;
-import org.apache.commons.text.RandomStringGenerator;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
+import static org.apache.commons.lang3.RandomStringUtils.*;
 
 public class UserUtil {
-    public static final RandomStringGenerator RSG_PASSWD = new RandomStringGenerator.Builder().withinRange('!', 'z').build();
-    public static final RandomStringGenerator RSG_LETTERS = new RandomStringGenerator.Builder().withinRange('a', 'z').build();
-    public static final RandomStringGenerator RSG_DIGITS = new RandomStringGenerator.Builder().withinRange('0', '9').build();
+    private static final int
+            NAME_LENGTH = 5,
+            LASTNAME_LENGTH = 8,
+            PASSWORD_LENGTH = 10,
+            PHONE_LENGTH = 10;
+
+    private static final boolean
+            USE_LETTERS = true,
+            USE_NUMBERS = true;
 
     public static User prepareToSave(User user) {
         user.setPassword(PasswordUtil.encode(user.getPassword()));
@@ -36,7 +41,7 @@ public class UserUtil {
         // set the company chosen by Admin for User
         if (userHasAuthority(Role.ADMIN.name()))
             user.setCompany(userTo.getCompany());
-        // set the owner's company for an employees
+            // set the owner's company for an employees
         else if (userHasAuthority(Role.COMPANY_OWNER.name()))
             user.setCompany(AuthorizedUser.company());
         // and employee don't change his company
@@ -53,16 +58,12 @@ public class UserUtil {
 
     public static User createNewOwner(Company company) {
         final User newOwner = new User();
-        newOwner.setName(RSG_LETTERS.generate(5));
-        newOwner.setLastname(RSG_LETTERS.generate(10));
-        newOwner.setPhone("+" + RSG_DIGITS.generate(10));
-        // Generates a 15 code point string, using only ASCII symbols from A to z
-        newOwner.setPassword(RSG_PASSWD.generate(15));
-
-        LoggerFactory.getLogger(UserUtil.class).info(newOwner.getPassword());
-
+        newOwner.setName(randomAlphabetic(NAME_LENGTH));
+        newOwner.setLastname(randomAlphabetic(LASTNAME_LENGTH));
+        newOwner.setPhone("+" + random(PHONE_LENGTH, false, true));
+        newOwner.setPassword(random(PASSWORD_LENGTH, USE_LETTERS, USE_NUMBERS));
         newOwner.setRoles(Collections.singleton(Role.COMPANY_OWNER));
-        newOwner.setEmail(RSG_LETTERS.generate(5) + "." + company.getEmail());
+        newOwner.setEmail(randomAlphabetic(5) + "." + company.getEmail());
         newOwner.setCompany(company);
         return newOwner;
     }

@@ -75,8 +75,10 @@ spring:
     properties.mail.smtp:
                      auth: true
                      starttls.enable: true
+                     starttls.required: true
     default-encoding: UTF-8
     test-connection: false
+    protocol: smtp
 
 # ===============================
 # = Tomcat

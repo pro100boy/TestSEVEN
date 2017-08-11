@@ -85,4 +85,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
+
+/*
+    @Autowired
+    private Environment env;
+
+    @Bean
+    public JavaMailSenderImpl emailSender() {
+        JavaMailSenderImpl emailSender = new JavaMailSenderImpl();
+        emailSender.setHost(env.getProperty("spring.mail.host"));
+        emailSender.setPort(Integer.parseInt(env.getProperty("spring.mail.port")));
+        emailSender.setUsername(env.getProperty("spring.mail.username"));
+        emailSender.setPassword(env.getProperty("spring.mail.password"));
+        emailSender.setProtocol(env.getProperty("spring.mail.protocol"));
+
+        Properties mailProps = new Properties();
+        //mailProps.setProperty("spring.mail.default-encoding", env.getProperty("spring.mail.default-encoding"));
+        //mailProps.setProperty("mail.transport.protocol",env.getProperty("spring.mail.protocol"));
+        mailProps.setProperty("mail.smtp.auth", env.getProperty("spring.mail.properties.mail.smtp.auth"));
+        mailProps.setProperty("mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.mail.smtp.starttls.enable"));
+        mailProps.setProperty("mail.smtp.starttls.required", env.getProperty("spring.mail.properties.mail.smtp.starttls.required"));
+        mailProps.setProperty("mail.debug", "false");
+        emailSender.setJavaMailProperties(mailProps);
+
+        return emailSender;
+    }*/
 }

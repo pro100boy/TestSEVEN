@@ -1,5 +1,5 @@
 package com.seven.test.service;
 
 public interface EmailService {
-    void sendSimpleMessage(String to, String subject, String text);
+    void sendSimpleMessage(String to, String text);
 }

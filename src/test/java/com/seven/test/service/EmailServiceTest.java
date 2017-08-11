@@ -1,76 +1,62 @@
 package com.seven.test.service;
 
-import com.icegreen.greenmail.user.UserException;
 import com.icegreen.greenmail.util.GreenMail;
+import com.icegreen.greenmail.util.GreenMailUtil;
 import com.icegreen.greenmail.util.ServerSetupTest;
-import com.sun.mail.smtp.SMTPTransport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.annotation.Resource;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
-import java.util.Date;
+
 import java.util.Properties;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class EmailServiceTest {
-    private static final String USER_PASSWORD = "abcdef123";
-    private static final String USER_NAME = "hascode";
-    private static final String EMAIL_USER_ADDRESS = "hascode@localhost";
-    private static final String EMAIL_TO = "someone@localhost.com";
-    private static final String EMAIL_SUBJECT = "Test E-Mail";
-    private static final String EMAIL_TEXT = "This is a test e-mail.";
-    private static final String LOCALHOST = "127.0.0.1";
-    private GreenMail mailServer;
+public class EmailServiceTest extends AbstractServiceTest{
+
+    @Resource
+    private JavaMailSenderImpl emailSender;
+
+    private GreenMail testSmtp;
 
     @Before
-    public void setUp() {
-        mailServer = new GreenMail(ServerSetupTest.SMTP);
-        mailServer.start();
-    }
+    public void testSmtpInit(){
+        testSmtp = new GreenMail(ServerSetupTest.SMTP);
+        testSmtp.start();
 
-    @After
-    public void tearDown() {
-        mailServer.stop();
+        //don't forget to set the test port!
+        emailSender.setPort(3025);
+        emailSender.setHost("localhost");
+        Properties mailProps = new Properties();
+        mailProps.setProperty("mail.smtp.starttls.enable", "false");
+        mailProps.setProperty("mail.smtp.starttls.required", "false");
+        emailSender.setJavaMailProperties(mailProps);
     }
 
     @Test
-    public void testSendSimpleMessage() throws IOException, MessagingException, UserException, InterruptedException{
-        // setup user on the mail server
-        mailServer.setUser(EMAIL_USER_ADDRESS, USER_NAME, USER_PASSWORD);
+    public void testEmail() throws InterruptedException, MessagingException {
+        SimpleMailMessage message = new SimpleMailMessage();
 
-        // create the javax.mail stack with session, message and transport ..
-        Properties props = System.getProperties();
-        props.put("mail.smtp.host", LOCALHOST);
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", ServerSetupTest.SMTP.getPort());
-        Session session = Session.getInstance(props, null);
-        Message msg = new MimeMessage(session);
-        msg.setFrom(new InternetAddress(EMAIL_TO));
-        msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL_USER_ADDRESS, false));
-        msg.setSubject(EMAIL_SUBJECT);
-        msg.setText(EMAIL_TEXT);
-        msg.setSentDate(new Date());
-        SMTPTransport t = (SMTPTransport) session.getTransport("smtp");
-        t.connect(LOCALHOST, EMAIL_USER_ADDRESS, USER_PASSWORD);
-        t.sendMessage(msg, msg.getAllRecipients());
+        message.setFrom("test@sender.com");
+        message.setTo("test@receiver.com");
+        message.setSubject("test subject");
+        message.setText("test message");
+        emailSender.send(message);
 
-        assertEquals("250 OK\n", t.getLastServerResponse());
-        t.close();
-
-        // fetch messages from server
-        MimeMessage[] messages = mailServer.getReceivedMessages();
-        assertNotNull(messages);
+        Message[] messages = testSmtp.getReceivedMessages();
         assertEquals(1, messages.length);
-        MimeMessage m = messages[0];
-        assertEquals(EMAIL_SUBJECT, m.getSubject());
-        assertTrue(String.valueOf(m.getContent()).contains(EMAIL_TEXT));
-        assertEquals(EMAIL_TO, m.getFrom()[0].toString());
+        assertEquals("test subject", messages[0].getSubject());
+        String body = GreenMailUtil.getBody(messages[0]).replaceAll("=\r?\n", "");
+        assertEquals("test message", body);
+    }
+
+    @After
+    public void cleanup(){
+        testSmtp.stop();
     }
 }

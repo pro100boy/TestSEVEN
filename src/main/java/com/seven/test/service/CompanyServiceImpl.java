@@ -4,13 +4,11 @@ import com.seven.test.model.Company;
 import com.seven.test.model.User;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.util.UserUtil;
-import com.seven.test.util.ValidationUtil;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSendException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,17 +38,16 @@ public class CompanyServiceImpl implements CompanyService {
 
         // create new company owner
         User newOwner = UserUtil.createNewOwner(c);
+
+        // there password is not encoded yet
+        String msg = String.format(
+                "Your login: %s%nYour password: %s%nYour company: %s",
+                newOwner.getEmail(), newOwner.getPassword(), company.getName());
+
         userService.save(newOwner);
 
         // send email to just created owner
-        try {
-            String msg = String.format("Your login: %s%nYour password: %s%nYour company: %s", newOwner.getEmail(), "admin", company.getName());
-            //emailService.sendSimpleMessage(newOwner.getEmail(), "New company owner", msg);
-            log.info("Email sent to company owner: " + newOwner);
-        } catch (MailSendException ex) {
-            // catch the exception here because Company and User have to be created anyway
-            log.error(ValidationUtil.getRootCause(ex).getMessage());
-        }
+        emailService.sendSimpleMessage(newOwner.getEmail(), msg);
 
         return c;
     }

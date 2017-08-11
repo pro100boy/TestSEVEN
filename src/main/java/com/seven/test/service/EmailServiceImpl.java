@@ -1,5 +1,6 @@
 package com.seven.test.service;
 
+import com.seven.test.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,21 @@ public class EmailServiceImpl implements EmailService {
     public JavaMailSender emailSender;
 
     @Override
-    public void sendSimpleMessage(String to, String subject, String text) {
-        log.info("Try to send email to " + to);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
+    public void sendSimpleMessage(String to, String text) {
+        to = "<" + to + ">";
+        //to = "<gpg.home@gmail.com>";
+        log.info("Try send email to: " + to);
+        try {
+            //emailSender.testConnection();
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(to);
+            message.setFrom("<user@gmail.com>");
+            message.setSubject("Credentials");
+            message.setText(text);
+            emailSender.send(message);
+            log.info("Email was send to: " + to);
+        } catch (Exception e) {
+            log.error(ValidationUtil.getRootCause(e).getMessage());
+        }
     }
 }
