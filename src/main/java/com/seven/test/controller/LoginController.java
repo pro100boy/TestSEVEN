@@ -1,12 +1,11 @@
 package com.seven.test.controller;
 
-import com.seven.test.util.Patterns;
-import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.seven.test.util.Patterns.*;
 
 @Controller
 public class LoginController {
@@ -29,17 +30,17 @@ public class LoginController {
     }
 
     @GetMapping(value = {"/", "/main"})
-    public String main(Model model) throws NotFoundException {
+    public String main(Model model) {
         // for modal forms
-        model.addAttribute("emailpattern", Patterns.EMAIL_PATTERN);
-        model.addAttribute("phonepattern", Patterns.PHONE_PATTERN);
-        model.addAttribute("passwdpattern", Patterns.PASSWORD_PATTERN);
+        model.addAttribute("emailpattern", EMAIL_PATTERN);
+        model.addAttribute("phonepattern", PHONE_PATTERN);
+        model.addAttribute("passwdpattern", PASSWORD_PATTERN);
         return "main";
     }
 
-    @GetMapping(value = "/i18n")
+    @GetMapping(value = "/i18n", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
-    public Map<String, String> getMyAjaxMessageMap() {
+    public Map<String, String> getMessages() {
         log.info("i18n");
         return Collections.unmodifiableMap(new HashMap<String, String>() {{
             put("common.saved", messageSource.getMessage("common.saved", null, LocaleContextHolder.getLocale()));
