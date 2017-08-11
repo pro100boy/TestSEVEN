@@ -6,6 +6,7 @@ import com.seven.test.util.validation.EnsureNumber;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -15,7 +16,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UserTo  extends BaseTo implements Serializable {
+public class UserTo extends BaseTo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @NotEmpty(message = "*Please provide name")

@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void update(@NonNull UserTo userTo, int id) {
+    public User update(@NonNull UserTo userTo, int id) {
         log.info("update: " + userTo);
         checkIdConsistent(userTo, id);
         User user = updateFromTo(get(id), userTo);
-        repository.save(prepareToSave(user));
+        return repository.save(prepareToSave(user));
     }
 
     @Override

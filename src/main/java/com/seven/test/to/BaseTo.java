@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-abstract public class BaseTo implements HasId {
+public class BaseTo implements HasId {
     protected Integer id;
 }

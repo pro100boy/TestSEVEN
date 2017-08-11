@@ -32,6 +32,7 @@ public class UserControllerTest extends AbstractControllerTest{
     @Test
     @Transactional
     public void testCreate() throws Exception {
+        //TODO НУЖЕН UserTo userTo. Как public void testUpdate() throws Exception в ProfileRestControllerTest RestaurantVote
         User expected = new User(null, "New", "New", "new@gmail.com", "newPass", "+12354654", Collections.singleton(Role.COMPANY_EMPLOYER));
         expected.setCompany(COMPANY1);
         //TODO разобраться
@@ -40,13 +41,14 @@ public class UserControllerTest extends AbstractControllerTest{
                 .contentType(APPLICATION_JSON_UTF8)
                 .with(userAuth(ADMIN))
                 .content(JsonUtil.writeValue(expected)))
+                .andDo(print())
                 .andExpect(status().isCreated());
 
         User returned = MATCHER.fromJsonAction(action);
-        expected.setId(returned.getId());
+        expected.setId(200006);
 
         MATCHER.assertEquals(expected, returned);
-        MATCHER.assertCollectionEquals(Arrays.asList(USER3, USER1, USER5, USER2, USER4, expected), userService.getAll());
+        MATCHER.assertCollectionEquals(Arrays.asList(USER3, expected, USER1, USER5, USER2, USER4), userService.getAll());
     }
 
     @Test
