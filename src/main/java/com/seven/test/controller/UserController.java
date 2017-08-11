@@ -30,6 +30,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    //TODO проверить из фронтенда
     public void updateOrCreate(@Valid @RequestBody UserTo userTo) {
         if (userTo.isNew()) {
             userService.save(createNewFromTo(userTo));

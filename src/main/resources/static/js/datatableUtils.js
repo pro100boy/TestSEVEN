@@ -66,6 +66,9 @@ function save(frmDetails, modalForm, datatableApi) {
         $.ajax({
             type: "POST",
             url: datatableApi.ajax.url(),
+            //TODO WARN  ExceptionHandlerExceptionResolver [AbstractHandlerExceptionResolver.java:189] Resolved exception caused by Handler execution: org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unrecognized token 'id': was expecting ('true', 'false' or 'null'); nested exception is com.fasterxml.jackson.core.JsonParseException: Unrecognized token 'id': was expecting ('true', 'false' or 'null')
+            //at [Source: java.io.PushbackInputStream@514f56d9; line: 1, column: 4]
+            contentType:"application/json;charset=utf-8",
             data: frmDetails.serialize()
         })
             .done(function (data, textStatus, jqXHR) {
