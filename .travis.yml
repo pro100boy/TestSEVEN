@@ -11,7 +11,8 @@ services:
   - mysql
 
 before_script:
-  - mysql -e 'CREATE DATABASE sevendb;'
+  - mysql -e 'DROP DATABASE IF EXISTS sevendb;'
+  - mysql -e 'CREATE DATABASE sevendb DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;'
 
 # https://docs.travis-ci.com/user/notifications#Configuring-email-notifications
 notifications:
