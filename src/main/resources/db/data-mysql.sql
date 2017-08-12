@@ -1,7 +1,7 @@
 USE `sevendb`;
 INSERT INTO `company` (name, email, address) VALUES
   ("ATB company", "atb.cmp@test.com", "address of ATB company"),
-  ("Рога и копыта", "rik@test.com", "address of 'Рога и копыта' company"),
+  ("Roga i kopita", "rik@test.com", "address of 'Roga i kopita' company"),
   ("Apollo", "apollo@test.com", "address of 'Apollo' company");
 
 INSERT INTO `users` (companyid, name, lastname, email, phone, password) VALUES
@@ -23,6 +23,6 @@ INSERT INTO `user_roles` (user_id, role) VALUES
 
 INSERT INTO `report` (companyid, name, data, time) VALUES
   (100002, 'Report 2 for ''Apollo''', 'Content of report 2 for ''Apollo''', '2017-07-01 12:30:00'),
-  (100001, 'Report for ''Рога и копыта''', 'Content of report for ''Рога и копыта''', '2017-06-01 12:30:00'),
+  (100001, 'Report for ''Roga i kopita''', 'Content of report for ''Roga i kopita''', '2017-06-01 12:30:00'),
   (100002, 'Report 1 for ''Apollo''', 'Content of report 1 for ''Apollo''', '2017-01-01 12:30:00'),
   (100002, 'Report 3 for Apollo', 'Content of report 3 for Apollo', '2017-02-02 12:00:00');
