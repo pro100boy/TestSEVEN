@@ -22,17 +22,13 @@ import static org.hamcrest.core.Every.everyItem;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static testdata.CompanyTestData.*;
-import static testdata.CompanyTestData.COMPANY3;
-import static testdata.UserTestData.ADMIN;
-import static testdata.UserTestData.USER1;
-import static testdata.UserTestData.USER2;
+import static testdata.CompanyTestData.MATCHER;
+import static testdata.UserTestData.*;
 
 public class CompanyControllerTest extends AbstractControllerTest {
     @Autowired
@@ -98,7 +94,6 @@ public class CompanyControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional
     public void testCreateInvalid() throws Exception {
         Company expected = new Company(null, "SO", "", "address of SOFT company");
 
@@ -115,13 +110,13 @@ public class CompanyControllerTest extends AbstractControllerTest {
                         .with(userAuth(ADMIN))
                         .content(expectedEncoded))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     @Transactional
     public void testUpdate() throws Exception {
-        Company updated = repository.findByEmail(COMPANY1.getEmail());
+        Company updated = COMPANY1;
 
         // change address
         String expectedEncoded =
@@ -139,13 +134,13 @@ public class CompanyControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        Company returned = repository.findByEmail(COMPANY1.getEmail());
+        Company returned = companyService.get(COMPANY1.getId());
         assertTrue(returned.getAddress().equals("new address"));
     }
 
     @Test
     public void testUpdateInvalid() throws Exception {
-        Company updated = repository.findByEmail(COMPANY1.getEmail());
+        Company updated = COMPANY1;
 
         // remove address
         String expectedEncoded =
@@ -161,7 +156,7 @@ public class CompanyControllerTest extends AbstractControllerTest {
                         .with(userAuth(ADMIN))
                         .content(expectedEncoded))
                 .andDo(print())
-                .andExpect(status().isUnprocessableEntity());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -228,6 +223,15 @@ public class CompanyControllerTest extends AbstractControllerTest {
                 .with(userAuth(ADMIN)))
                 .andExpect(status().isNotFound())
                 .andDo(print());
+    }
+
+    @Test
+    public void testGet() throws Exception {
+        mockMvc.perform(get(REST_URL + COMPANY1.getId())
+                .with(userAuth(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(MATCHER.contentMatcher(COMPANY1));
     }
 }
 

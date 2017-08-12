@@ -26,14 +26,11 @@ public class CompanyController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'COMPANY_OWNER')")
     @PostMapping
-    public void updateOrCreate(@Valid Company company, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            if (company.isNew()) {
-                companyService.save(company);
-            } else {
-                companyService.update(company, company.getId());
-            }
-        } else throw new ValidationException();
+    public void updateOrCreate(@Valid Company company) {
+        if (company.isNew()) {
+            companyService.save(company);
+        } else
+            companyService.update(company, company.getId());
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

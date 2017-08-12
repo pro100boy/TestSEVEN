@@ -26,14 +26,11 @@ public class ReportController {
 
     @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
     @PostMapping
-    public void updateOrCreate(@Valid Report report, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            if (report.isNew()) {
-                reportService.save(report, AuthorizedUser.companyId());
-            } else {
-                reportService.update(report, AuthorizedUser.companyId());
-            }
-        } else throw new ValidationException();
+    public void updateOrCreate(@Valid Report report) {
+        if (report.isNew())
+            reportService.save(report, AuthorizedUser.companyId());
+        else
+            reportService.update(report, AuthorizedUser.companyId());
     }
 
     @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
