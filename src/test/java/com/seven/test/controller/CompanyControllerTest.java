@@ -4,6 +4,7 @@ import com.seven.test.model.BaseEntity;
 import com.seven.test.model.Company;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.service.CompanyService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -49,6 +50,7 @@ public class CompanyControllerTest extends AbstractControllerTest {
      */
     @Test
     @Transactional
+    @Ignore
     public void testCreate() throws Exception {
         Company expected = new Company(null, "SOFT company", "soft@test.com", "address of SOFT company");
 

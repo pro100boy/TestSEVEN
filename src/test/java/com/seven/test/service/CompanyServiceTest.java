@@ -2,6 +2,7 @@ package com.seven.test.service;
 
 import com.seven.test.model.Company;
 import com.seven.test.util.exception.NotFoundException;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -16,6 +17,7 @@ public class CompanyServiceTest extends AbstractServiceTest{
     private CompanyService service;
 
     @Test
+    @Ignore
     public void testSave() {
         Company newCompany = new Company(null, "New company", "new@test.com", "address");
 
