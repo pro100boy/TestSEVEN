@@ -14,10 +14,12 @@ import javax.validation.ValidationException;
 import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
+import static com.seven.test.controller.ReportController.REST_URL;
 
 @RestController
-@RequestMapping(value = "/reports", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ReportController {
+    static final String REST_URL = "/reports";
 
     @Autowired
     private ReportService reportService;

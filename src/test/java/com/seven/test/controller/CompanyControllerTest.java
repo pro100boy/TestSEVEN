@@ -31,6 +31,7 @@ import static testdata.CompanyTestData.*;
 import static testdata.CompanyTestData.COMPANY3;
 import static testdata.UserTestData.ADMIN;
 import static testdata.UserTestData.USER1;
+import static testdata.UserTestData.USER2;
 
 public class CompanyControllerTest extends AbstractControllerTest {
     @Autowired
@@ -72,6 +73,26 @@ public class CompanyControllerTest extends AbstractControllerTest {
         List<Integer> collect = companyService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
         assertTrue(collect.size() == 4);
         assertThat(collect, everyItem(lessThanOrEqualTo(returned.getId())));
+    }
+
+    @Test
+    public void testCreateDenied() throws Exception {
+        Company expected = new Company(null, "SOFT company", "soft@test.com", "address of SOFT company");
+
+        String expectedEncoded =
+                buildUrlEncodedFormEntity(
+                        "id", "",
+                        "name", expected.getName(),
+                        "email", expected.getEmail(),
+                        "address", expected.getAddress());
+
+        mockMvc
+                .perform(post(REST_URL).with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .with(userAuth(USER2))
+                        .content(expectedEncoded))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -169,6 +190,14 @@ public class CompanyControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
         MATCHER.assertCollectionEquals(Arrays.asList(COMPANY2, COMPANY3), companyService.getAll());
+    }
+
+    @Test
+    public void testDeleteDenied() throws Exception {
+        mockMvc.perform(delete(REST_URL + COMPANY1_ID).with(csrf())
+                .with(userAuth(USER2)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
     @Test
