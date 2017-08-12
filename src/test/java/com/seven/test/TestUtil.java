@@ -8,6 +8,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * GKislin
@@ -35,5 +36,19 @@ public class TestUtil {
 
     public static RequestPostProcessor userAuth(User user) {
         return SecurityMockMvcRequestPostProcessors.authentication(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+    }
+
+    public static String buildUrlEncodedFormEntity(String... params) throws UnsupportedEncodingException {
+        if ((params.length % 2) > 0) {
+            throw new IllegalArgumentException("Need to give an even number of parameters");
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < params.length; i += 2) {
+            if (i > 0) result.append('&');
+            result.append(URLEncoder.encode(params[i], "UTF-8"))
+                    .append('=')
+                    .append(URLEncoder.encode(params[i + 1], "UTF-8"));
+        }
+        return result.toString();
     }
 }

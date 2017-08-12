@@ -1,4 +1,4 @@
-package com.seven.test.util.converter;
+package com.seven.test.util.formatter;
 
 import org.springframework.format.Formatter;
 

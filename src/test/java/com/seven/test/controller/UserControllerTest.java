@@ -1,20 +1,26 @@
 package com.seven.test.controller;
 
-import com.seven.test.model.Role;
+import com.seven.test.model.BaseEntity;
 import com.seven.test.model.User;
 import com.seven.test.service.UserService;
-import com.seven.test.util.json.JsonUtil;
+import com.seven.test.to.UserTo;
+import com.seven.test.util.UserUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
+import static com.seven.test.TestUtil.buildUrlEncodedFormEntity;
 import static com.seven.test.TestUtil.userAuth;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Every.everyItem;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -23,37 +29,145 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static testdata.CompanyTestData.COMPANY1;
 import static testdata.UserTestData.*;
 
-public class UserControllerTest extends AbstractControllerTest{
+public class UserControllerTest extends AbstractControllerTest {
     @Autowired
     private UserService userService;
 
     private static final String REST_URL = UserController.REST_URL + '/';
 
+    /**
+     * https://stackoverflow.com/a/40884509/7203956
+     *
+     * @throws Exception
+     */
     @Test
     @Transactional
     public void testCreate() throws Exception {
-        //TODO НУЖЕН UserTo userTo. Как public void testUpdate() throws Exception в ProfileRestControllerTest RestaurantVote
-        User expected = new User(null, "New", "New", "new@gmail.com", "newPass", "+12354654", Collections.singleton(Role.COMPANY_EMPLOYER));
-        expected.setCompany(COMPANY1);
-        //TODO разобраться
-        ResultActions action = mockMvc
+        UserTo expected = new UserTo(null, "New", "New", "new@gmail.com", "newPass", "+12354654", COMPANY1);
+
+        String expectedEncoded =
+                buildUrlEncodedFormEntity(
+                        "id", "",
+                        "name", expected.getName(),
+                        "lastname", expected.getLastname(),
+                        "email", expected.getEmail(),
+                        "password", expected.getPassword(),
+                        "phone", expected.getPhone(),
+                        "company", String.valueOf(expected.getCompany().getId()));
+
+        mockMvc
                 .perform(post(REST_URL).with(csrf())
-                .contentType(APPLICATION_JSON_UTF8)
-                .with(userAuth(ADMIN))
-                .content(JsonUtil.writeValue(expected)))
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .with(userAuth(ADMIN))
+                        .content(expectedEncoded))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
-        User returned = MATCHER.fromJsonAction(action);
-        expected.setId(200006);
+        User returned = userService.findByEmail(expected.getEmail());
+        assertTrue(Objects.nonNull(returned));
 
-        MATCHER.assertEquals(expected, returned);
-        MATCHER.assertCollectionEquals(Arrays.asList(USER3, expected, USER1, USER5, USER2, USER4), userService.getAll());
+        List<Integer> collect = userService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
+        assertTrue(collect.size() == 6);
+        assertThat(collect, everyItem(lessThanOrEqualTo(returned.getId())));
+    }
+
+    @Test
+    @Transactional
+    public void testCreateInvalid() throws Exception {
+        UserTo expected = new UserTo(null, "", "", "new@gmail.com", "newPass", "+12354654", COMPANY1);
+
+        String expectedEncoded =
+                buildUrlEncodedFormEntity(
+                        "id", "",
+                        "name", expected.getName(),
+                        "lastname", expected.getLastname(),
+                        "email", expected.getEmail(),
+                        "password", expected.getPassword(),
+                        "phone", expected.getPhone(),
+                        "company", String.valueOf(expected.getCompany().getId()));
+
+        mockMvc
+                .perform(post(REST_URL).with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .with(userAuth(ADMIN))
+                        .content(expectedEncoded))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
     public void testUpdate() throws Exception {
-        System.out.println("asf");
+        UserTo updatedTo = UserUtil.asTo(USER1);
+
+        // change name and last name
+        String expectedEncoded =
+                buildUrlEncodedFormEntity(
+                        "id", String.valueOf(updatedTo.getId()),
+                        "name", "newName",
+                        "lastname", "newLastName",
+                        "email", updatedTo.getEmail(),
+                        "password", updatedTo.getPassword(),
+                        "phone", updatedTo.getPhone(),
+                        "company", String.valueOf(updatedTo.getCompany().getId()));
+
+        mockMvc
+                .perform(post(REST_URL).with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .with(userAuth(ADMIN))
+                        .content(expectedEncoded))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        User returned = userService.findByEmail(USER1.getEmail());
+        assertTrue(returned.getLastname().equals("newLastName"));
+        assertTrue(returned.getName().equals("newName"));
+    }
+
+    @Test
+    public void testUpdateInvalid() throws Exception {
+        UserTo updatedTo = UserUtil.asTo(userService.findByEmail(USER1.getEmail()));
+
+        // change name and last name
+        String expectedEncoded =
+                buildUrlEncodedFormEntity(
+                        "id", String.valueOf(updatedTo.getId()),
+                        "name", "",
+                        "lastname", "",
+                        "email", updatedTo.getEmail(),
+                        "password", updatedTo.getPassword(),
+                        "phone", updatedTo.getPhone(),
+                        "company", String.valueOf(updatedTo.getCompany().getId()));
+
+        mockMvc
+                .perform(post(REST_URL).with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .with(userAuth(ADMIN))
+                        .content(expectedEncoded))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testDuplicate() throws Exception {
+        UserTo expected = new UserTo(null, "New", "New", USER1.getEmail(), "newPass", "+12354654", COMPANY1);
+
+        String expectedEncoded =
+                buildUrlEncodedFormEntity(
+                        "id", "",
+                        "name", expected.getName(),
+                        "lastname", expected.getLastname(),
+                        "email", expected.getEmail(),
+                        "password", expected.getPassword(),
+                        "phone", expected.getPhone(),
+                        "company", String.valueOf(expected.getCompany().getId()));
+
+        mockMvc
+                .perform(post(REST_URL).with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .with(userAuth(ADMIN))
+                        .content(expectedEncoded))
+                .andDo(print())
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -96,4 +210,11 @@ public class UserControllerTest extends AbstractControllerTest{
                 .andExpect(MATCHER.contentListMatcher(USER3, USER1, USER5, USER2, USER4));
     }
 
+    @Test
+    public void testGetNotFound() throws Exception {
+        mockMvc.perform(get(REST_URL + 1)
+                .with(userAuth(ADMIN)))
+                .andExpect(status().isUnprocessableEntity())
+                .andDo(print());
+    }
 }

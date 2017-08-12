@@ -46,12 +46,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                     .findAny();
             if (entry.isPresent()) {
                 return handleExceptionInternal(ex, messageSource.getMessage(entry.get().getValue(), null, LocaleContextHolder.getLocale()),
-                        new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+                        new HttpHeaders(), HttpStatus.CONFLICT, request);
             }
         }
 
         return handleExceptionInternal(ex, "DataIntegrityViolationException",
-                    new HttpHeaders(), HttpStatus.CONFLICT, request);
+                    new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
     @ExceptionHandler(value = {IllegalStateException.class, IOException.class, IllegalArgumentException.class})

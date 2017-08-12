@@ -6,15 +6,11 @@ import com.seven.test.model.User;
 import com.seven.test.service.UserService;
 import com.seven.test.to.UserTo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,22 +25,14 @@ public class UserController {
     private UserService userService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    //TODO проверить из фронтенда
-    public void updateOrCreate(@Valid @RequestBody UserTo userTo) {
+    @PostMapping
+    public void updateOrCreate(@Valid UserTo userTo) {
         if (userTo.isNew()) {
             userService.save(createNewFromTo(userTo));
         } else {
             userService.update(userTo, userTo.getId());
         }
     }
-
-/*    @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void updateOrCreate(@Valid @RequestBody User userTo) {
-        User saved = userService.save(userTo);
-    }*/
 
     @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
     @DeleteMapping(value = "/{id}")

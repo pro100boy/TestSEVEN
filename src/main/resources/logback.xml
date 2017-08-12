@@ -22,6 +22,7 @@
 
     <logger name="com.seven.test" level="INFO"/>
     <logger name="logging.level.org.hibernate" level="ERROR"/>
+    <logger name="org.springframework.security.web.csrf.CsrfFilter" level="debug"/>
 
     <root level="info">
         <appender-ref ref="file"/>

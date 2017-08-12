@@ -1,6 +1,6 @@
 package com.seven.test.configuration;
 
-import com.seven.test.util.converter.DateTimeFormatters;
+import com.seven.test.util.formatter.DateTimeFormatters;
 import com.seven.test.util.json.JacksonObjectMapper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

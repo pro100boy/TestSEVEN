@@ -67,4 +67,16 @@ public class UserUtil {
         newOwner.setCompany(company);
         return newOwner;
     }
+
+    public static User fromTo(UserTo userTo) {
+        final User user = new User();
+        user.setName(userTo.getName());
+        user.setLastname(userTo.getLastname());
+        user.setEmail(userTo.getEmail());
+        user.setPassword(userTo.getPassword());
+        user.setPhone(userTo.getPhone());
+        user.setCompany(userTo.getCompany());
+        user.setRoles(Collections.singleton(Role.COMPANY_EMPLOYER));
+        return user;
+    }
 }
