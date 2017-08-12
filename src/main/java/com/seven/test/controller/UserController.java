@@ -15,10 +15,11 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
+import static com.seven.test.controller.UserController.REST_URL;
 import static com.seven.test.util.UserUtil.createNewFromTo;
 
 @RestController
-@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
     static final String REST_URL = "/users";
     @Autowired

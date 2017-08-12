@@ -13,4 +13,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
     @Modifying
     @Query("DELETE FROM Company c WHERE c.id=:id")
     int delete(@Param("id") int id);
+
+    // null if not found
+    Company findByEmail(String email);
 }

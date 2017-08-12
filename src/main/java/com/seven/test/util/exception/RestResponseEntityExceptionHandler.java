@@ -51,7 +51,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         return handleExceptionInternal(ex, "DataIntegrityViolationException",
-                    new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+                    new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(value = {IllegalStateException.class, IOException.class, IllegalArgumentException.class})

@@ -1,10 +1,9 @@
 package com.seven.test.controller;
 
 import com.seven.test.model.BaseEntity;
-import com.seven.test.model.User;
-import com.seven.test.service.UserService;
-import com.seven.test.to.UserTo;
-import com.seven.test.util.UserUtil;
+import com.seven.test.model.Company;
+import com.seven.test.repository.CompanyRepository;
+import com.seven.test.service.CompanyService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -22,18 +21,25 @@ import static org.hamcrest.core.Every.everyItem;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static testdata.CompanyTestData.COMPANY1;
-import static testdata.UserTestData.*;
+import static testdata.CompanyTestData.*;
+import static testdata.CompanyTestData.COMPANY3;
+import static testdata.UserTestData.ADMIN;
+import static testdata.UserTestData.USER1;
 
-public class UserControllerTest extends AbstractControllerTest {
+public class CompanyControllerTest extends AbstractControllerTest {
     @Autowired
-    private UserService userService;
+    private CompanyService companyService;
 
-    private static final String REST_URL = UserController.REST_URL + '/';
+    @Autowired
+    private CompanyRepository repository;
+
+    private static final String REST_URL = CompanyController.REST_URL + '/';
 
     /**
      * https://stackoverflow.com/a/40884509/7203956
@@ -43,17 +49,14 @@ public class UserControllerTest extends AbstractControllerTest {
     @Test
     @Transactional
     public void testCreate() throws Exception {
-        UserTo expected = new UserTo(null, "New", "New", "new@gmail.com", "newPass", "+12354654", COMPANY1);
+        Company expected = new Company(null, "SOFT company", "soft@test.com", "address of SOFT company");
 
         String expectedEncoded =
                 buildUrlEncodedFormEntity(
                         "id", "",
                         "name", expected.getName(),
-                        "lastname", expected.getLastname(),
                         "email", expected.getEmail(),
-                        "password", expected.getPassword(),
-                        "phone", expected.getPhone(),
-                        "company", String.valueOf(expected.getCompany().getId()));
+                        "address", expected.getAddress());
 
         mockMvc
                 .perform(post(REST_URL).with(csrf())
@@ -63,28 +66,25 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        User returned = userService.findByEmail(expected.getEmail());
+        Company returned = repository.findByEmail(expected.getEmail());
         assertTrue(Objects.nonNull(returned));
 
-        List<Integer> collect = userService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
-        assertTrue(collect.size() == 6);
+        List<Integer> collect = companyService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
+        assertTrue(collect.size() == 4);
         assertThat(collect, everyItem(lessThanOrEqualTo(returned.getId())));
     }
 
     @Test
     @Transactional
     public void testCreateInvalid() throws Exception {
-        UserTo expected = new UserTo(null, "", "", "new@gmail.com", "newPass", "+12354654", COMPANY1);
+        Company expected = new Company(null, "SO", "", "address of SOFT company");
 
         String expectedEncoded =
                 buildUrlEncodedFormEntity(
                         "id", "",
                         "name", expected.getName(),
-                        "lastname", expected.getLastname(),
                         "email", expected.getEmail(),
-                        "password", expected.getPassword(),
-                        "phone", expected.getPhone(),
-                        "company", String.valueOf(expected.getCompany().getId()));
+                        "address", expected.getAddress());
 
         mockMvc
                 .perform(post(REST_URL).with(csrf())
@@ -92,24 +92,21 @@ public class UserControllerTest extends AbstractControllerTest {
                         .with(userAuth(ADMIN))
                         .content(expectedEncoded))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     @Transactional
     public void testUpdate() throws Exception {
-        UserTo updatedTo = UserUtil.asTo(userService.findByEmail(USER1.getEmail()));
+        Company updated = repository.findByEmail(COMPANY1.getEmail());
 
-        // change name and last name
+        // change address
         String expectedEncoded =
                 buildUrlEncodedFormEntity(
-                        "id", String.valueOf(updatedTo.getId()),
-                        "name", "newName",
-                        "lastname", "newLastName",
-                        "email", updatedTo.getEmail(),
-                        "password", updatedTo.getPassword(),
-                        "phone", updatedTo.getPhone(),
-                        "company", String.valueOf(updatedTo.getCompany().getId()));
+                        "id", String.valueOf(updated.getId()),
+                        "name", updated.getName(),
+                        "email", updated.getEmail(),
+                        "address", "new address");
 
         mockMvc
                 .perform(post(REST_URL).with(csrf())
@@ -119,25 +116,21 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        User returned = userService.findByEmail(USER1.getEmail());
-        assertTrue(returned.getLastname().equals("newLastName"));
-        assertTrue(returned.getName().equals("newName"));
+        Company returned = repository.findByEmail(COMPANY1.getEmail());
+        assertTrue(returned.getAddress().equals("new address"));
     }
 
     @Test
     public void testUpdateInvalid() throws Exception {
-        UserTo updatedTo = UserUtil.asTo(userService.findByEmail(USER1.getEmail()));
+        Company updated = repository.findByEmail(COMPANY1.getEmail());
 
-        // change name and last name
+        // remove address
         String expectedEncoded =
                 buildUrlEncodedFormEntity(
-                        "id", String.valueOf(updatedTo.getId()),
-                        "name", "",
-                        "lastname", "",
-                        "email", updatedTo.getEmail(),
-                        "password", updatedTo.getPassword(),
-                        "phone", updatedTo.getPhone(),
-                        "company", String.valueOf(updatedTo.getCompany().getId()));
+                        "id", "",
+                        "name", updated.getName(),
+                        "email", updated.getEmail(),
+                        "address", "");
 
         mockMvc
                 .perform(post(REST_URL).with(csrf())
@@ -145,22 +138,19 @@ public class UserControllerTest extends AbstractControllerTest {
                         .with(userAuth(ADMIN))
                         .content(expectedEncoded))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     public void testDuplicate() throws Exception {
-        UserTo expected = new UserTo(null, "New", "New", USER1.getEmail(), "newPass", "+12354654", COMPANY1);
+        Company updated = COMPANY1;
 
         String expectedEncoded =
                 buildUrlEncodedFormEntity(
                         "id", "",
-                        "name", expected.getName(),
-                        "lastname", expected.getLastname(),
-                        "email", expected.getEmail(),
-                        "password", expected.getPassword(),
-                        "phone", expected.getPhone(),
-                        "company", String.valueOf(expected.getCompany().getId()));
+                        "name", updated.getName(),
+                        "email", updated.getEmail(),
+                        "address", updated.getAddress());
 
         mockMvc
                 .perform(post(REST_URL).with(csrf())
@@ -174,31 +164,11 @@ public class UserControllerTest extends AbstractControllerTest {
     @Test
     @Transactional
     public void testDelete() throws Exception {
-        mockMvc.perform(delete(REST_URL + USER1_ID).with(csrf())
+        mockMvc.perform(delete(REST_URL + COMPANY1_ID).with(csrf())
                 .with(userAuth(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk());
-        MATCHER.assertCollectionEquals(Arrays.asList(USER3, USER5, USER2, USER4), userService.getAll());
-    }
-
-    @Test
-    public void testGetEmployee() throws Exception {
-        mockMvc.perform(get(REST_URL)
-                .with(userAuth(USER2)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(MATCHER.contentListMatcher(USER2));
-    }
-
-    @Test
-    public void testGetEmployees() throws Exception {
-        mockMvc.perform(get(REST_URL)
-                .with(userAuth(USER1)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(MATCHER.contentListMatcher(USER5));
+        MATCHER.assertCollectionEquals(Arrays.asList(COMPANY2, COMPANY3), companyService.getAll());
     }
 
     @Test
@@ -208,7 +178,17 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(MATCHER.contentListMatcher(USER3, USER1, USER5, USER2, USER4));
+                .andExpect(MATCHER.contentListMatcher(COMPANY1, COMPANY2, COMPANY3));
+    }
+
+    @Test
+    public void testGetAllNonAdmin() throws Exception {
+        mockMvc.perform(get(REST_URL)
+                .with(userAuth(USER1)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(MATCHER.contentListMatcher(COMPANY2));
     }
 
     @Test
@@ -219,3 +199,4 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andDo(print());
     }
 }
+

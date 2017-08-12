@@ -15,11 +15,12 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
+import static com.seven.test.controller.CompanyController.REST_URL;
 
 @RestController
-@RequestMapping(value = "/companies", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CompanyController {
-
+    static final String REST_URL = "/companies";
     @Autowired
     private CompanyService companyService;
 
