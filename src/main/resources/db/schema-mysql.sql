@@ -3,11 +3,6 @@ DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `report`;
 DROP TABLE IF EXISTS `company`;
 
-/*DELETE FROM `report`;
-DELETE FROM `users`;
-DELETE FROM `company`;
-DELETE FROM `user_roles`;
-*/
 --
 -- Table structure for table `company`
 --
