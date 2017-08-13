@@ -279,7 +279,7 @@
                 </dependencies>
                 <configuration>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-                    <finalName>TestSEVEN</finalName>
+                    <!--<finalName>TestSEVEN</finalName>-->
                 </configuration>
             </plugin>
             <plugin>
