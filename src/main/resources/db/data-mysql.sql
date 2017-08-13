@@ -1,4 +1,3 @@
-USE `sevendb`;
 INSERT INTO `company` (name, email, address) VALUES
   ("ATB company", "atb.cmp@test.com", "address of ATB company"),
   ("Roga i kopita", "rik@test.com", "address of 'Roga i kopita' company"),
