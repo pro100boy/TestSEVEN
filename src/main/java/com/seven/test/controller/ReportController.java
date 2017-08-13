@@ -19,7 +19,7 @@ import static com.seven.test.controller.ReportController.REST_URL;
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ReportController {
-    static final String REST_URL = "/reports";
+    public static final String REST_URL = "/reports";
 
     @Autowired
     private ReportService reportService;

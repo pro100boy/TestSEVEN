@@ -15,7 +15,7 @@ spring:
     # set to false after 1st run
     initialize: true
     username: root
-    password:
+    password: root
     tomcat:
       test-while-idle: true
       validationQuery: SELECT 1

@@ -232,9 +232,8 @@ function showErrorMessage(jqXHR) {
     // doing SUBSTRING instead of REPLACE because last quotes doesn't change due to <br/>
     var l = jqXHR.responseText.length - 1;
     var msg = jqXHR.responseText.substring(1, l);
-    alert(msg);
-/*    bootbox.alert({
+    bootbox.alert({
         message: msg,
         size: 'small'
-    })*/
+    })
 }

@@ -21,7 +21,7 @@ import static com.seven.test.util.UserUtil.createNewFromTo;
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UserController {
-    static final String REST_URL = "/users";
+    public static final String REST_URL = "/users";
     @Autowired
     private UserService userService;
 

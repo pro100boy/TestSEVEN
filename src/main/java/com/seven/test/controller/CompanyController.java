@@ -6,11 +6,9 @@ import com.seven.test.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,7 +18,7 @@ import static com.seven.test.controller.CompanyController.REST_URL;
 @RestController
 @RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CompanyController {
-    static final String REST_URL = "/companies";
+    public static final String REST_URL = "/companies";
     @Autowired
     private CompanyService companyService;
 
