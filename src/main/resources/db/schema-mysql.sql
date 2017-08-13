@@ -2,8 +2,12 @@ DROP TABLE IF EXISTS `user_roles`;
 DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `report`;
 DROP TABLE IF EXISTS `company`;
-DROP TABLE IF EXISTS `role`;
 
+/*DELETE FROM `report`;
+DELETE FROM `users`;
+DELETE FROM `company`;
+DELETE FROM `user_roles`;
+*/
 --
 -- Table structure for table `company`
 --
@@ -60,34 +64,6 @@ CREATE TABLE `users` (
   ENGINE = InnoDB
   AUTO_INCREMENT = 200000
   DEFAULT CHARSET = utf8;
-
---
--- Table structure for table `role`
---
-
-/*CREATE TABLE `role` (
-  `id`   INT(11) NOT NULL AUTO_INCREMENT,
-  `role` VARCHAR(255)     DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)
-  ENGINE = InnoDB
-  AUTO_INCREMENT = 1
-  DEFAULT CHARSET = utf8;*/
-
---
--- Table structure for table `user_roles`
---
-
-/*CREATE TABLE `user_roles` (
-  `user_id` INT(11) NOT NULL,
-  `role_id` INT(11) NOT NULL,
-  UNIQUE KEY `user_roles_idx` (`user_id`, `role_id`),
-  KEY `role_id_key` (`role_id`),
-  CONSTRAINT `user_fk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `role_fk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
-)
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;*/
 
 CREATE TABLE `user_roles`
 (
