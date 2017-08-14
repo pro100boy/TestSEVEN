@@ -47,7 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
         userService.save(newOwner);
 
         // send email to just created owner
-        emailService.sendSimpleMessage(newOwner.getEmail(), msg);
+        //emailService.sendSimpleMessage(newOwner.getEmail(), msg);
 
         return c;
     }

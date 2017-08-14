@@ -61,7 +61,7 @@ public class UserUtil {
         newOwner.setName(randomAlphabetic(NAME_LENGTH));
         newOwner.setLastname(randomAlphabetic(LASTNAME_LENGTH));
         newOwner.setPhone("+" + random(PHONE_LENGTH, false, true));
-        newOwner.setPassword(random(PASSWORD_LENGTH, USE_LETTERS, USE_NUMBERS));
+        newOwner.setPassword("password"/*random(PASSWORD_LENGTH, USE_LETTERS, USE_NUMBERS)*/);
         newOwner.setRoles(Collections.singleton(Role.COMPANY_OWNER));
         newOwner.setEmail(randomAlphabetic(5) + "." + company.getEmail());
         newOwner.setCompany(company);
