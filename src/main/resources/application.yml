@@ -83,10 +83,10 @@ spring:
 # ===============================
 # = Tomcat
 # ===============================
-#server:
-#  port: ${PORT:8080}
-#  tomcat:
-#    uri-encoding: UTF-8
+server:
+  port: ${PORT:8080}
+  tomcat:
+    uri-encoding: UTF-8
 
 # ===============================
 # = LOG
