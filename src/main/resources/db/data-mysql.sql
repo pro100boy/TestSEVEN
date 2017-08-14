@@ -4,6 +4,7 @@ DELETE FROM company;
 DELETE FROM report;
 DELETE FROM users;
 DELETE FROM user_roles;
+SET @@auto_increment_increment=1;
 
 INSERT INTO `report` (companyid, name, data, time) VALUES
   (100002, 'Report 2 for ''Apollo''', 'Content of report 2 for ''Apollo''', '2017-07-01 12:30:00'),
