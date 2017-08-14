@@ -2,6 +2,7 @@ package com.seven.test.configuration;
 
 import com.seven.test.util.formatter.DateTimeFormatters;
 import com.seven.test.util.json.JacksonObjectMapper;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -56,7 +58,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         super.addFormatters(registry);
     }
 
-/*    @Bean
+    @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
@@ -64,7 +66,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         characterEncodingFilter.setEncoding("UTF-8");
         registrationBean.setFilter(characterEncodingFilter);
         return registrationBean;
-    }*/
+    }
 
     // Internationalization beans
     @Bean
