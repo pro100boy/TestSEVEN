@@ -13,7 +13,7 @@ spring:
     schema: classpath:/db/schema-mysql.sql
     data: classpath:/db/data-mysql.sql
     # set to false after 1st run
-    initialize: false
+    initialize: true
     username: b4c8cdd4df6da0
     password: 1feb6f37
     tomcat:
