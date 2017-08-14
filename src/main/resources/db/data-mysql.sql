@@ -1,7 +1,29 @@
+SET FOREIGN_KEY_CHECKS=0;
+
+DELETE FROM company;
+DELETE FROM report;
+DELETE FROM users;
+DELETE FROM user_roles;
+
+INSERT INTO `report` (companyid, name, data, time) VALUES
+  (100002, 'Report 2 for ''Apollo''', 'Content of report 2 for ''Apollo''', '2017-07-01 12:30:00'),
+  (100001, 'Report for ''Roga i kopita''', 'Content of report for ''Roga i kopita''', '2017-06-01 12:30:00'),
+  (100002, 'Report 1 for ''Apollo''', 'Content of report 1 for ''Apollo''', '2017-01-01 12:30:00'),
+  (100002, 'Report 3 for Apollo', 'Content of report 3 for Apollo', '2017-02-02 12:00:00');
+
 INSERT INTO `company` (name, email, address) VALUES
   ("ATB company", "atb.cmp@test.com", "address of ATB company"),
   ("Roga i kopita", "rik@test.com", "address of 'Roga i kopita' company"),
   ("Apollo", "apollo@test.com", "address of 'Apollo' company");
+
+INSERT INTO `user_roles` (user_id, role) VALUES
+  (200000, 'ADMIN'),
+  (200000, 'ACTUATOR'),
+  (200001, 'COMPANY_OWNER'),
+  (200004, 'COMPANY_OWNER'),
+  (200002, 'COMPANY_EMPLOYER'),
+  (200003, 'COMPANY_OWNER'),
+  (200005, 'COMPANY_EMPLOYER');
 
 INSERT INTO `users` (companyid, name, lastname, email, phone, password) VALUES
   (null, 'Ivan', 'Petrov', 'admin@gmail.com', '+380971234567', '$2a$10$WejOLxVuXRpOgr4IlzQJ.eT4UcukNqHlAiOVZj1P/nmc8WbpMkiju'),
@@ -11,17 +33,4 @@ INSERT INTO `users` (companyid, name, lastname, email, phone, password) VALUES
   (100002, 'Andre', 'Tan', 'tan@gmail.com', '+14081111154', '$2a$10$mbhgIjEUPHS9ro3PuCemueFQwM3Y7lHo/RAF0kTRK0fTVl0PMGS5K'),
   (100001, 'Paul', 'Furman', 'fur@gmail.com', '+12354654', '$2a$10$mbhgIjEUPHS9ro3PuCemueFQwM3Y7lHo/RAF0kTRK0fTVl0PMGS5K');
 
-INSERT INTO `user_roles` (user_id, role) VALUES
-  (200000, "ADMIN"),
-  (200000, "ACTUATOR"),
-  (200001, "COMPANY_OWNER"),
-  (200004, "COMPANY_OWNER"),
-  (200002, "COMPANY_EMPLOYER"),
-  (200003, "COMPANY_OWNER"),
-  (200005, "COMPANY_EMPLOYER");
-
-INSERT INTO `report` (companyid, name, data, time) VALUES
-  (100002, 'Report 2 for ''Apollo''', 'Content of report 2 for ''Apollo''', '2017-07-01 12:30:00'),
-  (100001, 'Report for ''Roga i kopita''', 'Content of report for ''Roga i kopita''', '2017-06-01 12:30:00'),
-  (100002, 'Report 1 for ''Apollo''', 'Content of report 1 for ''Apollo''', '2017-01-01 12:30:00'),
-  (100002, 'Report 3 for Apollo', 'Content of report 3 for Apollo', '2017-02-02 12:00:00');
+SET FOREIGN_KEY_CHECKS=1;
