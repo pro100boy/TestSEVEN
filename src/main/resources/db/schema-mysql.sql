@@ -17,7 +17,7 @@ CREATE TABLE `company` (
 )
   ENGINE = InnoDB
   AUTO_INCREMENT = 100000
-  DEFAULT CHARSET = utf8;
+  DEFAULT CHARACTER SET cp1251 COLLATE cp1251_bin;
 
 --
 -- Table structure for table `report`
