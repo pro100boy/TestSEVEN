@@ -7,8 +7,7 @@ spring:
   # = DATA SOURCE
   # ===============================
   datasource:
-    #url: useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&
-    url: jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/heroku_b610c580a82293d?reconnect=true&useSSL=false
+    url: jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/heroku_b610c580a82293d?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&reconnect=true&useSSL=false
     platform: mysql
     schema: classpath:/db/schema-mysql.sql
     data: classpath:/db/data-mysql.sql
