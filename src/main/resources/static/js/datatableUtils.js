@@ -66,6 +66,8 @@ function save(frmDetails, modalForm, datatableApi) {
         $.ajax({
             type: "POST",
             url: datatableApi.ajax.url(),
+            dataType:"html",
+            contentType: "application/x-www-form-urlencoded;charset=UTF-8",
             data: frmDetails.serialize()
         })
             .done(function (data, textStatus, jqXHR) {
