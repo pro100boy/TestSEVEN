@@ -279,7 +279,8 @@
                 </dependencies>
                 <configuration>
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-                    <!--<finalName>TestSEVEN</finalName>-->
+                    <executable>true</executable>
+                    <finalName>TestSEVEN</finalName>
                 </configuration>
             </plugin>
             <plugin>
@@ -290,27 +291,6 @@
                     <argLine>-Dfile.encoding=UTF-8</argLine>
                     <skipTests>${skipTests}</skipTests>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals><goal>copy</goal></goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.github.jsimone</groupId>
-                                    <artifactId>webapp-runner</artifactId>
-                                    <version>8.5.11.3</version>
-                                    <destFileName>webapp-runner.jar</destFileName>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
