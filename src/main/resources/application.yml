@@ -7,14 +7,14 @@ spring:
   # = DATA SOURCE
   # ===============================
   datasource:
-    url: jdbc:mysql://us-cdbr-iron-east-05.cleardb.net:3306/heroku_b610c580a82293d?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&reconnect=true&useSSL=false
+    url: ${JDBC_DATABASE_URL}
     platform: mysql
     schema: classpath:/db/schema-mysql.sql
     data: classpath:/db/data-mysql.sql
     # set to false after 1st run
     initialize: false
-    username: b4c8cdd4df6da0
-    password: 1feb6f37
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
     tomcat:
       test-while-idle: true
       validationQuery: SELECT 1
