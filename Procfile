@@ -1,1 +1,1 @@
-web java -Dserver.port=$PORT $JAVA_OPTS -jar target/test-0.0.1-SNAPSHOT.jar
+web java -Dserver.port=$PORT $JAVA_OPTS -jar target/dependency/webapp-runner.jar --uri-encoding UTF-8 target/test-0.0.1-SNAPSHOT.jar
