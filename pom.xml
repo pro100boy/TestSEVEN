@@ -43,7 +43,6 @@
         <webjars-datatables.version>1.10.15</webjars-datatables.version>
         <webjars-datetimepicker.version>2.5.4</webjars-datetimepicker.version>
         <nekohtml.version>1.9.22</nekohtml.version>
-        <thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
         <!--hibernate-->
         <hibernate.version>5.2.10.Final</hibernate.version>
         <hibernate-commons.version>5.0.1.Final</hibernate-commons.version>
