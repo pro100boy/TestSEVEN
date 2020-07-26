@@ -27,15 +27,14 @@ import java.util.Optional;
 @ControllerAdvice(annotations = RestController.class)
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @Autowired
-    private MessageSource messageSource;
-
     private static Map<String, String> constraintCodeMap = new HashMap<String, String>() {
         {
             put("users_unique_email_idx", "exception.users.duplicate_email");
             put("idx_company_name_email", "exception.company.duplicate_name_email");
         }
     };
+    @Autowired
+    private MessageSource messageSource;
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleKeyConflict(RuntimeException ex, WebRequest request) {
@@ -51,7 +50,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         }
 
         return handleExceptionInternal(ex, "DataIntegrityViolationException",
-                    new HttpHeaders(), HttpStatus.CONFLICT, request);
+                new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(value = {IllegalStateException.class, IOException.class, IllegalArgumentException.class})

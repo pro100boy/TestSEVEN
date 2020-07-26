@@ -23,10 +23,6 @@ public class JacksonObjectMapper extends ObjectMapper {
 
     private static final ObjectMapper MAPPER = new JacksonObjectMapper();
 
-    public static ObjectMapper getMapper() {
-        return MAPPER;
-    }
-
     private JacksonObjectMapper() {
         registerModule(new Hibernate5Module());
         registerModule(new JavaTimeModule());
@@ -37,5 +33,9 @@ public class JacksonObjectMapper extends ObjectMapper {
         setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
         setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+    public static ObjectMapper getMapper() {
+        return MAPPER;
     }
 }

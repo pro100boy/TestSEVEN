@@ -8,8 +8,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>test7</name>
-    <description>Test project for SEVEN</description>
+    <name>TestSEVEN</name>
+    <description>Test project for SEVEN company</description>
 
     <developers>
         <developer>
@@ -36,7 +36,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <file.encoding>UTF-8</file.encoding>
         <java.version>1.8</java.version>
-        <skipTests>false</skipTests>
+        <skipTests>true</skipTests>
         <!--UI-->
         <webjars-bootstrap.version>3.3.7-1</webjars-bootstrap.version>
         <webjars-jquery.version>3.1.1-1</webjars-jquery.version>
@@ -54,7 +54,7 @@
         <thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <!--lombok-->
-        <lombok.version>1.16.16</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         <!--LOG-->
         <logback.version>1.2.3</logback.version>
     </properties>
@@ -277,7 +277,6 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                     <finalName>TestSEVEN</finalName>
                 </configuration>
             </plugin>
@@ -293,6 +292,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

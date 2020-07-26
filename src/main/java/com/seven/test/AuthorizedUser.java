@@ -49,16 +49,7 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
         return get().userTo.getCompany();
     }
 
-    public void update(UserTo newTo) {
-        userTo = newTo;
-    }
-
-    public UserTo getUserTo() {
-        return userTo;
-    }
-
-    public static boolean userHasAuthority(String authority)
-    {
+    public static boolean userHasAuthority(String authority) {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
         for (GrantedAuthority grantedAuthority : authorities) {
@@ -68,6 +59,14 @@ public class AuthorizedUser extends org.springframework.security.core.userdetail
         }
 
         return false;
+    }
+
+    public void update(UserTo newTo) {
+        userTo = newTo;
+    }
+
+    public UserTo getUserTo() {
+        return userTo;
     }
 
     @Override

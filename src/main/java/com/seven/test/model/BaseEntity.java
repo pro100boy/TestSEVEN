@@ -27,15 +27,16 @@ public class BaseEntity implements HasId, Serializable {
     }
 
     @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {
         if (this == o) {

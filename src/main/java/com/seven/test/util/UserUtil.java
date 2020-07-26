@@ -9,7 +9,8 @@ import com.seven.test.to.UserTo;
 import java.util.Collections;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
-import static org.apache.commons.lang3.RandomStringUtils.*;
+import static org.apache.commons.lang3.RandomStringUtils.random;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 public class UserUtil {
     private static final int

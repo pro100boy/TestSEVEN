@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     /**
      * Gets all employees in company
+     *
      * @param companyId owner's company id
      * @return list of employees
      */

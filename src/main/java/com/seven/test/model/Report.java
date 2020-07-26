@@ -1,7 +1,10 @@
 package com.seven.test.model;
 
 import com.seven.test.util.DateTimeUtil;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Length;
@@ -17,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString(exclude = "company", callSuper = true)
 @Entity
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "report")
 public class Report extends NamedEntity {
     @Column(name = "time", columnDefinition = "timestamp DEFAULT CURRENT_TIMESTAMP")
