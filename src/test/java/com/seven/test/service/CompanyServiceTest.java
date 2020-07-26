@@ -2,23 +2,27 @@ package com.seven.test.service;
 
 import com.seven.test.model.Company;
 import com.seven.test.util.exception.NotFoundException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataAccessException;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Arrays;
 
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static testdata.CompanyTestData.*;
 
 public class CompanyServiceTest extends AbstractServiceTest{
     @Autowired
     private CompanyService service;
+    @MockBean
+    private EmailService emailService;
 
     @Test
-    @Ignore
     public void testSave() {
+        doNothing().when(emailService).sendSimpleMessage(anyString(), anyString());
         Company newCompany = new Company(null, "New company", "new@test.com", "address");
 
         Company created = service.save(newCompany);

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 import static com.seven.test.TestUtil.buildUrlEncodedFormEntity;
 import static com.seven.test.TestUtil.userAuth;
 import static java.time.LocalDateTime.of;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -42,7 +42,7 @@ public class ReportControllerTest extends AbstractControllerTest {
                 buildUrlEncodedFormEntity(
                         "id", "",
                         "name", expected.getName(),
-                        "date", expected.getDate().toString().replace("T"," "),
+                        "date", expected.getDate().toString().replace("T", " "),
                         "data", expected.getData());
 
         mockMvc
@@ -54,10 +54,10 @@ public class ReportControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         List<Integer> collect = reportService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
-        assertTrue(collect.size() == 5);
+        assertEquals(5, collect.size());
 
         Report returned = reportService.get(Collections.max(collect), COMPANY3.getId());
-        assertTrue(returned.getName().equals("New Report"));
+        assertEquals("New Report", returned.getName());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ReportControllerTest extends AbstractControllerTest {
                 buildUrlEncodedFormEntity(
                         "id", "",
                         "name", expected.getName(),
-                        "date", expected.getDate().toString().replace("T"," "),
+                        "date", expected.getDate().toString().replace("T", " "),
                         "data", expected.getData());
 
         mockMvc
@@ -86,7 +86,7 @@ public class ReportControllerTest extends AbstractControllerTest {
                 buildUrlEncodedFormEntity(
                         "id", "",
                         "name", expected.getName(),
-                        "date", expected.getDate().toString().replace("T"," "),
+                        "date", expected.getDate().toString().replace("T", " "),
                         "data", expected.getData());
 
         mockMvc
@@ -106,7 +106,7 @@ public class ReportControllerTest extends AbstractControllerTest {
                 buildUrlEncodedFormEntity(
                         "id", String.valueOf(REPORT1.getId()),
                         "name", "updated name",
-                        "date", expected.getDate().toString().replace("T"," "),
+                        "date", expected.getDate().toString().replace("T", " "),
                         "data", expected.getData());
 
         mockMvc
@@ -118,7 +118,7 @@ public class ReportControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         Report returned = reportService.get(REPORT1.getId(), COMPANY3.getId());
-        assertTrue(returned.getName().equals("updated name"));
+        assertEquals("updated name", returned.getName());
     }
 
     @Test
@@ -128,7 +128,7 @@ public class ReportControllerTest extends AbstractControllerTest {
                 buildUrlEncodedFormEntity(
                         "id", String.valueOf(REPORT1.getId()),
                         "name", " ",
-                        "date", expected.getDate().toString().replace("T"," "),
+                        "date", expected.getDate().toString().replace("T", " "),
                         "data", expected.getData());
 
 

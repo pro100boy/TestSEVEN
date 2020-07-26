@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintViolationException;
 import java.time.Month;
 import java.util.Arrays;
+import java.util.List;
 
 import static java.time.LocalDateTime.of;
 import static testdata.CompanyTestData.COMPANY1_ID;
@@ -25,7 +26,9 @@ public class ReportServiceTest extends AbstractServiceTest {
 
         Report created = service.save(newReport, COMPANY1_ID);
         newReport.setId(created.getId());
-        MATCHER.assertCollectionEquals(Arrays.asList(REPORT1, newReport, REPORT2, REPORT4, REPORT3), service.getAll());
+        List<Report> expected = Arrays.asList(REPORT1, newReport, REPORT2, REPORT4, REPORT3);
+        List<Report> actual = service.getAll();
+        MATCHER.assertCollectionEquals(expected, actual);
     }
 
     @Test(expected = NotFoundException.class)
