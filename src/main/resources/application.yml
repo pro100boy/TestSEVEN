@@ -1,20 +1,19 @@
 spring:
   application:
     name: "SEVEN"
-  mandatory-file-encoding: utf-8
 
   # ===============================
   # = DATA SOURCE
   # ===============================
   datasource:
-    url: jdbc:mysql://localhost:3306/sevendb?useSSL=false&useUnicode=yes&characterEncoding=utf8&characterSetResults=utf8
+    url: jdbc:mysql://localhost:3306/sevendb?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=yes&characterEncoding=utf8&characterSetResults=utf8
     platform: mysql
     schema: classpath:/db/schema-mysql.sql
     data: classpath:/db/data-mysql.sql
     # set to false after 1st run
     initialize: true
     username: root
-    password:
+    password: root
     tomcat:
       test-while-idle: true
       validationQuery: SELECT 1
@@ -35,7 +34,7 @@ spring:
   # = JPA / HIBERNATE
   # ===============================
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
       naming:
@@ -44,8 +43,9 @@ spring:
         auto: none
     properties:
       hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc.fetch_size: 200
 
   # ===============================
   # = Thymeleaf configurations
@@ -72,9 +72,13 @@ spring:
     username: gpg.home@gmail.com
     password: zywrmeegxqntdekv
     properties.mail.smtp:
-                     auth: true
-                     starttls.enable: true
-                     starttls.required: true
+      auth: true
+      connectiontimeout: 5000
+      timeout: 5000
+      writetimeout: 5000
+      sendpartial: true
+      starttls.enable: true
+      starttls.required: true
     default-encoding: UTF-8
     test-connection: false
     protocol: smtp
@@ -83,17 +87,17 @@ spring:
 # = Tomcat
 # ===============================
 server:
-  port: 8888
+  port: 5000
   tomcat:
     uri-encoding: UTF-8
 
 # ===============================
 # = LOG
 # ===============================
-logging:
-  config: classpath:logback.xml
-  #level:
-    #show sql statement
-    #org.hibernate.SQL: debug
-    #show sql values
-    #org.hibernate.type.descriptor.sql.BasicBinder: trace
+#logging:
+#  config: classpath:logback.xml
+#  level:
+  ##show sql statement
+  #org.hibernate.SQL: debug
+  ##show sql values
+  #org.hibernate.type.descriptor.sql.BasicBinder: trace

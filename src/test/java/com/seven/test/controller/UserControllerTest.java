@@ -20,6 +20,7 @@ import static com.seven.test.TestUtil.userAuth;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Every.everyItem;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -37,8 +38,6 @@ public class UserControllerTest extends AbstractControllerTest {
 
     /**
      * https://stackoverflow.com/a/40884509/7203956
-     *
-     * @throws Exception
      */
     @Test
     @Transactional
@@ -67,7 +66,7 @@ public class UserControllerTest extends AbstractControllerTest {
         assertTrue(Objects.nonNull(returned));
 
         List<Integer> collect = userService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
-        assertTrue(collect.size() == 6);
+        assertEquals(6, collect.size());
         assertThat(collect, everyItem(lessThanOrEqualTo(returned.getId())));
     }
 
@@ -120,8 +119,8 @@ public class UserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         User returned = userService.findByEmail(USER1.getEmail());
-        assertTrue(returned.getLastname().equals("newLastName"));
-        assertTrue(returned.getName().equals("newName"));
+        assertEquals("newLastName", returned.getLastname());
+        assertEquals("newName", returned.getName());
     }
 
     @Test

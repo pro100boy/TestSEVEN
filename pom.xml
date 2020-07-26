@@ -55,8 +55,6 @@
         <thymeleaf-extras-springsecurity4.version>3.0.2.RELEASE</thymeleaf-extras-springsecurity4.version>
         <!--lombok-->
         <lombok.version>1.18.12</lombok.version>
-        <!--LOG-->
-        <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencies>
@@ -222,6 +220,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.12</version>
             <scope>runtime</scope>
         </dependency>
 

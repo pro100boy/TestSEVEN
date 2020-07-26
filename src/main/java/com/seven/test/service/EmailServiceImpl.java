@@ -2,35 +2,49 @@ package com.seven.test.service;
 
 import com.seven.test.util.ValidationUtil;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class EmailServiceImpl implements EmailService {
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    public final JavaMailSender emailSender;
+    private static final ThreadFactory THREAD_FACTORY = r -> {
+        Thread mailThread = new Thread(r, "mail-sender-thread");
+        mailThread.setUncaughtExceptionHandler((t, e) -> log.error(ValidationUtil.getRootCause(e).getMessage()));
+        return mailThread;
+    };
+
+    private static final ExecutorService ES = Executors.newSingleThreadExecutor(THREAD_FACTORY);
+
+    private final JavaMailSender emailSender;
 
     @Override
     public void sendSimpleMessage(String to, String text) {
         to = "<" + to + ">";
         //to = "<gpg.home@gmail.com>";
-        log.info("Try send email to: " + to);
-        try {
-            //emailSender.testConnection();
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(to);
-            message.setFrom("<user@gmail.com>");
-            message.setSubject("Credentials");
-            message.setText(text);
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setFrom("<user@gmail.com>");
+        message.setSubject("Credentials");
+        message.setText(text);
+
+        ES.execute(() -> {
+            log.info("Try send email");
             emailSender.send(message);
-            log.info("Email was send to: " + to);
-        } catch (Exception e) {
-            log.error(ValidationUtil.getRootCause(e).getMessage());
-        }
+        });
+    }
+
+    @PreDestroy
+    public void tearDown() {
+        ES.shutdownNow();
     }
 }
