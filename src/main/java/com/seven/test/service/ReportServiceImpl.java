@@ -5,33 +5,34 @@ import com.seven.test.repository.CompanyRepository;
 import com.seven.test.repository.ReportRepository;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static com.seven.test.util.ValidationUtil.checkNotFoundWithId;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Service("reportService")
+@RequiredArgsConstructor
+@Slf4j
 public class ReportServiceImpl implements ReportService {
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private ReportRepository reportRepository;
-
-    @Autowired
-    private CompanyRepository companyRepository;
+    private final ReportRepository reportRepository;
+    private final CompanyRepository companyRepository;
 
     @Override
     @Transactional
     public Report save(@NonNull Report report, int companyId) {
         log.info("save: " + report);
-        if (!report.isNew() && get(report.getId(), companyId) == null) {
+
+        if (report.isNotNew() && isNull(this.get(report.getId(), companyId))) {
             return null;
         }
+
         report.setCompany(companyRepository.getOne(companyId));
         return reportRepository.save(report);
     }
@@ -60,7 +61,7 @@ public class ReportServiceImpl implements ReportService {
     public Report get(int id, int companyId) throws NotFoundException {
         log.info("get id = " + id);
         Report report = reportRepository.findOne(id);
-        return checkNotFoundWithId(report != null && report.getCompany().getId() == companyId ? report : null, id);
+        return checkNotFoundWithId(nonNull(report) && report.getCompany().getId() == companyId ? report : null, id);
     }
 
     @Override

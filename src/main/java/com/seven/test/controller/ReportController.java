@@ -3,8 +3,7 @@ package com.seven.test.controller;
 import com.seven.test.AuthorizedUser;
 import com.seven.test.model.Report;
 import com.seven.test.service.ReportService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,14 +12,15 @@ import java.util.List;
 
 import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.controller.ReportController.REST_URL;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
-@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = REST_URL, produces = APPLICATION_JSON_UTF8_VALUE)
+@RequiredArgsConstructor
 public class ReportController {
     public static final String REST_URL = "/reports";
 
-    @Autowired
-    private ReportService reportService;
+    private final ReportService reportService;
 
     @PreAuthorize("hasAnyAuthority('COMPANY_OWNER', 'COMPANY_EMPLOYER')")
     @PostMapping

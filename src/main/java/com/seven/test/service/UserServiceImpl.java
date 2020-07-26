@@ -7,9 +7,8 @@ import com.seven.test.repository.UserRepository;
 import com.seven.test.to.UserTo;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,10 @@ import static com.seven.test.util.UserUtil.updateFromTo;
 import static com.seven.test.util.ValidationUtil.*;
 
 @Service("userService")
+@RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService, UserDetailsService {
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private UserRepository repository;
+    private final UserRepository repository;
 
     @Override
     @Transactional

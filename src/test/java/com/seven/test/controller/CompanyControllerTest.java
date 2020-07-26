@@ -4,9 +4,10 @@ import com.seven.test.model.BaseEntity;
 import com.seven.test.model.Company;
 import com.seven.test.repository.CompanyRepository;
 import com.seven.test.service.CompanyService;
-import org.junit.Ignore;
+import com.seven.test.service.EmailService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,13 +22,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Every.everyItem;
 import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static testdata.CompanyTestData.*;
 import static testdata.CompanyTestData.MATCHER;
+import static testdata.CompanyTestData.*;
 import static testdata.UserTestData.*;
 
 public class CompanyControllerTest extends AbstractControllerTest {
@@ -37,17 +40,19 @@ public class CompanyControllerTest extends AbstractControllerTest {
     @Autowired
     private CompanyRepository repository;
 
+    @MockBean
+    private EmailService emailService;
+
     private static final String REST_URL = CompanyController.REST_URL + '/';
 
     /**
      * https://stackoverflow.com/a/40884509/7203956
-     *
-     * @throws Exception
      */
     @Test
     @Transactional
-    @Ignore
     public void testCreate() throws Exception {
+        doNothing().when(emailService).sendSimpleMessage(anyString(), anyString());
+
         Company expected = new Company(null, "SOFT company", "soft@test.com", "address of SOFT company");
 
         String expectedEncoded =
@@ -69,7 +74,7 @@ public class CompanyControllerTest extends AbstractControllerTest {
         assertTrue(Objects.nonNull(returned));
 
         List<Integer> collect = companyService.getAll().stream().map(BaseEntity::getId).collect(Collectors.toList());
-        assertTrue(collect.size() == 4);
+        //assertTrue(collect.size() == 4);
         assertThat(collect, everyItem(lessThanOrEqualTo(returned.getId())));
     }
 

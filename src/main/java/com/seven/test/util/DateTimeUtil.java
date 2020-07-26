@@ -1,11 +1,11 @@
 package com.seven.test.util;
 
-import org.springframework.util.StringUtils;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import static org.springframework.util.StringUtils.isEmpty;
 
 public class DateTimeUtil {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
@@ -19,11 +19,11 @@ public class DateTimeUtil {
     }
 
     public static LocalDate parseLocalDate(String str) {
-        return StringUtils.isEmpty(str) ? null : LocalDate.parse(str);
+        return isEmpty(str) ? null : LocalDate.parse(str);
     }
 
     public static LocalTime parseLocalTime(String str) {
-        return StringUtils.isEmpty(str) ? null : LocalTime.parse(str);
+        return isEmpty(str) ? null : LocalTime.parse(str);
     }
 
     public static LocalDateTime parseLocalDateTime(String str) {
@@ -31,6 +31,6 @@ public class DateTimeUtil {
     }
 
     public static LocalDateTime parseLocalDateTime(String str, DateTimeFormatter formatter) {
-        return StringUtils.isEmpty(str) ? LocalDateTime.now() : LocalDateTime.parse(str, formatter);
+        return isEmpty(str) ? LocalDateTime.now() : LocalDateTime.parse(str, formatter);
     }
 }

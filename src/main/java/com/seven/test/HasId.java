@@ -8,4 +8,8 @@ public interface HasId {
     default boolean isNew() {
         return (getId() == null);
     }
+
+    default boolean isNotNew() {
+        return (getId() != null);
+    }
 }

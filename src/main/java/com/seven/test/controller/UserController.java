@@ -5,8 +5,7 @@ import com.seven.test.model.Role;
 import com.seven.test.model.User;
 import com.seven.test.service.UserService;
 import com.seven.test.to.UserTo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +16,15 @@ import java.util.List;
 import static com.seven.test.AuthorizedUser.userHasAuthority;
 import static com.seven.test.controller.UserController.REST_URL;
 import static com.seven.test.util.UserUtil.createNewFromTo;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
-@RequestMapping(value = REST_URL, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = REST_URL, produces = APPLICATION_JSON_UTF8_VALUE)
+@RequiredArgsConstructor
 public class UserController {
     public static final String REST_URL = "/users";
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN','COMPANY_OWNER')")
     @PostMapping

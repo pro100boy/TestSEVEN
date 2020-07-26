@@ -17,7 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -43,8 +43,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
         stringHttpMessageConverter.setSupportedMediaTypes(
                 Arrays.asList(
-                        new MediaType("text", "plain", Charset.forName("UTF-8")),
-                        new MediaType("text", "html", Charset.forName("UTF-8")))
+                        new MediaType("text", "plain", StandardCharsets.UTF_8),
+                        new MediaType("text", "html", StandardCharsets.UTF_8))
         );
         return stringHttpMessageConverter;
     }

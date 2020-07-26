@@ -6,9 +6,8 @@ import com.seven.test.repository.CompanyRepository;
 import com.seven.test.util.UserUtil;
 import com.seven.test.util.exception.NotFoundException;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,17 +16,12 @@ import java.util.List;
 import static com.seven.test.util.ValidationUtil.*;
 
 @Service("companyService")
+@RequiredArgsConstructor
+@Slf4j
 public class CompanyServiceImpl implements CompanyService {
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private CompanyRepository repository;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private EmailService emailService;
+    private final CompanyRepository repository;
+    private final UserService userService;
+    private final EmailService emailService;
 
     @Override
     @Transactional

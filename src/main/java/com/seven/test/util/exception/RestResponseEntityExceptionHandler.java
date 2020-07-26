@@ -1,7 +1,7 @@
 package com.seven.test.util.exception;
 
 import com.seven.test.util.ValidationUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataAccessException;
@@ -25,22 +25,23 @@ import java.util.Map;
 import java.util.Optional;
 
 @ControllerAdvice(annotations = RestController.class)
+@RequiredArgsConstructor
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static Map<String, String> constraintCodeMap = new HashMap<String, String>() {
+    private static final Map<String, String> CONSTRAINT_CODE_MAP = new HashMap<String, String>() {
         {
             put("users_unique_email_idx", "exception.users.duplicate_email");
             put("idx_company_name_email", "exception.company.duplicate_name_email");
         }
     };
-    @Autowired
-    private MessageSource messageSource;
+
+    private final MessageSource messageSource;
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleKeyConflict(RuntimeException ex, WebRequest request) {
         String rootMsg = ValidationUtil.getRootCause(ex).getMessage();
         if (rootMsg != null) {
-            Optional<Map.Entry<String, String>> entry = constraintCodeMap.entrySet().stream()
+            Optional<Map.Entry<String, String>> entry = CONSTRAINT_CODE_MAP.entrySet().stream()
                     .filter((it) -> rootMsg.contains(it.getKey()))
                     .findAny();
             if (entry.isPresent()) {

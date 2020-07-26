@@ -17,7 +17,7 @@ import static testdata.UserTestData.ADMIN;
 public class LoginControllerTest extends AbstractControllerTest {
     @Test
     public void testLogin() {
-        LoginController contactsController = new LoginController();
+        LoginController contactsController = new LoginController(null);
         Assert.assertEquals("login", contactsController.login());
     }
 
