@@ -48,7 +48,7 @@
         <hibernate-commons.version>5.0.1.Final</hibernate-commons.version>
         <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
         <jsoup.version>1.10.3</jsoup.version>
-        <jackson-json.version>2.8.9</jackson-json.version>
+        <jackson-json.version>2.13.4.1</jackson-json.version>
         <!--thymeleaf-->
         <thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
         <thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>
